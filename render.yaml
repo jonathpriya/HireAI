@@ -3,7 +3,7 @@ services:
     name: hireai-backend
     runtime: python
     buildCommand: "pip install -r backend/requirements.txt"
-    startCommand: "cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT --workers 4"
+    startCommand: "cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT"
     envVars:
       - key: SECRET_KEY
         generateValue: true
