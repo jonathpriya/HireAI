@@ -220,10 +220,13 @@ export default function Register() {
           )}
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1">Full Name</label>
+            <label htmlFor="reg-fullname" className="block text-xs font-bold text-slate-700 mb-1">Full Name</label>
             <div className="relative">
               <User className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
               <input
+                id="reg-fullname"
+                name="full_name"
+                autoComplete="name"
                 required
                 type="text"
                 value={fullName}
@@ -235,12 +238,15 @@ export default function Register() {
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1">
+            <label htmlFor="reg-email" className="block text-xs font-bold text-slate-700 mb-1">
               {role === 'recruiter' ? 'Corporate Work Email' : 'Email Address'}
             </label>
             <div className="relative">
               <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
               <input
+                id="reg-email"
+                name="email"
+                autoComplete="email"
                 required
                 type="email"
                 value={email}
@@ -257,10 +263,13 @@ export default function Register() {
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1">Mobile Number</label>
+            <label htmlFor="reg-mobile" className="block text-xs font-bold text-slate-700 mb-1">Mobile Number</label>
             <div className="relative">
               <Phone className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
               <input
+                id="reg-mobile"
+                name="mobile"
+                autoComplete="tel"
                 required
                 type="tel"
                 value={mobile}
@@ -274,10 +283,13 @@ export default function Register() {
           {role === 'recruiter' && (
             <>
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">Company Name</label>
+                <label htmlFor="reg-company" className="block text-xs font-bold text-slate-700 mb-1">Company Name</label>
                 <div className="relative">
                   <Building className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
                   <input
+                    id="reg-company"
+                    name="company_name"
+                    autoComplete="organization"
                     required
                     type="text"
                     value={companyName}
@@ -289,10 +301,13 @@ export default function Register() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">Company Website</label>
+                <label htmlFor="reg-website" className="block text-xs font-bold text-slate-700 mb-1">Company Website</label>
                 <div className="relative">
                   <Globe className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
                   <input
+                    id="reg-website"
+                    name="website"
+                    autoComplete="url"
                     required
                     type="text"
                     value={website}
@@ -306,10 +321,13 @@ export default function Register() {
           )}
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1">Password</label>
+            <label htmlFor="reg-password" className="block text-xs font-bold text-slate-700 mb-1">Password</label>
             <div className="relative">
               <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
               <input
+                id="reg-password"
+                name="password"
+                autoComplete="new-password"
                 required
                 type="password"
                 value={password}
@@ -321,10 +339,12 @@ export default function Register() {
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1">Referral Code (Optional)</label>
+            <label htmlFor="reg-referral" className="block text-xs font-bold text-slate-700 mb-1">Referral Code (Optional)</label>
             <div className="relative">
               <Gift className="w-4 h-4 text-amber-500 absolute left-3.5 top-3" />
               <input
+                id="reg-referral"
+                name="referral_code"
                 type="text"
                 value={referralCode}
                 onChange={(e) => setReferralCode(e.target.value)}

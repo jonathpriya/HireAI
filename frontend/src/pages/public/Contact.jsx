@@ -42,16 +42,16 @@ export default function Contact() {
           ) : (
             <>
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">Your Name</label>
-                <input required type="text" className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm text-slate-900 focus:bg-white focus:border-blue-600 outline-none" />
+                <label htmlFor="contact-name" className="block text-xs font-bold text-slate-700 mb-1">Your Name</label>
+                <input id="contact-name" name="name" autoComplete="name" required type="text" className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm text-slate-900 focus:bg-white focus:border-blue-600 outline-none" />
               </div>
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">Email Address</label>
-                <input required type="email" className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm text-slate-900 focus:bg-white focus:border-blue-600 outline-none" />
+                <label htmlFor="contact-email" className="block text-xs font-bold text-slate-700 mb-1">Email Address</label>
+                <input id="contact-email" name="email" autoComplete="email" required type="email" className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm text-slate-900 focus:bg-white focus:border-blue-600 outline-none" />
               </div>
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">Message</label>
-                <textarea required rows={4} className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm text-slate-900 focus:bg-white focus:border-blue-600 outline-none resize-none" />
+                <label htmlFor="contact-message" className="block text-xs font-bold text-slate-700 mb-1">Message</label>
+                <textarea id="contact-message" name="message" required rows={4} className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm text-slate-900 focus:bg-white focus:border-blue-600 outline-none resize-none" />
               </div>
               <button type="submit" className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 font-bold text-xs text-white rounded-xl shadow-sm transition flex items-center justify-center gap-2">
                 Send Message <Send className="w-4 h-4" />
