@@ -40,11 +40,22 @@ CLOUDINARY_CLOUD_NAME = os.getenv("CLOUDINARY_CLOUD_NAME", "")
 CLOUDINARY_API_KEY = os.getenv("CLOUDINARY_API_KEY", "")
 CLOUDINARY_API_SECRET = os.getenv("CLOUDINARY_API_SECRET", "")
 
-UPLOAD_DIR = BASE_DIR / "uploads"
+# Ensure UPLOAD_DIR is writable (use /tmp on Serverless environments like Vercel)
+try:
+    UPLOAD_DIR = BASE_DIR / "uploads"
+    UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+except Exception:
+    import tempfile
+    UPLOAD_DIR = Path(tempfile.gettempdir()) / "uploads"
+    UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+
 RESUME_UPLOAD_DIR = UPLOAD_DIR / "resumes"
 JD_UPLOAD_DIR = UPLOAD_DIR / "jds"
 PROFILE_PIC_UPLOAD_DIR = UPLOAD_DIR / "profile_pics"
 
-RESUME_UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
-JD_UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
-PROFILE_PIC_UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+try:
+    RESUME_UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+    JD_UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+    PROFILE_PIC_UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+except Exception:
+    pass

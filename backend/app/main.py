@@ -44,8 +44,11 @@ app.include_router(admin_router)
 # ---------- Scheduler Integration ----------
 @app.on_event("startup")
 def on_startup():
-    from app.tasks import init_scheduler
-    init_scheduler()
+    try:
+        from app.tasks import init_scheduler
+        init_scheduler()
+    except Exception as e:
+        print("Scheduler init info:", e)
 
     # Guarantee default admin user exists in DB
     try:
