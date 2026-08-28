@@ -20,7 +20,10 @@ SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
 RESEND_API_KEY = os.getenv("RESEND_API_KEY", "")
 
 # ─── Database Configuration ──────────────────────────────────────────
-DATABASE_URL = os.getenv("DATABASE_URL", f"sqlite:///{BASE_DIR}/recruitment_platform.db")
+DATABASE_URL = os.getenv(
+    "DATABASE_URL", 
+    "postgresql://postgres:Dharshini%4025@db.yzwwylyutyvwrvmwgell.supabase.co:5432/postgres"
+)
 
 # Fix Heroku / Supabase postgres:// -> postgresql:// format for SQLAlchemy 2.0
 if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
