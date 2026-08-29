@@ -9,8 +9,7 @@ from app.database import engine, Base
 from app.routers import auth, recruiter, candidate, jobs, dashboard, credits, messages
 from app.routers.admin import router as admin_router
 
-# Create database tables automatically
-Base.metadata.create_all(bind=engine)
+# Database tables are created during startup event to prevent import-time network delays
 
 app = FastAPI(
     title="AI Recruitment Automation Platform API",
@@ -44,6 +43,11 @@ app.include_router(admin_router)
 # ---------- Scheduler Integration ----------
 @app.on_event("startup")
 def on_startup():
+    try:
+        Base.metadata.create_all(bind=engine)
+    except Exception as e:
+        print("[Startup] DB Schema init info:", e)
+
     try:
         from app.tasks import init_scheduler
         init_scheduler()
