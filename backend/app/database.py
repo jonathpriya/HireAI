@@ -10,13 +10,11 @@ if is_sqlite:
         connect_args={"check_same_thread": False}
     )
 else:
-    # High-concurrency Production Connection Pool for PostgreSQL (Supabase / AWS RDS / Neon)
+    # High-performance NullPool for Serverless Functions & Supabase PgBouncer Pooler
+    from sqlalchemy.pool import NullPool
     engine = create_engine(
         DATABASE_URL,
-        pool_size=20,
-        max_overflow=40,
-        pool_timeout=30,
-        pool_recycle=300,
+        poolclass=NullPool,
         pool_pre_ping=True
     )
 

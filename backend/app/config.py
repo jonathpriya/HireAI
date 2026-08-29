@@ -22,7 +22,7 @@ RESEND_API_KEY = os.getenv("RESEND_API_KEY", "")
 # ─── Database Configuration ──────────────────────────────────────────
 DATABASE_URL = os.getenv(
     "DATABASE_URL", 
-    "postgresql://postgres:Dharshini%4025@db.yzwwylyutyvwrvmwgell.supabase.co:5432/postgres"
+    "postgresql://postgres.yzwwylyutyvwrvmwgell:Dharshini%4025@aws-0-ap-northeast-2.pooler.supabase.com:5432/postgres"
 )
 
 # Fix Heroku / Supabase postgres:// -> postgresql:// format for SQLAlchemy 2.0
