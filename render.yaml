@@ -2,13 +2,13 @@ services:
   - type: web
     name: hireai-backend
     runtime: python
-    buildCommand: "pip install -r backend/requirements.txt"
-    startCommand: "cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    buildCommand: "pip install -r requirements.txt || pip install -r backend/requirements.txt"
+    startCommand: "python -m uvicorn app.main:app --host 0.0.0.0 --port $PORT"
     envVars:
       - key: SECRET_KEY
         value: super-secret-hireai-commercial-key-2026
       - key: DATABASE_URL
-        value: postgresql://postgres:Dharshini%4025@db.yzwwylyutyvwrvmwgell.supabase.co:5432/postgres
+        value: postgresql://postgres.yzwwylyutyvwrvmwgell:Dharshini%4025@aws-0-ap-northeast-2.pooler.supabase.com:5432/postgres
       - key: STORAGE_PROVIDER
         value: local
       - key: SMTP_SERVER
