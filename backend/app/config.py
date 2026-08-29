@@ -25,9 +25,12 @@ DATABASE_URL = os.getenv(
     "postgresql://postgres.yzwwylyutyvwrvmwgell:Dharshini%4025@aws-0-ap-northeast-2.pooler.supabase.com:5432/postgres"
 )
 
-# Fix Heroku / Supabase postgres:// -> postgresql:// format for SQLAlchemy 2.0
-if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
-    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+# Fix Heroku / Supabase postgres:// -> postgresql+pg8000:// format for Vercel Serverless & SQLAlchemy 2.0
+if DATABASE_URL:
+    if DATABASE_URL.startswith("postgres://"):
+        DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql+pg8000://", 1)
+    elif DATABASE_URL.startswith("postgresql://") and "+pg8000" not in DATABASE_URL and "+psycopg2" not in DATABASE_URL:
+        DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+pg8000://", 1)
 
 # ─── Cloud & Local Storage Configuration ─────────────────────────────
 # Options: "local", "s3", "r2", "supabase", "cloudinary"
