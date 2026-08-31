@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Sparkles, Cpu, Zap, ShieldCheck, ArrowRight, LogIn, 
-  CheckCircle2, FileText, Users, Award, TrendingUp 
+  CheckCircle2, FileText, Users, Award, TrendingUp,
+  Briefcase, UserCheck, Check
 } from 'lucide-react';
 
 export default function Home() {
+  const [activeTab, setActiveTab] = useState('recruiter');
+
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 space-y-10">
       
@@ -16,10 +19,16 @@ export default function Home() {
         <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -bottom-24 right-10 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
 
-        {/* Floating Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200/80 shadow-sm text-xs font-bold tracking-wide">
-          <Sparkles className="w-4 h-4 text-blue-600 animate-pulse" />
-          <span>Autonomous AI Resume Parsing &amp; Candidate Cascading Platform</span>
+        {/* Live Operational Status & Motto Badge */}
+        <div className="flex flex-wrap items-center justify-center gap-2">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 shadow-sm text-xs font-bold">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+            <span>AI Platform Status: 100% Online &amp; Operational</span>
+          </div>
+          <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200/80 shadow-sm text-xs font-bold">
+            <Sparkles className="w-4 h-4 text-blue-600" />
+            <span>Motto: Hire Top Interested Candidates Automatically</span>
+          </div>
         </div>
 
         {/* Main Headline */}
@@ -28,9 +37,9 @@ export default function Home() {
           Hire <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">Top Interested Candidates</span> Automatically.
         </h1>
 
-        {/* Concise Description */}
+        {/* Brand Slogan */}
         <p className="text-sm sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed font-medium">
-          HireAI automatically parses job descriptions, ranks candidate fit scores with NLP vector matching, sends automated invitations, and cascades when candidates decline.
+          "Zero Resume Noise. Maximum Candidate Fit. Intelligent NLP Vector Matching &amp; Automated Shortlist Cascading."
         </p>
 
         {/* Single Primary Action Button */}
@@ -45,89 +54,106 @@ export default function Home() {
           </Link>
         </div>
 
+        {/* ─── Compact Trust Badges ────────────────────────────────────────────── */}
+        <div className="flex flex-wrap items-center justify-center gap-6 text-xs font-extrabold text-slate-600 pt-2">
+          <span className="flex items-center gap-1.5">
+            <ShieldCheck className="w-4 h-4 text-blue-600" /> Corporate Work Email Verified
+          </span>
+          <span className="flex items-center gap-1.5">
+            <Zap className="w-4 h-4 text-amber-500" /> 0.01s Instant NLP Match Engine
+          </span>
+          <span className="flex items-center gap-1.5">
+            <CheckCircle2 className="w-4 h-4 text-emerald-600" /> 100% Pre-Vetted Applicants
+          </span>
+        </div>
+
         {/* ─── Compact Live Statistics Bar ───────────────────────────────────── */}
         <div className="grid grid-cols-3 gap-3 pt-6 border-t border-slate-200/80 max-w-3xl mx-auto">
-          <div className="p-3 rounded-2xl bg-white/80 border border-slate-200/60 shadow-sm text-center">
+          <div className="p-3.5 rounded-2xl bg-white/90 border border-slate-200/70 shadow-sm text-center">
             <p className="text-xl sm:text-2xl font-black text-blue-600">98.5%</p>
             <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Skill Match Accuracy</p>
           </div>
-          <div className="p-3 rounded-2xl bg-white/80 border border-slate-200/60 shadow-sm text-center">
+          <div className="p-3.5 rounded-2xl bg-white/90 border border-slate-200/70 shadow-sm text-center">
             <p className="text-xl sm:text-2xl font-black text-purple-600">10x</p>
-            <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Faster Hiring Time</p>
+            <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Faster Hiring Speed</p>
           </div>
-          <div className="p-3 rounded-2xl bg-white/80 border border-slate-200/60 shadow-sm text-center">
+          <div className="p-3.5 rounded-2xl bg-white/90 border border-slate-200/70 shadow-sm text-center">
             <p className="text-xl sm:text-2xl font-black text-emerald-600">0%</p>
-            <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Uninterested Applicant Noise</p>
+            <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Uninterested Resume Noise</p>
           </div>
         </div>
 
       </div>
 
-      {/* ─── 4-Step Interactive Workflow Bar ───────────────────────────────────── */}
+      {/* ─── Interactive Switchable Portal Preview ────────────────────────────── */}
       <div className="rounded-3xl bg-white border border-slate-200 shadow-md p-6 sm:p-8 space-y-6">
-        <div className="text-center space-y-1">
-          <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">How HireAI Autonomous Workflow Operates</h2>
-          <p className="text-slate-500 text-xs font-medium">Four simple steps from posting a job to hiring pre-vetted interested candidates.</p>
-        </div>
+        <div className="text-center space-y-2">
+          <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">How HireAI Solves Recruitment</h2>
+          <p className="text-slate-500 text-xs font-medium">Select a role below to preview how our intelligent matching system works.</p>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2 hover:bg-blue-50/50 hover:border-blue-200 transition group">
-            <div className="w-8 h-8 rounded-xl bg-blue-100 text-blue-700 font-black flex items-center justify-center text-xs group-hover:scale-110 transition-transform">1</div>
-            <p className="font-extrabold text-slate-900 text-sm">Post Job &amp; Skills</p>
-            <p className="text-[11px] text-slate-500 leading-snug font-medium">Recruiter uploads JD with required skill set.</p>
-          </div>
-
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2 hover:bg-purple-50/50 hover:border-purple-200 transition group">
-            <div className="w-8 h-8 rounded-xl bg-purple-100 text-purple-700 font-black flex items-center justify-center text-xs group-hover:scale-110 transition-transform">2</div>
-            <p className="font-extrabold text-slate-900 text-sm">AI Vector Match</p>
-            <p className="text-[11px] text-slate-500 leading-snug font-medium">NLP engine computes 0–100% resume match scores.</p>
-          </div>
-
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2 hover:bg-indigo-50/50 hover:border-indigo-200 transition group">
-            <div className="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-700 font-black flex items-center justify-center text-xs group-hover:scale-110 transition-transform">3</div>
-            <p className="font-extrabold text-slate-900 text-sm">Cascade Invitations</p>
-            <p className="text-[11px] text-slate-500 leading-snug font-medium">System invites top matches &amp; auto-cascades if declined.</p>
-          </div>
-
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2 hover:bg-emerald-50/50 hover:border-emerald-200 transition group">
-            <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 font-black flex items-center justify-center text-xs group-hover:scale-110 transition-transform">4</div>
-            <p className="font-extrabold text-slate-900 text-sm">Interested Shortlist</p>
-            <p className="text-[11px] text-slate-500 leading-snug font-medium">Recruiters receive a list of 100% interested applicants.</p>
+          {/* Interactive Role Toggle */}
+          <div className="inline-flex p-1.5 rounded-2xl bg-slate-100 border border-slate-200 gap-1.5 mt-2">
+            <button
+              onClick={() => setActiveTab('recruiter')}
+              className={`px-5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 ${
+                activeTab === 'recruiter' 
+                  ? 'bg-blue-600 text-white shadow-md' 
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <Briefcase className="w-3.5 h-3.5" /> For Recruiters
+            </button>
+            <button
+              onClick={() => setActiveTab('candidate')}
+              className={`px-5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 ${
+                activeTab === 'candidate' 
+                  ? 'bg-purple-600 text-white shadow-md' 
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <UserCheck className="w-3.5 h-3.5" /> For Candidates
+            </button>
           </div>
         </div>
-      </div>
 
-      {/* ─── Compact 3-Column Core Highlights ──────────────────────────────────── */}
-      <div className="grid md:grid-cols-3 gap-6">
-        <div className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm hover:shadow-md transition space-y-3">
-          <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-600">
-            <Cpu className="w-6 h-6" />
+        {/* Tab Content Display */}
+        {activeTab === 'recruiter' ? (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="p-5 rounded-2xl bg-blue-50/60 border border-blue-200/80 space-y-2">
+              <span className="w-7 h-7 rounded-xl bg-blue-600 text-white font-black text-xs flex items-center justify-center">1</span>
+              <h3 className="font-bold text-slate-900 text-sm">Post JD &amp; Required Skills</h3>
+              <p className="text-xs text-slate-600 leading-relaxed font-medium">Upload job description and define core skill requirements.</p>
+            </div>
+            <div className="p-5 rounded-2xl bg-purple-50/60 border border-purple-200/80 space-y-2">
+              <span className="w-7 h-7 rounded-xl bg-purple-600 text-white font-black text-xs flex items-center justify-center">2</span>
+              <h3 className="font-bold text-slate-900 text-sm">Automated Vector Ranking</h3>
+              <p className="text-xs text-slate-600 leading-relaxed font-medium">NLP engine calculates 0–100% match scores across resumes.</p>
+            </div>
+            <div className="p-5 rounded-2xl bg-emerald-50/60 border border-emerald-200/80 space-y-2">
+              <span className="w-7 h-7 rounded-xl bg-emerald-600 text-white font-black text-xs flex items-center justify-center">3</span>
+              <h3 className="font-bold text-slate-900 text-sm">Get Interested Applicants</h3>
+              <p className="text-xs text-slate-600 leading-relaxed font-medium">Receive pre-vetted list of candidates who accepted invitations.</p>
+            </div>
           </div>
-          <h3 className="text-base font-extrabold text-slate-900">NLP Resume Parsing</h3>
-          <p className="text-xs text-slate-600 leading-relaxed font-medium">
-            Extract candidate experience, education, and technical skill matrices instantly from PDF and DOCX files.
-          </p>
-        </div>
-
-        <div className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm hover:shadow-md transition space-y-3">
-          <div className="w-12 h-12 rounded-2xl bg-purple-50 border border-purple-200 flex items-center justify-center text-purple-600">
-            <Zap className="w-6 h-6" />
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="p-5 rounded-2xl bg-purple-50/60 border border-purple-200/80 space-y-2">
+              <span className="w-7 h-7 rounded-xl bg-purple-600 text-white font-black text-xs flex items-center justify-center">1</span>
+              <h3 className="font-bold text-slate-900 text-sm">Upload Resume (PDF/DOCX)</h3>
+              <p className="text-xs text-slate-600 leading-relaxed font-medium">AI parses your skills, experience, and domain expertise.</p>
+            </div>
+            <div className="p-5 rounded-2xl bg-blue-50/60 border border-blue-200/80 space-y-2">
+              <span className="w-7 h-7 rounded-xl bg-blue-600 text-white font-black text-xs flex items-center justify-center">2</span>
+              <h3 className="font-bold text-slate-900 text-sm">Get 75%+ Auto Job Invites</h3>
+              <p className="text-xs text-slate-600 leading-relaxed font-medium">Receive high-matching job invitations from corporate recruiters.</p>
+            </div>
+            <div className="p-5 rounded-2xl bg-emerald-50/60 border border-emerald-200/80 space-y-2">
+              <span className="w-7 h-7 rounded-xl bg-emerald-600 text-white font-black text-xs flex items-center justify-center">3</span>
+              <h3 className="font-bold text-slate-900 text-sm">Accept or Decline in 1-Click</h3>
+              <p className="text-xs text-slate-600 leading-relaxed font-medium">Direct InMail messaging with recruiters upon accepting invite.</p>
+            </div>
           </div>
-          <h3 className="text-base font-extrabold text-slate-900">AI Cosine Similarity</h3>
-          <p className="text-xs text-slate-600 leading-relaxed font-medium">
-            TF-IDF vector matching ranks job candidates objectively based on skill overlap and career experience.
-          </p>
-        </div>
-
-        <div className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm hover:shadow-md transition space-y-3">
-          <div className="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600">
-            <ShieldCheck className="w-6 h-6" />
-          </div>
-          <h3 className="text-base font-extrabold text-slate-900">Direct InMail &amp; Verification</h3>
-          <p className="text-xs text-slate-600 leading-relaxed font-medium">
-            Corporate work email verification, direct recruiter candidate messaging, and automated email alerts.
-          </p>
-        </div>
+        )}
       </div>
 
     </div>
