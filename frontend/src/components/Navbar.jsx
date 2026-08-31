@@ -34,55 +34,57 @@ export default function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-slate-950/95 backdrop-blur-xl border-b border-slate-800/80 shadow-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-xl border-b border-slate-200 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         
         {/* Brand Logo */}
-        <Link to="/" className="flex items-center gap-3 font-black text-2xl text-white tracking-wider">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 flex items-center justify-center shadow-lg shadow-blue-500/25 text-white">
+        <Link to="/" className="flex items-center gap-2.5 font-black text-xl text-slate-900 tracking-tight">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 flex items-center justify-center shadow-md shadow-blue-500/20 text-white">
             <Sparkles className="w-5 h-5" />
           </div>
-          <span className="uppercase tracking-widest font-extrabold">Hire<span className="text-blue-500">AI</span></span>
+          <span className="font-extrabold">Hire<span className="gradient-text">AI</span></span>
         </Link>
 
-        {/* Navigation Links - Uppercase & Bold */}
-        <nav className="hidden md:flex items-center gap-8 text-xs font-black uppercase tracking-wider text-slate-300">
+        {/* Navigation Links */}
+        <nav className="hidden md:flex items-center gap-6 text-xs font-bold text-slate-600">
           {!user ? (
             <>
-              <Link to="/" className="hover:text-blue-400 transition-colors">Home</Link>
-              <Link to="/about" className="hover:text-blue-400 transition-colors">About</Link>
-              <Link to="/services" className="hover:text-blue-400 transition-colors">Services</Link>
-              <Link to="/career" className="hover:text-blue-400 transition-colors text-cyan-400">Careers</Link>
-              <Link to="/contact" className="hover:text-blue-400 transition-colors">Contact</Link>
+              <Link to="/" className="hover:text-blue-600 transition-colors">Home</Link>
+              <Link to="/about" className="hover:text-blue-600 transition-colors">About</Link>
+              <Link to="/services" className="hover:text-blue-600 transition-colors">Services</Link>
+              <Link to="/career" className="hover:text-blue-600 transition-colors text-blue-600 font-extrabold flex items-center gap-1">
+                <Briefcase className="w-3.5 h-3.5" /> Careers
+              </Link>
+              <Link to="/contact" className="hover:text-blue-600 transition-colors">Contact</Link>
             </>
           ) : (
             <>
-              <Link to="/career" className="hover:text-blue-400 transition-colors text-cyan-400 flex items-center gap-1.5">
-                <Briefcase className="w-4 h-4 text-cyan-400" /> Careers
+              <Link to="/career" className="hover:text-blue-600 transition-colors text-blue-600 font-bold flex items-center gap-1">
+                <Briefcase className="w-3.5 h-3.5 text-blue-600" /> Careers
               </Link>
 
               {user.role === 'recruiter' && (
                 <>
-                  <Link to="/recruiter/dashboard" className="hover:text-blue-400 transition-colors text-blue-400 flex items-center gap-1.5">
-                    <LayoutDashboard className="w-4 h-4" /> Dashboard
+                  <Link to="/recruiter/dashboard" className="hover:text-blue-600 transition-colors text-blue-700 font-bold flex items-center gap-1">
+                    <LayoutDashboard className="w-3.5 h-3.5" /> Dashboard
                   </Link>
-                  <Link to="/recruiter/talent-pools" className="hover:text-purple-400 transition-colors flex items-center gap-1.5">
-                    <Bookmark className="w-4 h-4 text-purple-400" /> Talent Pools
+                  <Link to="/recruiter/talent-pools" className="hover:text-purple-600 transition-colors text-slate-700 font-bold flex items-center gap-1">
+                    <Bookmark className="w-3.5 h-3.5 text-purple-600" /> Talent Pools
                   </Link>
                 </>
               )}
 
               {user.role === 'candidate' && (
-                <Link to="/candidate/dashboard" className="hover:text-blue-400 transition-colors text-blue-400 flex items-center gap-1.5">
-                  <LayoutDashboard className="w-4 h-4" /> Dashboard
+                <Link to="/candidate/dashboard" className="hover:text-blue-600 transition-colors text-blue-700 font-bold flex items-center gap-1">
+                  <LayoutDashboard className="w-3.5 h-3.5" /> Dashboard
                 </Link>
               )}
 
               <Link
                 to="/messages"
-                className="relative px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-extrabold flex items-center gap-1.5 transition"
+                className="relative px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-blue-50 text-slate-800 hover:text-blue-700 font-extrabold flex items-center gap-1.5 transition"
               >
-                <MessageSquare className="w-4 h-4 text-cyan-400" />
+                <MessageSquare className="w-3.5 h-3.5 text-blue-600" />
                 <span>Messages</span>
                 {unreadCount > 0 && (
                   <span className="px-1.5 py-0.2 rounded-full bg-blue-600 text-white font-black text-[9px]">
@@ -99,24 +101,24 @@ export default function Navbar() {
           {!user ? (
             <Link 
               to="/login" 
-              className="px-6 py-2.5 text-xs font-black uppercase tracking-wider rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg shadow-blue-500/20 transition-all hover:scale-105 flex items-center gap-2"
+              className="px-5 py-2 text-xs font-black rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-md shadow-blue-500/20 transition-all hover:scale-105 flex items-center gap-1.5"
             >
-              <LogIn className="w-4 h-4" /> Login
+              <LogIn className="w-3.5 h-3.5" /> Login
             </Link>
           ) : (
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setShowCreditsModal(true)}
-                className="px-3.5 py-2 rounded-xl bg-amber-400/10 border border-amber-400/30 text-amber-400 text-xs font-extrabold flex items-center gap-1.5 transition shadow-sm"
+                className="px-3 py-1.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs font-extrabold flex items-center gap-1.5 transition shadow-sm"
                 title="View Credits"
               >
-                <Zap className="w-3.5 h-3.5 fill-current text-amber-400" />
+                <Zap className="w-3.5 h-3.5 fill-current text-amber-500" />
                 <span>{userCredits} Credits</span>
               </button>
 
               <button
                 onClick={handleLogout}
-                className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-rose-950/50 border border-slate-700 hover:border-rose-500/50 text-slate-300 hover:text-rose-400 text-xs font-bold transition flex items-center gap-1.5"
+                className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-rose-50 text-slate-600 hover:text-rose-600 text-xs font-bold transition flex items-center gap-1"
               >
                 <LogOut className="w-3.5 h-3.5" />
                 <span>Log Out</span>
