@@ -38,11 +38,8 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         
         {/* Brand Logo */}
-        <Link to="/" className="flex items-center gap-2.5 font-black text-xl text-slate-900 tracking-tight">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 flex items-center justify-center shadow-md shadow-blue-500/20 text-white">
-            <Sparkles className="w-5 h-5" />
-          </div>
-          <span className="font-extrabold">Hire<span className="gradient-text">AI</span></span>
+        <Link to="/" className="flex items-center gap-2">
+          <img src="/images/logo.png" alt="HireAI Logo" className="h-10 w-auto object-contain hover:scale-105 transition-transform" />
         </Link>
 
         {/* Navigation Links */}

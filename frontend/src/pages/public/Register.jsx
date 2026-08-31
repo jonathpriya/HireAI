@@ -108,10 +108,8 @@ export default function Register() {
       <div className="glass-card p-8 rounded-3xl space-y-6 bg-white border border-slate-200 shadow-sm">
         
         {/* Top Header */}
-        <div className="text-center space-y-2">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 mx-auto flex items-center justify-center shadow-md shadow-blue-500/20">
-            <Sparkles className="w-6 h-6 text-white" />
-          </div>
+        <div className="text-center space-y-3">
+          <img src="/images/logo.png" alt="HireAI Logo" className="h-16 w-auto mx-auto object-contain" />
           <h1 className="text-2xl font-black text-slate-900 tracking-tight">Create Your Account</h1>
           <p className="text-xs text-slate-500 font-medium">Join HireAI as a Candidate or Corporate Recruiter</p>
         </div>
