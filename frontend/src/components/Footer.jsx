@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, Mail } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function Footer() {
@@ -15,14 +15,8 @@ export default function Footer() {
           <span>Hire<span className="gradient-text">AI</span></span>
         </Link>
 
-        {/* Support Email Link */}
-        <div className="flex items-center gap-2 text-slate-600">
-          <Mail className="w-4 h-4 text-blue-600" />
-          <span>Support: <strong className="text-slate-800">devilqueen2547@gmail.com</strong></span>
-        </div>
-
-        {/* Copyright */}
-        <p className="text-[11px] text-slate-400">
+        {/* Copyright Only */}
+        <p className="text-xs text-slate-400">
           &copy; {new Date().getFullYear()} HireAI Platform. All rights reserved.
         </p>
 
