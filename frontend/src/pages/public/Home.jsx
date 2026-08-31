@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Sparkles, Cpu, UserCheck, Zap, ShieldCheck, ArrowRight, CheckCircle2, Award, Briefcase } from 'lucide-react';
+import { Sparkles, Cpu, UserCheck, Zap, ShieldCheck, ArrowRight, LogIn } from 'lucide-react';
 
 export default function Home() {
   return (
@@ -22,18 +22,13 @@ export default function Home() {
             Our platform automatically parses job descriptions, calculates AI match scores against candidate resumes, sends automated invitations, and cascades when candidates decline — presenting recruiters with a pre-vetted list of interested applicants.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+          {/* Unified Action Button: Single Login / Get Started */}
+          <div className="flex items-center justify-center pt-4">
             <Link
-              to="/register?role=recruiter"
-              className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-extrabold text-sm shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-[1.02] transition flex items-center justify-center gap-2"
+              to="/login"
+              className="px-10 py-4 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-extrabold text-base shadow-xl shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-105 transition flex items-center justify-center gap-2.5"
             >
-              Recruiter Portal <ArrowRight className="w-4 h-4" />
-            </Link>
-            <Link
-              to="/register?role=candidate"
-              className="w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-white border border-slate-300 text-slate-800 font-extrabold text-sm hover:bg-slate-50 transition flex items-center justify-center gap-2 shadow-sm"
-            >
-              Candidate Portal <UserCheck className="w-4 h-4 text-indigo-600" />
+              <LogIn className="w-5 h-5" /> Login / Get Started <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
         </div>

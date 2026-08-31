@@ -4,8 +4,8 @@ import { useAuth } from '../context/AuthContext';
 import CreditsModal from './CreditsModal';
 import API from '../services/api';
 import { 
-  Sparkles, Briefcase, UserCheck, Bell, LogOut, LayoutDashboard, 
-  MessageSquare, Bookmark, Zap, User 
+  Sparkles, Briefcase, LogOut, LayoutDashboard, 
+  MessageSquare, Bookmark, Zap, User, LogIn
 } from 'lucide-react';
 
 export default function Navbar() {
@@ -46,41 +46,41 @@ export default function Navbar() {
         </Link>
 
         {/* Dynamic Navigation */}
-        <nav className="hidden md:flex items-center gap-5 text-xs font-bold text-slate-600">
+        <nav className="hidden md:flex items-center gap-6 text-xs font-bold text-slate-600">
           {!user ? (
             <>
               <Link to="/" className="hover:text-blue-600 transition">Home</Link>
               <Link to="/about" className="hover:text-blue-600 transition">About</Link>
               <Link to="/services" className="hover:text-blue-600 transition">Services</Link>
-              <Link to="/career" className="hover:text-blue-600 transition flex items-center gap-1 font-extrabold text-blue-600">
-                <Briefcase className="w-3.5 h-3.5" /> Explore Jobs
+              <Link to="/career" className="hover:text-blue-600 transition flex items-center gap-1.5 font-extrabold text-blue-600">
+                <Briefcase className="w-3.5 h-3.5" /> Careers
               </Link>
               <Link to="/contact" className="hover:text-blue-600 transition">Contact</Link>
             </>
           ) : (
             <>
-              <Link to="/career" className="hover:text-blue-600 transition flex items-center gap-1 text-slate-700">
-                <Briefcase className="w-3.5 h-3.5 text-blue-600" /> Explore Jobs
+              <Link to="/career" className="hover:text-blue-600 transition flex items-center gap-1 text-slate-700 font-bold">
+                <Briefcase className="w-3.5 h-3.5 text-blue-600" /> Careers
               </Link>
 
               {user.role === 'recruiter' && (
                 <>
-                  <Link to="/recruiter/dashboard" className="hover:text-blue-600 transition flex items-center gap-1 text-blue-700">
+                  <Link to="/recruiter/dashboard" className="hover:text-blue-600 transition flex items-center gap-1 text-blue-700 font-bold">
                     <LayoutDashboard className="w-3.5 h-3.5" /> Dashboard
                   </Link>
-                  <Link to="/recruiter/talent-pools" className="hover:text-purple-600 transition flex items-center gap-1 text-slate-700">
+                  <Link to="/recruiter/talent-pools" className="hover:text-purple-600 transition flex items-center gap-1 text-slate-700 font-bold">
                     <Bookmark className="w-3.5 h-3.5 text-purple-600" /> Talent Pools
                   </Link>
                 </>
               )}
 
               {user.role === 'candidate' && (
-                <Link to="/candidate/dashboard" className="hover:text-blue-600 transition flex items-center gap-1 text-blue-700">
+                <Link to="/candidate/dashboard" className="hover:text-blue-600 transition flex items-center gap-1 text-blue-700 font-bold">
                   <LayoutDashboard className="w-3.5 h-3.5" /> Dashboard
                 </Link>
               )}
 
-              {/* Direct InMail Messages Tab with Live Unread Counter */}
+              {/* Direct InMail Messages Tab */}
               <Link
                 to="/messages"
                 className="relative px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-blue-50 text-slate-800 hover:text-blue-700 font-extrabold flex items-center gap-1.5 transition"
@@ -97,17 +97,15 @@ export default function Navbar() {
           )}
         </nav>
 
-        {/* Action Buttons */}
+        {/* Action Button: Single Login Button */}
         <div className="flex items-center gap-2.5">
           {!user ? (
-            <>
-              <Link to="/login" className="px-4 py-2 text-xs font-bold text-slate-700 hover:text-blue-600 transition">
-                Sign In
-              </Link>
-              <Link to="/register" className="px-4 py-2 text-xs font-black rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-md shadow-blue-500/20 transition hover:scale-105">
-                Join HireAI
-              </Link>
-            </>
+            <Link 
+              to="/login" 
+              className="px-5 py-2 text-xs font-extrabold rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-md shadow-blue-500/20 transition flex items-center gap-1.5 hover:scale-105"
+            >
+              <LogIn className="w-3.5 h-3.5" /> Login
+            </Link>
           ) : (
             <div className="flex items-center gap-2">
               <button

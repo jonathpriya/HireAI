@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models import User, RecruiterProfile, CandidateProfile
-from app.schemas import UserRegister, UserLogin, TokenResponse, UserOut
+from app.schemas import UserRegister, UserLogin, TokenResponse, UserOut, ContactInquiry
 from app.security import get_password_hash, verify_password, create_access_token, get_current_user
 
 router = APIRouter(prefix="/api/auth", tags=["Authentication"])
@@ -202,3 +202,18 @@ def login_user(credentials: UserLogin, db: Session = Depends(get_db)):
 @router.get("/me", response_model=UserOut)
 def get_me(current_user: User = Depends(get_current_user)):
     return current_user
+
+
+@router.post("/contact")
+def submit_contact_inquiry(inquiry: ContactInquiry):
+    from app.services.notification_service import send_contact_inquiry_email
+    try:
+        send_contact_inquiry_email(
+            sender_name=inquiry.name,
+            sender_email=inquiry.email,
+            message=inquiry.message
+        )
+        return {"status": "success", "message": "Inquiry submitted successfully"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to send email: {str(e)}")
+

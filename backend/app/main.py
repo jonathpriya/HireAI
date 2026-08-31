@@ -40,6 +40,17 @@ app.include_router(credits.router)
 app.include_router(admin_router)
 
 
+@app.post("/api/contact")
+def submit_direct_contact(inquiry: auth.ContactInquiry):
+    from app.services.notification_service import send_contact_inquiry_email
+    send_contact_inquiry_email(
+        sender_name=inquiry.name,
+        sender_email=inquiry.email,
+        message=inquiry.message
+    )
+    return {"status": "success", "message": "Inquiry submitted successfully"}
+
+
 # ---------- Scheduler Integration ----------
 @app.on_event("startup")
 def on_startup():

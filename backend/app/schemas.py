@@ -17,6 +17,11 @@ class UserLogin(BaseModel):
     email: EmailStr
     password: str
 
+class ContactInquiry(BaseModel):
+    name: str
+    email: EmailStr
+    message: str
+
 class TokenResponse(BaseModel):
     access_token: str
     token_type: str = "bearer"

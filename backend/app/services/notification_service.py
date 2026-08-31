@@ -381,3 +381,37 @@ def trigger_cascade_invitation(db: Session, job_id: int, rejected_candidate_id: 
         return new_invitation
     return None
 
+
+def send_contact_inquiry_email(sender_name: str, sender_email: str, message: str):
+    """Sends user contact form inquiry to support email (SMTP_SENDER) and sends confirmation receipt to user."""
+    subject = f"📩 New Support Inquiry from {sender_name}"
+    html = f"""
+    <div style="font-family: Arial, sans-serif; padding: 20px; color: #1e293b;">
+        <h2 style="color: #2563eb;">HireAI Support Inquiry</h2>
+        <p><strong>Sender Name:</strong> {sender_name}</p>
+        <p><strong>Sender Email:</strong> <a href="mailto:{sender_email}">{sender_email}</a></p>
+        <p><strong>Message Inquiry:</strong></p>
+        <div style="background-color: #f8fafc; padding: 15px; border-left: 4px solid #2563eb; margin-top: 10px; border-radius: 8px;">
+            {message}
+        </div>
+        <hr style="border: none; border-top: 1px solid #e2e8f0; margin-top: 20px;" />
+        <p style="font-size: 12px; color: #64748b;">Received via HireAI Official Contact Portal</p>
+    </div>
+    """
+    if SMTP_SENDER:
+        send_email_async(to_email=SMTP_SENDER, subject=subject, html_body=html)
+    if sender_email:
+        user_confirm_subject = "We received your message — HireAI Support"
+        user_confirm_html = f"""
+        <div style="font-family: Arial, sans-serif; padding: 20px; color: #1e293b;">
+            <h2 style="color: #2563eb;">Thank you for contacting HireAI!</h2>
+            <p>Hi {sender_name},</p>
+            <p>We have received your message regarding: <i>"{message[:100]}..."</i></p>
+            <p>Our support team will review your inquiry and respond shortly to <strong>{sender_email}</strong>.</p>
+            <br/>
+            <p>Best regards,<br/><strong>HireAI Team</strong></p>
+        </div>
+        """
+        send_email_async(to_email=sender_email, subject=user_confirm_subject, html_body=user_confirm_html)
+
+
