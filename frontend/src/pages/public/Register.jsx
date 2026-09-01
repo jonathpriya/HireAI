@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Mail, Lock, User, Building, Globe, Phone, Gift, AlertCircle, ArrowRight } from 'lucide-react';
+import API from '../../services/api';
+import { Mail, Lock, User, Building, Globe, Phone, Gift, AlertCircle, ArrowRight, Camera, Trash2 } from 'lucide-react';
 
 export default function Register() {
   const [role, setRole] = useState('candidate');
@@ -13,12 +14,36 @@ export default function Register() {
   const [website, setWebsite] = useState('');
   const [referralCode, setReferralCode] = useState('');
   
+  const [photoFile, setPhotoFile] = useState(null);
+  const [photoPreview, setPhotoPreview] = useState(null);
+
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const { register } = useAuth();
+  const { register, updateUser } = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+
+  const handlePhotoSelect = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        setError('Photo size must be under 5MB');
+        return;
+      }
+      setPhotoFile(file);
+      setPhotoPreview(URL.createObjectURL(file));
+      setError('');
+    }
+  };
+
+  const handleRemovePhoto = () => {
+    setPhotoFile(null);
+    if (photoPreview) {
+      URL.revokeObjectURL(photoPreview);
+    }
+    setPhotoPreview(null);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,6 +62,22 @@ export default function Register() {
       };
 
       const data = await register(payload);
+
+      // Upload profile picture if provided
+      if (photoFile) {
+        const formData = new FormData();
+        formData.append('file', photoFile);
+        try {
+          const picRes = await API.post('/profile-pic', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+          });
+          if (updateUser && picRes.data.profile_pic_url) {
+            updateUser({ profile_pic_url: picRes.data.profile_pic_url });
+          }
+        } catch (picErr) {
+          console.error("Profile picture upload warning:", picErr);
+        }
+      }
 
       const jobId = searchParams.get('job_id');
       if (data.role === 'recruiter') {
@@ -62,24 +103,24 @@ export default function Register() {
         <div className="text-center space-y-3">
           <img src="/images/logo.png" alt="HireAI Logo" className="h-16 w-auto mx-auto object-contain" />
           <h1 className="text-2xl font-black text-slate-900 tracking-tight">Create Your Account</h1>
-          <p className="text-xs text-slate-500 font-medium">Join HireAI as a Candidate or Corporate Recruiter</p>
+          <p className="text-xs text-slate-500 font-medium">Join HireAI as a Candidate or Recruiter</p>
         </div>
 
-        {/* Role Selector Tabs */}
-        <div className="grid grid-cols-2 p-1 rounded-2xl bg-slate-100 border border-slate-200 text-xs font-bold">
+        {/* Role Selector Tabs: Simplified to Candidate & Recruiter */}
+        <div className="grid grid-cols-2 p-1 rounded-2xl bg-slate-100 border border-slate-200 text-xs font-extrabold">
           <button
             type="button"
             onClick={() => setRole('candidate')}
-            className={`py-2 rounded-xl transition ${role === 'candidate' ? 'bg-blue-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'}`}
+            className={`py-2.5 rounded-xl transition ${role === 'candidate' ? 'bg-blue-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'}`}
           >
-            Candidate / Job Seeker
+            Candidate
           </button>
           <button
             type="button"
             onClick={() => setRole('recruiter')}
-            className={`py-2 rounded-xl transition ${role === 'recruiter' ? 'bg-blue-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'}`}
+            className={`py-2.5 rounded-xl transition ${role === 'recruiter' ? 'bg-blue-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'}`}
           >
-            Recruiter / Employer
+            Recruiter
           </button>
         </div>
 
@@ -92,6 +133,44 @@ export default function Register() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           
+          {/* Candidate Profile Picture Upload Setup */}
+          {role === 'candidate' && (
+            <div className="flex items-center gap-4 p-3 rounded-2xl bg-slate-50 border border-slate-200">
+              <div className="relative shrink-0">
+                <div className="w-14 h-14 rounded-full bg-blue-50 border-2 border-blue-200 overflow-hidden flex items-center justify-center text-blue-600 shadow-sm">
+                  {photoPreview ? (
+                    <img src={photoPreview} alt="Preview" className="w-full h-full object-cover" />
+                  ) : (
+                    <User className="w-7 h-7 text-blue-400" />
+                  )}
+                </div>
+                <label className="absolute bottom-0 right-0 w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center cursor-pointer shadow-md hover:bg-blue-700">
+                  <Camera className="w-3 h-3" />
+                  <input type="file" accept="image/*" onChange={handlePhotoSelect} className="hidden" />
+                </label>
+              </div>
+
+              <div className="space-y-1">
+                <p className="text-xs font-bold text-slate-800">Profile Picture (Optional)</p>
+                <div className="flex items-center gap-2">
+                  <label className="text-[11px] font-extrabold text-blue-600 hover:text-blue-800 cursor-pointer">
+                    {photoPreview ? 'Change Photo' : 'Upload Photo'}
+                    <input type="file" accept="image/*" onChange={handlePhotoSelect} className="hidden" />
+                  </label>
+                  {photoPreview && (
+                    <button
+                      type="button"
+                      onClick={handleRemovePhoto}
+                      className="text-[11px] font-bold text-rose-600 hover:underline flex items-center gap-0.5"
+                    >
+                      <Trash2 className="w-3 h-3" /> Remove
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
           <div>
             <label htmlFor="reg-fullname" className="block text-xs font-bold text-slate-700 mb-1">Full Name</label>
             <div className="relative">
