@@ -218,6 +218,7 @@ export default function JobInvitations() {
 
       {selectedInvitationForPrep && (
         <AIMockInterviewModal
+          invitation={selectedInvitationForPrep}
           invitationId={selectedInvitationForPrep.id}
           jobTitle={selectedInvitationForPrep.job_title}
           companyName={selectedInvitationForPrep.company_name}

@@ -3,9 +3,11 @@ import { Link } from 'react-router-dom';
 import API from '../../services/api';
 import { 
   User, FileText, CheckCircle2, Clock, XCircle, ArrowUpRight, Award, Sparkles, 
-  ToggleLeft, ToggleRight, Bell, ShieldCheck, Zap, Briefcase, ChevronRight, Search
+  ToggleLeft, ToggleRight, Bell, ShieldCheck, Zap, Briefcase, ChevronRight, Search,
+  MessageSquare, Play
 } from 'lucide-react';
 import InactivityCheckModal from '../../components/InactivityCheckModal';
+import AIMockInterviewModal from '../../components/AIMockInterviewModal';
 
 export default function CandidateDashboard() {
   const [stats, setStats] = useState({
@@ -23,6 +25,9 @@ export default function CandidateDashboard() {
   const [showInactivityModal, setShowInactivityModal] = useState(false);
   const [inactiveDays, setInactiveDays] = useState(7);
   const [statusToast, setStatusToast] = useState('');
+  
+  // AI Mock Interview Modal State
+  const [showMockInterview, setShowMockInterview] = useState(false);
 
   const fetchStats = async () => {
     try {
@@ -88,7 +93,7 @@ export default function CandidateDashboard() {
             Welcome to Your <span className="gradient-text">Career Space</span>
           </h1>
           <p className="text-xs text-slate-500">
-            Track interview invitations, explore AI matched job openings, and maintain profile strength.
+            Track interview invitations, explore AI matched job openings, and practice with AI Mock Interviewer.
           </p>
         </div>
 
@@ -154,6 +159,28 @@ export default function CandidateDashboard() {
           ) : (
             <>Inactive: Paused <ToggleLeft className="w-5 h-5 text-slate-500" /></>
           )}
+        </button>
+      </div>
+
+      {/* 🚀 AI Mock Interview Practice Card */}
+      <div className="glass-card p-6 rounded-3xl border border-purple-200 bg-gradient-to-r from-purple-900 via-indigo-950 to-slate-950 text-white flex flex-col sm:flex-row sm:items-center justify-between gap-6 shadow-xl relative overflow-hidden">
+        <div className="space-y-2 relative z-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-black uppercase border border-purple-500/30">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-pulse" /> AI Interview Simulator
+          </div>
+          <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+            Practice AI Mock Technical Interview
+          </h2>
+          <p className="text-xs text-slate-300 max-w-xl font-medium leading-relaxed">
+            Answer 4 AI-generated technical questions using 🎤 <strong>Voice Input</strong> or <strong>Text</strong>. Get real-time grading, word count analysis, and ideal answer outlines.
+          </p>
+        </div>
+
+        <button
+          onClick={() => setShowMockInterview(true)}
+          className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-purple-500 via-indigo-600 to-cyan-500 hover:from-purple-600 hover:to-cyan-600 text-white font-extrabold text-xs shadow-xl shadow-purple-500/30 transition flex items-center gap-2 shrink-0 hover:scale-105"
+        >
+          <Play className="w-4 h-4 fill-current" /> Launch Practice Interview
         </button>
       </div>
 
@@ -230,6 +257,16 @@ export default function CandidateDashboard() {
             setIsOpenToWork(newStatus);
             setStats(prev => ({ ...prev, is_open_to_work: newStatus }));
           }}
+        />
+      )}
+
+      {/* AI Mock Interview Modal */}
+      {showMockInterview && (
+        <AIMockInterviewModal
+          invitationId={1}
+          jobTitle="Software Engineer & AI Specialist"
+          companyName="HireAI Partner"
+          onClose={() => setShowMockInterview(false)}
         />
       )}
 

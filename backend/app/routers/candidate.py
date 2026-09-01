@@ -499,8 +499,8 @@ def generate_interview_prep(
     ).first()
     if not invitation:
         raise HTTPException(status_code=404, detail="Invitation not found")
-    if invitation.status not in ["interested", "interview_scheduled"]:
-        raise HTTPException(status_code=400, detail="Interview prep can only be generated for accepted invitations")
+    if invitation.status not in ["interested", "interview_scheduled", "accepted", "pending"]:
+        raise HTTPException(status_code=400, detail="Interview prep is available for job invitations")
 
     # Check if already generated
     existing = db.query(InterviewPrep).filter(InterviewPrep.invitation_id == invitation.id).first()

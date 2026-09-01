@@ -7,7 +7,11 @@ import {
   AlertCircle, BookOpen, Lightbulb, RefreshCw, Award, Zap, ThumbsUp, ArrowRight
 } from 'lucide-react';
 
-export default function AIMockInterviewModal({ invitation, onClose }) {
+export default function AIMockInterviewModal({ invitation, invitationId, jobTitle, companyName, onClose }) {
+  const invId = invitation?.id || invitationId;
+  const title = invitation?.job_title || jobTitle || "Software Engineer";
+  const company = invitation?.company_name || companyName || "HireAI Corporate Partner";
+
   const [activeTab, setActiveTab] = useState('chat'); // 'chat' or 'guide'
   const [prepData, setPrepData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -42,9 +46,13 @@ export default function AIMockInterviewModal({ invitation, onClose }) {
   // Load Interview Questions & Context from Backend
   useEffect(() => {
     const fetchPrepData = async () => {
+      if (!invId) {
+        setLoading(false);
+        return;
+      }
       setLoading(true);
       try {
-        const res = await API.post(`/candidate/interview-prep/${invitation.id}`);
+        const res = await API.post(`/candidate/interview-prep/${invId}`);
         const data = res.data;
         setPrepData(data);
 
@@ -57,7 +65,7 @@ export default function AIMockInterviewModal({ invitation, onClose }) {
               id: 'msg-welcome',
               sender: 'ai',
               type: 'greeting',
-              text: `Hello! I'm your AI Technical Interviewer for the **${invitation.job_title}** position at **${invitation.company_name}**. \n\nI will ask you 4 tailored interview questions. You can reply by **typing** or using the **🎤 Voice Input** button to speak your answer! \n\nLet's get started with your first question:`,
+              text: `Hello! I'm your AI Technical Interviewer for the **${title}** position at **${company}**. \n\nI will ask you 4 tailored interview questions. You can reply by **typing** or using the **🎤 Voice Input** button to speak your answer! \n\nLet's get started with your first question:`,
             },
             {
               id: 'msg-q-0',
@@ -70,6 +78,34 @@ export default function AIMockInterviewModal({ invitation, onClose }) {
         }
       } catch (err) {
         console.error("Failed to load interview prep data", err);
+        // Fallback default questions if backend prep not generated yet
+        setMessages([
+          {
+            id: 'msg-welcome-fallback',
+            sender: 'ai',
+            type: 'greeting',
+            text: `Hello! I'm your AI Technical Interviewer for the **${title}** position at **${company}**. \n\nLet's begin your practice session:`,
+          },
+          {
+            id: 'msg-q-0-fallback',
+            sender: 'ai',
+            type: 'question',
+            questionIndex: 0,
+            text: `Can you introduce yourself and describe your key technical experience relevant to the ${title} role?`,
+          }
+        ]);
+        setPrepData({
+          questions: [
+            `Can you introduce yourself and describe your key technical experience relevant to the ${title} role?`,
+            `What has been your most challenging project as a ${title}, and how did you resolve complex technical issues?`,
+            `How do you handle tight project deadlines, code quality reviews, and collaboration with team members?`,
+            `Why are you interested in joining ${company}, and where do you see your technical career growing in the next 3 years?`
+          ],
+          tips: [
+            "Use the STAR method (Situation, Task, Action, Result) to structure your answers.",
+            "Speak clearly and explain your problem-solving thought process step by step."
+          ]
+        });
       } finally {
         setLoading(false);
       }
@@ -82,7 +118,7 @@ export default function AIMockInterviewModal({ invitation, onClose }) {
     if (!SpeechRecognition) {
       setSpeechSupported(false);
     }
-  }, [invitation.id, invitation.job_title, invitation.company_name]);
+  }, [invId, title, company]);
 
   // Handle Speech Recognition (Voice-to-Text)
   const toggleSpeechRecognition = () => {
@@ -122,7 +158,6 @@ export default function AIMockInterviewModal({ invitation, onClose }) {
             });
           }
         };
-
 
         recognition.onerror = (event) => {
           console.error("Speech recognition error:", event.error);
@@ -169,7 +204,6 @@ export default function AIMockInterviewModal({ invitation, onClose }) {
     const answerText = inputAnswer.trim();
     if (!answerText || evaluating || interviewFinished) return;
 
-    // Stop recording if active
     if (isListening && recognitionRef.current) {
       recognitionRef.current.stop();
       setIsListening(false);
@@ -177,7 +211,6 @@ export default function AIMockInterviewModal({ invitation, onClose }) {
 
     const currentQText = prepData?.questions[currentQuestionIndex] || "";
 
-    // Append Candidate Answer Message
     const candMsgId = `cand-ans-${currentQuestionIndex}-${Date.now()}`;
     const userMsg = {
       id: candMsgId,
@@ -191,19 +224,17 @@ export default function AIMockInterviewModal({ invitation, onClose }) {
     setEvaluating(true);
 
     try {
-      // Call backend AI answer evaluation API
       const res = await API.post('/candidate/interview-chat', {
         question: currentQText,
         answer: answerText,
-        job_title: invitation.job_title,
-        job_description: prepData?.job_description || invitation.job_description,
+        job_title: title,
+        job_description: prepData?.job_description || title,
         required_skills: prepData?.required_skills || []
       });
 
       const evalData = res.data;
       setScoresList((prev) => [...prev, evalData.score]);
 
-      // Evaluation Feedback Card Message
       const evalMsg = {
         id: `eval-${currentQuestionIndex}-${Date.now()}`,
         sender: 'ai',
@@ -228,7 +259,6 @@ export default function AIMockInterviewModal({ invitation, onClose }) {
         setMessages((prev) => [...prev, evalMsg, nextQMsg]);
         setCurrentQuestionIndex(nextQIndex);
       } else {
-        // Finish Interview
         setMessages((prev) => [...prev, evalMsg]);
         setInterviewFinished(true);
       }
@@ -248,7 +278,6 @@ export default function AIMockInterviewModal({ invitation, onClose }) {
     }
   };
 
-  // Restart Practice Interview
   const handleRestart = () => {
     setInterviewFinished(false);
     setCurrentQuestionIndex(0);
@@ -260,7 +289,7 @@ export default function AIMockInterviewModal({ invitation, onClose }) {
           id: 'msg-welcome-restart',
           sender: 'ai',
           type: 'greeting',
-          text: `Welcome back! Let's restart your AI mock interview for **${invitation.job_title}**. \n\nHere is Question #1:`,
+          text: `Welcome back! Let's restart your AI mock interview for **${title}**. \n\nHere is Question #1:`,
         },
         {
           id: `msg-q-restart-0`,
@@ -281,8 +310,7 @@ export default function AIMockInterviewModal({ invitation, onClose }) {
     <div className="fixed inset-0 z-[9999] bg-slate-950/90 backdrop-blur-xl flex items-center justify-center p-2 sm:p-4 animate-in fade-in duration-200">
       <div className="glass-card max-w-3xl w-full h-[90vh] rounded-3xl border border-purple-500/30 flex flex-col overflow-hidden shadow-2xl bg-slate-950 relative z-[10000]">
 
-
-        {/* ── Modal Header ──────────────────────────────────────────────────────── */}
+        {/* Modal Header */}
         <div className="p-4 sm:p-5 border-b border-slate-800 bg-slate-900/90 flex items-center justify-between gap-3 shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-purple-500/20">
@@ -296,13 +324,12 @@ export default function AIMockInterviewModal({ invitation, onClose }) {
                 </span>
               </div>
               <p className="text-xs text-slate-400">
-                {invitation.job_title} &bull; <strong className="text-purple-300">{invitation.company_name}</strong>
+                {title} &bull; <strong className="text-purple-300">{company}</strong>
               </p>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
-            {/* Live Average Score Badge if questions answered */}
             {scoresList.length > 0 && (
               <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-xl bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-bold">
                 <Award className="w-3.5 h-3.5 text-amber-400" />
@@ -319,7 +346,7 @@ export default function AIMockInterviewModal({ invitation, onClose }) {
           </div>
         </div>
 
-        {/* ── Navigation Tabs ─────────────────────────────────────────────────── */}
+        {/* Navigation Tabs */}
         <div className="flex items-center border-b border-slate-800 bg-slate-900/50 px-4 gap-2 text-xs font-bold shrink-0">
           <button
             onClick={() => setActiveTab('chat')}
@@ -345,14 +372,13 @@ export default function AIMockInterviewModal({ invitation, onClose }) {
           </button>
         </div>
 
-        {/* ── Content Container ───────────────────────────────────────────────── */}
+        {/* Content Container */}
         {loading ? (
           <div className="flex-grow flex flex-col items-center justify-center text-slate-400 gap-3">
             <Sparkles className="w-8 h-8 text-purple-400 animate-spin" />
             <p className="text-sm font-semibold">Initializing AI Technical Interviewer...</p>
           </div>
         ) : activeTab === 'guide' ? (
-          /* ── Tab 2: Strategy Guide ── */
           <div className="flex-grow p-6 space-y-6 overflow-y-auto">
             <div className="space-y-3">
               <h4 className="text-sm font-bold text-white flex items-center gap-2">
@@ -390,16 +416,13 @@ export default function AIMockInterviewModal({ invitation, onClose }) {
             </button>
           </div>
         ) : (
-          /* ── Tab 1: Live Chat Mode ── */
           <div className="flex-grow flex flex-col min-h-0 bg-slate-950">
 
-            {/* Chat Messages Feed */}
+            {/* Chat Feed */}
             <div className="flex-grow p-4 sm:p-5 overflow-y-auto space-y-4">
-
               {messages.map((msg, index) => (
                 <div key={msg.id || index} className="space-y-2">
 
-                  {/* AI Message */}
                   {msg.sender === 'ai' && (
                     <div className="flex items-start gap-3 max-w-2xl animate-in fade-in slide-in-from-bottom-2 duration-200">
                       <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white shrink-0 shadow-md shadow-purple-500/20 mt-0.5">
@@ -407,13 +430,9 @@ export default function AIMockInterviewModal({ invitation, onClose }) {
                       </div>
 
                       <div className="space-y-2 flex-grow">
-
-                        {/* Text / Question Bubble */}
                         {msg.text && (
                           <div className="glass-card p-4 rounded-2xl bg-slate-900/90 border-slate-800 text-xs sm:text-sm text-slate-200 leading-relaxed shadow-sm relative group">
                             <p className="whitespace-pre-line">{msg.text}</p>
-
-                            {/* Listen Button (Speech Synthesis) */}
                             <button
                               type="button"
                               onClick={() => handleSpeakText(msg.id, msg.text)}
@@ -429,11 +448,8 @@ export default function AIMockInterviewModal({ invitation, onClose }) {
                           </div>
                         )}
 
-                        {/* Evaluation Result Card */}
                         {msg.type === 'evaluation' && msg.eval && (
                           <div className="glass-card p-4 rounded-2xl bg-gradient-to-b from-slate-900 to-slate-950 border border-purple-500/30 space-y-3 shadow-lg">
-
-                            {/* Score & Grade Header */}
                             <div className="flex items-center justify-between pb-2 border-b border-slate-800">
                               <div className="flex items-center gap-2">
                                 <span className={`px-2.5 py-1 rounded-lg text-xs font-black ${
@@ -449,18 +465,15 @@ export default function AIMockInterviewModal({ invitation, onClose }) {
                                   Score: {msg.eval.score}%
                                 </span>
                               </div>
-
                               <div className="text-[11px] text-slate-400">
                                 Words: {msg.eval.word_count}
                               </div>
                             </div>
 
-                            {/* Feedback Text */}
                             <p className="text-xs text-slate-200 font-medium">
                               {msg.eval.feedback}
                             </p>
 
-                            {/* Suggestions / Key Improvements */}
                             {msg.eval.suggestions && msg.eval.suggestions.length > 0 && (
                               <div className="space-y-1 pt-1">
                                 <p className="text-[11px] font-bold text-amber-400 flex items-center gap-1">
@@ -476,7 +489,6 @@ export default function AIMockInterviewModal({ invitation, onClose }) {
                               </div>
                             )}
 
-                            {/* Model Answer Hint */}
                             {msg.eval.model_answer_hint && (
                               <div className="p-2.5 rounded-xl bg-purple-500/10 border border-purple-500/20 text-[11px] text-purple-200 space-y-0.5">
                                 <p className="font-bold text-purple-300 flex items-center gap-1">
@@ -491,7 +503,6 @@ export default function AIMockInterviewModal({ invitation, onClose }) {
                     </div>
                   )}
 
-                  {/* Candidate Answer Bubble */}
                   {msg.sender === 'user' && (
                     <div className="flex justify-end animate-in fade-in slide-in-from-bottom-2 duration-200">
                       <div className="max-w-xl p-4 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-xs sm:text-sm leading-relaxed shadow-lg shadow-purple-600/20">
@@ -503,7 +514,6 @@ export default function AIMockInterviewModal({ invitation, onClose }) {
                 </div>
               ))}
 
-              {/* Evaluating Loading Indicator */}
               {evaluating && (
                 <div className="flex items-center gap-3 max-w-md animate-pulse">
                   <div className="w-8 h-8 rounded-xl bg-purple-600 flex items-center justify-center text-white shrink-0">
@@ -516,7 +526,6 @@ export default function AIMockInterviewModal({ invitation, onClose }) {
                 </div>
               )}
 
-              {/* Final Summary Card when Interview Finished */}
               {interviewFinished && (
                 <div className="glass-card p-6 rounded-3xl border border-emerald-500/40 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-950 space-y-4 shadow-xl text-center">
                   <div className="w-14 h-14 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mx-auto">
@@ -525,7 +534,7 @@ export default function AIMockInterviewModal({ invitation, onClose }) {
                   <div>
                     <h4 className="text-xl font-extrabold text-white">Mock Interview Complete!</h4>
                     <p className="text-xs text-slate-400 mt-1">
-                      Great effort! You answered all 4 tailored questions for <strong className="text-purple-300">{invitation.job_title}</strong>.
+                      Great effort! You answered all tailored questions for <strong className="text-purple-300">{title}</strong>.
                     </p>
                   </div>
 
@@ -549,11 +558,10 @@ export default function AIMockInterviewModal({ invitation, onClose }) {
               <div ref={chatBottomRef} />
             </div>
 
-            {/* Candidate Answer Input Area */}
+            {/* Candidate Answer Input */}
             {!interviewFinished && (
               <form onSubmit={handleSendAnswer} className="p-3 sm:p-4 border-t border-slate-800 bg-slate-900/90 space-y-2 shrink-0">
 
-                {/* Voice Status Pill */}
                 {isListening && (
                   <div className="flex items-center justify-between px-3 py-1.5 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs animate-pulse">
                     <span className="flex items-center gap-2 font-bold">
@@ -567,8 +575,6 @@ export default function AIMockInterviewModal({ invitation, onClose }) {
                 )}
 
                 <div className="flex items-end gap-2">
-
-                  {/* Speech-to-Text Voice Input Button */}
                   <button
                     type="button"
                     onClick={toggleSpeechRecognition}
@@ -583,7 +589,6 @@ export default function AIMockInterviewModal({ invitation, onClose }) {
                     {isListening ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
                   </button>
 
-                  {/* Text Input Area */}
                   <div className="flex-grow relative">
                     <textarea
                       rows={2}
@@ -601,7 +606,6 @@ export default function AIMockInterviewModal({ invitation, onClose }) {
                     />
                   </div>
 
-                  {/* Send Answer Button */}
                   <button
                     type="submit"
                     disabled={evaluating || !inputAnswer.trim()}
@@ -628,4 +632,3 @@ export default function AIMockInterviewModal({ invitation, onClose }) {
 
   return createPortal(modalContent, document.body);
 }
-
