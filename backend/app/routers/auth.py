@@ -174,10 +174,16 @@ def register_user(user_data: UserRegister, db: Session = Depends(get_db)):
 @router.post("/login", response_model=TokenResponse)
 def login_user(credentials: UserLogin, db: Session = Depends(get_db)):
     import uuid
-    clean_email = (credentials.email or "").strip().lower()
-    user = db.query(User).filter(User.email.ilike(clean_email)).first()
+    from sqlalchemy import or_
+    clean_input = (credentials.email or "").strip()
+    user = db.query(User).filter(
+        or_(
+            User.email.ilike(clean_input),
+            User.mobile == clean_input
+        )
+    ).first()
     if not user or not verify_password(credentials.password, user.password_hash):
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid email or password")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid email, phone number, or password")
 
     # Generate referral code for existing users if missing
     if not user.referral_code:

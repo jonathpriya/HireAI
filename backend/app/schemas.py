@@ -14,7 +14,7 @@ class UserRegister(BaseModel):
     referral_code: Optional[str] = None  # optional referral code of inviter
 
 class UserLogin(BaseModel):
-    email: EmailStr
+    email: str  # Can be email address or mobile phone number
     password: str
 
 class ContactInquiry(BaseModel):
