@@ -1,57 +1,24 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import API from '../../services/api';
-import { 
-  Sparkles, User, Mail, Lock, Phone, Building, Globe, AlertCircle, 
-  ArrowRight, Gift, Camera, Upload, Trash2, RefreshCw, CheckCircle2, Image as ImageIcon
-} from 'lucide-react';
+import { Mail, Lock, User, Building, Globe, Phone, Gift, AlertCircle, ArrowRight } from 'lucide-react';
 
 export default function Register() {
-  const [searchParams] = useSearchParams();
-  const initialRole = searchParams.get('role') || 'candidate';
-  const initialRef = searchParams.get('ref') || '';
-
-  const [role, setRole] = useState(initialRole);
+  const [role, setRole] = useState('candidate');
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [mobile, setMobile] = useState('');
   const [password, setPassword] = useState('');
   const [companyName, setCompanyName] = useState('');
   const [website, setWebsite] = useState('');
-  const [referralCode, setReferralCode] = useState(initialRef);
+  const [referralCode, setReferralCode] = useState('');
   
-  // Profile Picture state for candidates
-  const [photoFile, setPhotoFile] = useState(null);
-  const [photoPreview, setPhotoPreview] = useState(null);
-
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const { register, updateUser } = useAuth();
+  const { register } = useAuth();
   const navigate = useNavigate();
-
-  const handlePhotoSelect = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    if (file.size > 5 * 1024 * 1024) {
-      setError('Profile image must be less than 5MB.');
-      return;
-    }
-
-    setPhotoFile(file);
-    setPhotoPreview(URL.createObjectURL(file));
-    setError('');
-  };
-
-  const handleRemovePhoto = () => {
-    setPhotoFile(null);
-    if (photoPreview) {
-      URL.revokeObjectURL(photoPreview);
-    }
-    setPhotoPreview(null);
-  };
+  const [searchParams] = useSearchParams();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -71,22 +38,6 @@ export default function Register() {
 
       const data = await register(payload);
 
-      // If candidate uploaded a photo during signup, upload it immediately
-      if (role === 'candidate' && photoFile) {
-        try {
-          const formData = new FormData();
-          formData.append('file', photoFile);
-          const picRes = await API.post('/candidate/profile-picture', formData, {
-            headers: { 'Content-Type': 'multipart/form-data' }
-          });
-          if (updateUser && picRes.data.profile_pic_url) {
-            updateUser({ profile_pic_url: picRes.data.profile_pic_url });
-          }
-        } catch (picErr) {
-          console.error("Profile picture upload warning:", picErr);
-        }
-      }
-
       const jobId = searchParams.get('job_id');
       if (data.role === 'recruiter') {
         navigate('/recruiter/dashboard');
@@ -104,10 +55,10 @@ export default function Register() {
   };
 
   return (
-    <div className="max-w-xl mx-auto px-4 py-12">
-      <div className="glass-card p-8 rounded-3xl space-y-6 bg-white border border-slate-200 shadow-sm">
+    <div className="max-w-md mx-auto px-4 py-12">
+      <div className="glass-card p-8 rounded-3xl space-y-6 bg-white border border-slate-200 shadow-xl">
         
-        {/* Top Header */}
+        {/* Top Header Logo & Title */}
         <div className="text-center space-y-3">
           <img src="/images/logo.png" alt="HireAI Logo" className="h-16 w-auto mx-auto object-contain" />
           <h1 className="text-2xl font-black text-slate-900 tracking-tight">Create Your Account</h1>
@@ -133,90 +84,14 @@ export default function Register() {
         </div>
 
         {error && (
-          <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-bold flex items-center gap-2">
-            <AlertCircle className="w-4 h-4 shrink-0" />
+          <div className="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-bold flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
             <span>{error}</span>
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           
-          {/* ── 📸 Candidate Profile Picture Upload (LinkedIn Style) ── */}
-          {role === 'candidate' && (
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
-              <div className="flex items-center justify-between">
-                <label className="block text-xs font-bold text-slate-700 flex items-center gap-1.5">
-                  <Camera className="w-4 h-4 text-blue-600" />
-                  Profile Photo (LinkedIn Style)
-                </label>
-                <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                  Recommended
-                </span>
-              </div>
-
-              <div className="flex items-center gap-4">
-                {/* Avatar Preview */}
-                <div className="relative group shrink-0">
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-blue-50 border-2 border-blue-200 overflow-hidden flex items-center justify-center text-blue-600 shadow-sm">
-                    {photoPreview ? (
-                      <img 
-                        src={photoPreview} 
-                        alt="Profile Preview" 
-                        className="w-full h-full object-cover" 
-                      />
-                    ) : (
-                      <User className="w-8 h-8 text-slate-400" />
-                    )}
-                  </div>
-
-                  {/* Camera icon trigger */}
-                  <label 
-                    className="absolute -bottom-1 -right-1 p-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white cursor-pointer shadow-md transition transform hover:scale-110"
-                    title="Choose Photo"
-                  >
-                    <Camera className="w-3.5 h-3.5" />
-                    <input 
-                      type="file" 
-                      accept="image/png, image/jpeg, image/jpg, image/webp" 
-                      onChange={handlePhotoSelect} 
-                      className="hidden" 
-                    />
-                  </label>
-                </div>
-
-                {/* Photo Actions & Guidance */}
-                <div className="space-y-1.5 flex-1">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <label className="px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-700 text-xs font-bold flex items-center gap-1.5 cursor-pointer transition shadow-sm">
-                      <Upload className="w-3.5 h-3.5" />
-                      <span>{photoPreview ? 'Change Photo' : 'Upload Photo'}</span>
-                      <input 
-                        type="file" 
-                        accept="image/png, image/jpeg, image/jpg, image/webp" 
-                        onChange={handlePhotoSelect} 
-                        className="hidden" 
-                      />
-                    </label>
-
-                    {photoPreview && (
-                      <button
-                        type="button"
-                        onClick={handleRemovePhoto}
-                        className="px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-700 text-xs font-bold flex items-center gap-1 transition"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                        <span>Remove</span>
-                      </button>
-                    )}
-                  </div>
-                  <p className="text-[11px] text-slate-500 font-medium">
-                    JPG, PNG or WebP up to 5MB. Recruiters see this photo in shortlists!
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
-
           <div>
             <label htmlFor="reg-fullname" className="block text-xs font-bold text-slate-700 mb-1">Full Name</label>
             <div className="relative">
@@ -230,7 +105,7 @@ export default function Register() {
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 placeholder={role === 'recruiter' ? 'Preethi Sharma' : 'Aarav Sharma'}
-                className="w-full bg-slate-50 border border-slate-300 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none"
+                className="w-full bg-slate-50 border border-slate-300 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition"
               />
             </div>
           </div>
@@ -250,7 +125,7 @@ export default function Register() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder={role === 'recruiter' ? 'recruiter@techcorp.com' : 'aarav@gmail.com'}
-                className="w-full bg-slate-50 border border-slate-300 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none"
+                className="w-full bg-slate-50 border border-slate-300 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition"
               />
             </div>
             {role === 'recruiter' && (
@@ -273,7 +148,7 @@ export default function Register() {
                 value={mobile}
                 onChange={(e) => setMobile(e.target.value)}
                 placeholder="9876543210"
-                className="w-full bg-slate-50 border border-slate-300 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none"
+                className="w-full bg-slate-50 border border-slate-300 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition"
               />
             </div>
           </div>
@@ -293,7 +168,7 @@ export default function Register() {
                     value={companyName}
                     onChange={(e) => setCompanyName(e.target.value)}
                     placeholder="TechCorp Solutions"
-                    className="w-full bg-slate-50 border border-slate-300 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none"
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition"
                   />
                 </div>
               </div>
@@ -311,7 +186,7 @@ export default function Register() {
                     value={website}
                     onChange={(e) => setWebsite(e.target.value)}
                     placeholder="https://techcorp.com"
-                    className="w-full bg-slate-50 border border-slate-300 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none"
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition"
                   />
                 </div>
               </div>
@@ -331,7 +206,7 @@ export default function Register() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full bg-slate-50 border border-slate-300 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none"
+                className="w-full bg-slate-50 border border-slate-300 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition"
               />
             </div>
           </div>
@@ -347,25 +222,22 @@ export default function Register() {
                 value={referralCode}
                 onChange={(e) => setReferralCode(e.target.value)}
                 placeholder="e.g. REF-ABC123"
-                className="w-full bg-slate-50 border border-slate-300 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none"
+                className="w-full bg-slate-50 border border-slate-300 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition"
               />
             </div>
-            <p className="text-[11px] text-slate-500 mt-1 font-medium">
-              Enter a friend's referral code to get bonus starter credits!
-            </p>
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-extrabold text-sm shadow-md shadow-blue-500/20 transition flex items-center justify-center gap-2 disabled:opacity-50 hover:scale-[1.01]"
+            className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-extrabold text-sm shadow-lg shadow-blue-500/20 transition flex items-center justify-center gap-2 disabled:opacity-50 hover:scale-[1.01]"
           >
             <span>{loading ? 'Creating Account...' : 'Complete Registration'}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </form>
 
-        <div className="text-center pt-2 border-t border-slate-100 text-xs text-slate-500 font-medium">
+        <div className="text-center pt-4 border-t border-slate-200 text-xs text-slate-500 font-medium">
           Already registered?{' '}
           <Link to="/login" className="text-blue-600 hover:underline font-bold">
             Sign In
