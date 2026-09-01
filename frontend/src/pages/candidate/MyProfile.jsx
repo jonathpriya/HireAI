@@ -8,7 +8,6 @@ import {
   Camera, Eye, EyeOff, Power, Upload, Trash2, RefreshCw, ExternalLink, Download, Edit3, Globe, Linkedin, Github, FileText, Mail
 } from 'lucide-react';
 import CommunicationAssessmentModal from '../../components/CommunicationAssessmentModal';
-import AvatarWithBadge from '../../components/AvatarWithBadge';
 import { getFullImageUrl } from '../../utils/imageUrl';
 
 export default function MyProfile() {
@@ -208,39 +207,38 @@ export default function MyProfile() {
       )}
 
       {/* ─── 🌄 LINKEDIN STYLE COVER BANNER & HEADER CARD ─────────────────────── */}
-      <div className="glass-card rounded-3xl bg-white border border-slate-200 shadow-md overflow-hidden relative">
+      <div className="glass-card rounded-3xl bg-white border border-slate-200 shadow-md overflow-hidden">
         
-        {/* Gradient Cover Banner */}
-        <div className="h-32 sm:h-44 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 relative overflow-hidden">
-          <div className="absolute inset-0 bg-black/10 pointer-events-none" />
-          <div className="absolute top-4 right-4 flex items-center gap-2">
-            <button
-              onClick={() => setActiveTab(activeTab === 'view' ? 'edit' : 'view')}
-              className="px-4 py-2 rounded-xl bg-white/90 hover:bg-white text-slate-900 font-extrabold text-xs flex items-center gap-1.5 shadow-md backdrop-blur-sm transition"
-            >
-              <Edit3 className="w-3.5 h-3.5 text-blue-600" />
-              <span>{activeTab === 'view' ? 'Edit Profile' : 'View Mode'}</span>
-            </button>
-          </div>
+        {/* Cover Banner Header */}
+        <div className="h-32 sm:h-44 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 relative p-4 flex justify-end items-start">
+          <button
+            onClick={() => setActiveTab(activeTab === 'view' ? 'edit' : 'view')}
+            className="px-4 py-2 rounded-xl bg-white/90 hover:bg-white text-slate-900 font-extrabold text-xs flex items-center gap-1.5 shadow-md transition z-10"
+          >
+            <Edit3 className="w-3.5 h-3.5 text-blue-600" />
+            <span>{activeTab === 'view' ? 'Edit Profile' : 'View Mode'}</span>
+          </button>
         </div>
 
-        {/* Profile Content Container */}
-        <div className="px-6 sm:px-8 pb-7">
+        {/* Profile Info Details Block */}
+        <div className="px-6 sm:px-8 pb-7 relative">
           
+          {/* Avatar & Action Row */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 -mt-12 sm:-mt-16 mb-4">
             
-            {/* Avatar with #OpenToWork Badge Overlay */}
-            <div className="relative group shrink-0">
-              <AvatarWithBadge
-                src={fullImageUrl}
-                name={user?.full_name}
-                isOpenToWork={isOpenToWork}
-                size="lg"
-              />
+            {/* Avatar Circle with Camera Overlay */}
+            <div className="relative shrink-0 z-20">
+              <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-4 border-white shadow-xl bg-slate-100 flex items-center justify-center font-black text-slate-700 text-2xl relative overflow-hidden">
+                {fullImageUrl ? (
+                  <img src={fullImageUrl} alt={user?.full_name} className="w-full h-full object-cover" />
+                ) : (
+                  <span>{user?.full_name ? user.full_name.slice(0, 2).toUpperCase() : 'AA'}</span>
+                )}
+              </div>
 
-              {/* Quick Camera Upload Overlay Icon */}
+              {/* Camera Upload Button Overlay */}
               <label 
-                className="absolute bottom-1 right-1 p-2 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white cursor-pointer shadow-lg shadow-blue-500/30 transition transform hover:scale-110"
+                className="absolute bottom-0 right-0 p-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white cursor-pointer shadow-lg transition transform hover:scale-110 z-30"
                 title="Upload Photo"
               >
                 <Camera className="w-4 h-4" />
@@ -253,8 +251,8 @@ export default function MyProfile() {
               </label>
             </div>
 
-            {/* Header Right Action Buttons */}
-            <div className="flex flex-wrap items-center gap-2 pt-2 sm:pt-0">
+            {/* Action Buttons Row */}
+            <div className="flex flex-wrap items-center gap-2 pt-2 sm:pt-0 z-10">
               <button
                 type="button"
                 onClick={handleToggleOpenToWork}
@@ -280,7 +278,7 @@ export default function MyProfile() {
 
           </div>
 
-          {/* Candidate Name & Professional Headline */}
+          {/* Candidate Name & Info */}
           <div className="space-y-2">
             <div className="flex flex-wrap items-center gap-3">
               <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
