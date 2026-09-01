@@ -5,7 +5,7 @@ import { useAuth } from '../../context/AuthContext';
 import { 
   User, GraduationCap, Briefcase, Code, Link as LinkIcon, 
   DollarSign, MapPin, Save, CheckCircle, AlertCircle, Zap, MessageSquare, Award, Sparkles, CheckCircle2,
-  Camera, Eye, EyeOff, Power, Upload, Trash2, RefreshCw, ExternalLink, Download, Edit3, Globe, Linkedin, Github, FileText
+  Camera, Eye, EyeOff, Power, Upload, Trash2, RefreshCw, ExternalLink, Download, Edit3, Globe, Linkedin, Github, FileText, Mail
 } from 'lucide-react';
 import CommunicationAssessmentModal from '../../components/CommunicationAssessmentModal';
 import AvatarWithBadge from '../../components/AvatarWithBadge';
@@ -50,7 +50,7 @@ export default function MyProfile() {
       const p = profileRes.data;
       setEducation(p.education || '');
       setExperienceYears(p.experience_years || 0);
-      setSkills(p.skills ? p.skills.join(', ') : '');
+      setSkills(Array.isArray(p.skills) ? p.skills.join(', ') : (p.skills || ''));
       setCertifications(p.certifications || '');
       setProjects(p.projects || '');
       setCurrentCompany(p.current_company || '');
@@ -73,6 +73,7 @@ export default function MyProfile() {
       }
     } catch (err) {
       console.error('Failed to fetch candidate profile data', err);
+      setError('Failed to load profile data. Please refresh the page.');
     } finally {
       setLoading(false);
     }
@@ -142,7 +143,9 @@ export default function MyProfile() {
     setMsg('');
     setError('');
 
-    const skillArray = skills.split(',').map(s => s.trim()).filter(Boolean);
+    const skillArray = typeof skills === 'string'
+      ? skills.split(',').map(s => s.trim()).filter(Boolean)
+      : (Array.isArray(skills) ? skills : []);
 
     try {
       const res = await API.put('/candidate/profile', {
@@ -172,8 +175,19 @@ export default function MyProfile() {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="max-w-4xl mx-auto py-20 text-center text-slate-500 font-medium space-y-3">
+        <Sparkles className="w-8 h-8 text-blue-600 animate-spin mx-auto" />
+        <p className="text-sm font-bold text-slate-700">Loading Candidate Profile...</p>
+      </div>
+    );
+  }
+
   const fullImageUrl = getFullImageUrl(profilePicUrl);
-  const skillList = skills.split(',').map(s => s.trim()).filter(Boolean);
+  const skillList = typeof skills === 'string'
+    ? skills.split(',').map(s => s.trim()).filter(Boolean)
+    : (Array.isArray(skills) ? skills : []);
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
@@ -279,7 +293,7 @@ export default function MyProfile() {
 
             <p className="text-sm font-semibold text-slate-700">
               {currentCompany ? `${currentCompany} • ` : ''}
-              {education || 'Full Stack Software Engineer'} 
+              {education || 'Software Engineer'} 
               {experienceYears > 0 && ` (${experienceYears} Yrs Exp)`}
             </p>
 
@@ -324,7 +338,7 @@ export default function MyProfile() {
 
       </div>
 
-      {/* ─── 📊 LINKEDIN STYLE ANALYTICS BAR (Private to Candidate) ─────────────── */}
+      {/* ─── 📊 LINKEDIN STYLE ANALYTICS BAR ────────────────────────────────── */}
       <div className="glass-card p-5 sm:p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-3">
         <div className="flex items-center justify-between">
           <h3 className="text-xs font-black uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
