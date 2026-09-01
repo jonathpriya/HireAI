@@ -262,19 +262,10 @@ export default function MyProfile() {
               <Link
                 to={`/in/${user?.id}`}
                 target="_blank"
-                className="px-3 py-2 rounded-xl bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-bold text-xs flex items-center gap-1.5 transition shadow-sm"
+                className="px-3.5 py-2 rounded-xl bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-bold text-xs flex items-center gap-1.5 transition shadow-sm"
               >
                 <span>Public Profile</span>
                 <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
-              </Link>
-
-              <Link
-                to={`/in/${user?.id}`}
-                target="_blank"
-                className="px-3 py-2 rounded-xl bg-blue-50 border border-blue-200 hover:bg-blue-100 text-blue-700 font-bold text-xs flex items-center gap-1.5 transition shadow-sm"
-              >
-                <Download className="w-3.5 h-3.5 text-blue-600" />
-                <span>ATS Resume</span>
               </Link>
             </div>
           </div>
