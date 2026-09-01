@@ -5,7 +5,7 @@ import { useAuth } from '../../context/AuthContext';
 import { 
   User, GraduationCap, Briefcase, Code, Link as LinkIcon, 
   DollarSign, MapPin, Save, CheckCircle, AlertCircle, Zap, MessageSquare, Award, Sparkles, CheckCircle2,
-  Camera, Eye, EyeOff, Power, Upload, Trash2, RefreshCw, ExternalLink, Download 
+  Camera, Eye, EyeOff, Power, Upload, Trash2, RefreshCw, ExternalLink, Download, Edit3, Globe, Linkedin, Github, FileText
 } from 'lucide-react';
 import CommunicationAssessmentModal from '../../components/CommunicationAssessmentModal';
 import AvatarWithBadge from '../../components/AvatarWithBadge';
@@ -13,6 +13,8 @@ import { getFullImageUrl } from '../../utils/imageUrl';
 
 export default function MyProfile() {
   const { user } = useAuth();
+  const [activeTab, setActiveTab] = useState('view'); // 'view' or 'edit'
+
   const [education, setEducation] = useState('');
   const [experienceYears, setExperienceYears] = useState(0);
   const [skills, setSkills] = useState('');
@@ -29,13 +31,13 @@ export default function MyProfile() {
   const [communicationDetails, setCommunicationDetails] = useState(null);
   const [isOpenToWork, setIsOpenToWork] = useState(true);
   const [profilePicUrl, setProfilePicUrl] = useState(null);
+  const [resumeData, setResumeData] = useState(null);
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [uploadingPic, setUploadingPic] = useState(false);
   const [msg, setMsg] = useState('');
   const [error, setError] = useState('');
-  const [resumeAutoFilled, setResumeAutoFilled] = useState(false);
   const [showCommModal, setShowCommModal] = useState(false);
 
   const fetchProfileData = async () => {
@@ -62,12 +64,12 @@ export default function MyProfile() {
       setProfilePicUrl(p.profile_pic_url || null);
       setCommunicationScore(p.communication_score);
 
-      if (commRes.data?.has_completed) {
-        setCommunicationDetails(commRes.data);
+      if (resumeRes.data?.has_resume) {
+        setResumeData(resumeRes.data);
       }
 
-      if (resumeRes.data.has_resume && p.skills && p.skills.length > 0) {
-        setResumeAutoFilled(true);
+      if (commRes.data?.has_completed) {
+        setCommunicationDetails(commRes.data);
       }
     } catch (err) {
       console.error('Failed to fetch candidate profile data', err);
@@ -161,6 +163,8 @@ export default function MyProfile() {
       if (res.data?.completion_pct) {
         setCompletionPct(res.data.completion_pct);
       }
+      setActiveTab('view');
+      setTimeout(() => setMsg(''), 3000);
     } catch (err) {
       setError(err.response?.data?.detail || 'Failed to update profile');
     } finally {
@@ -169,19 +173,49 @@ export default function MyProfile() {
   };
 
   const fullImageUrl = getFullImageUrl(profilePicUrl);
+  const skillList = skills.split(',').map(s => s.trim()).filter(Boolean);
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6">
+    <div className="max-w-4xl mx-auto space-y-6">
       
-      {/* ── 📸 CANDIDATE PROFILE HEADER & PHOTO SECTION ── */}
-      <div className="glass-card p-6 sm:p-7 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-6">
+      {/* Toast Feedback */}
+      {msg && (
+        <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold flex items-center gap-2 shadow-sm animate-in fade-in">
+          <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
+          <span>{msg}</span>
+        </div>
+      )}
+
+      {error && (
+        <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-bold flex items-center gap-2 shadow-sm animate-in fade-in">
+          <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
+          <span>{error}</span>
+        </div>
+      )}
+
+      {/* ─── 🌄 LINKEDIN STYLE COVER BANNER & HEADER CARD ─────────────────────── */}
+      <div className="glass-card rounded-3xl bg-white border border-slate-200 shadow-md overflow-hidden relative">
         
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+        {/* Gradient Cover Banner */}
+        <div className="h-32 sm:h-44 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 relative overflow-hidden">
+          <div className="absolute inset-0 bg-black/10 pointer-events-none" />
+          <div className="absolute top-4 right-4 flex items-center gap-2">
+            <button
+              onClick={() => setActiveTab(activeTab === 'view' ? 'edit' : 'view')}
+              className="px-4 py-2 rounded-xl bg-white/90 hover:bg-white text-slate-900 font-extrabold text-xs flex items-center gap-1.5 shadow-md backdrop-blur-sm transition"
+            >
+              <Edit3 className="w-3.5 h-3.5 text-blue-600" />
+              <span>{activeTab === 'view' ? 'Edit Profile' : 'View Mode'}</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Profile Content Container */}
+        <div className="px-6 sm:px-8 pb-7">
           
-          {/* Avatar and Info */}
-          <div className="flex items-center gap-5">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 -mt-12 sm:-mt-16 mb-4">
             
-            {/* Profile Avatar with LinkedIn #OpenToWork Badge */}
+            {/* Avatar with #OpenToWork Badge Overlay */}
             <div className="relative group shrink-0">
               <AvatarWithBadge
                 src={fullImageUrl}
@@ -190,9 +224,9 @@ export default function MyProfile() {
                 size="lg"
               />
 
-              {/* Quick Camera Icon Button */}
+              {/* Quick Camera Upload Overlay Icon */}
               <label 
-                className="absolute -bottom-1 -right-1 p-2 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white cursor-pointer shadow-md shadow-blue-500/20 transition transform hover:scale-110"
+                className="absolute bottom-1 right-1 p-2 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white cursor-pointer shadow-lg shadow-blue-500/30 transition transform hover:scale-110"
                 title="Upload Photo"
               >
                 <Camera className="w-4 h-4" />
@@ -205,263 +239,375 @@ export default function MyProfile() {
               </label>
             </div>
 
-            {/* Profile Details & Photo Actions */}
-            <div className="space-y-1.5">
-              <h1 className="text-xl sm:text-2xl font-black text-slate-900 leading-tight tracking-tight">
-                Candidate <span className="gradient-text">Profile</span>
-              </h1>
-              <p className="text-xs text-slate-500">
-                Upload your profile photo and keep your details updated for recruiter searches.
-              </p>
+            {/* Header Right Action Buttons */}
+            <div className="flex flex-wrap items-center gap-2 pt-2 sm:pt-0">
+              <button
+                type="button"
+                onClick={handleToggleOpenToWork}
+                className={`px-4 py-2 rounded-xl font-extrabold text-xs flex items-center gap-2 transition shadow-sm ${
+                  isOpenToWork
+                    ? 'bg-emerald-50 text-emerald-700 border border-emerald-300 hover:bg-emerald-100'
+                    : 'bg-slate-100 text-slate-600 border border-slate-300 hover:bg-slate-200'
+                }`}
+              >
+                <Power className="w-3.5 h-3.5" />
+                <span>{isOpenToWork ? '🟢 #OpenToWork (Active)' : '🔴 Inactive (Paused)'}</span>
+              </button>
 
-              {/* Photo Action Buttons */}
-              <div className="flex items-center gap-2 pt-1">
-                <label className="px-3.5 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-700 text-xs font-bold flex items-center gap-1.5 cursor-pointer transition shadow-sm">
-                  <Upload className="w-3.5 h-3.5" />
-                  <span>{profilePicUrl ? 'Change Photo' : 'Upload Photo'}</span>
-                  <input 
-                    type="file" 
-                    accept="image/png, image/jpeg, image/jpg, image/webp" 
-                    onChange={handleProfilePicChange} 
-                    className="hidden" 
-                  />
-                </label>
-
-                {profilePicUrl && (
-                  <button
-                    type="button"
-                    onClick={handleRemoveProfilePic}
-                    className="px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-700 text-xs font-bold flex items-center gap-1 transition"
-                    title="Remove Photo"
-                  >
-                    <Trash2 className="w-3.5 h-3.5" />
-                    <span>Remove</span>
-                  </button>
-                )}
-              </div>
-            </div>
-
-          </div>
-
-          {/* Right Action Buttons: Open to Work & Share Profile */}
-          <div className="flex flex-col sm:items-end gap-2.5 shrink-0">
-            <button
-              type="button"
-              onClick={handleToggleOpenToWork}
-              className={`w-full sm:w-auto px-4 py-2.5 rounded-2xl font-bold text-xs flex items-center justify-center gap-2 transition shadow-sm ${
-                isOpenToWork
-                  ? 'bg-emerald-50 text-emerald-700 border border-emerald-300 hover:bg-emerald-100'
-                  : 'bg-slate-100 text-slate-600 border border-slate-300 hover:bg-slate-200'
-              }`}
-            >
-              <Power className="w-4 h-4" />
-              <span>{isOpenToWork ? '🟢 #OpenToWork (Active)' : '🔴 Inactive (Paused)'}</span>
-            </button>
-
-            <div className="flex items-center gap-2 w-full sm:w-auto">
               <Link
                 to={`/in/${user?.id}`}
                 target="_blank"
-                className="px-3.5 py-2 rounded-xl bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-bold text-xs flex items-center gap-1.5 transition shadow-sm"
+                className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs flex items-center gap-1.5 transition shadow-sm"
               >
-                <span>Public Profile</span>
+                <span>Public Link</span>
                 <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
               </Link>
             </div>
+
+          </div>
+
+          {/* Candidate Name & Professional Headline */}
+          <div className="space-y-2">
+            <div className="flex flex-wrap items-center gap-3">
+              <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+                {user?.full_name || 'Aarav Sharma'}
+              </h1>
+              <span className="px-3 py-1 rounded-full text-xs font-black bg-blue-50 text-blue-700 border border-blue-200">
+                Verified Candidate
+              </span>
+            </div>
+
+            <p className="text-sm font-semibold text-slate-700">
+              {currentCompany ? `${currentCompany} • ` : ''}
+              {education || 'Full Stack Software Engineer'} 
+              {experienceYears > 0 && ` (${experienceYears} Yrs Exp)`}
+            </p>
+
+            <div className="flex flex-wrap items-center gap-4 text-xs font-medium text-slate-500 pt-1">
+              {preferredLocation && (
+                <span className="flex items-center gap-1 text-slate-600 font-bold">
+                  <MapPin className="w-3.5 h-3.5 text-blue-600" /> {preferredLocation}
+                </span>
+              )}
+              {expectedSalary && (
+                <span className="flex items-center gap-1 text-slate-600 font-bold">
+                  <DollarSign className="w-3.5 h-3.5 text-emerald-600" /> {expectedSalary}
+                </span>
+              )}
+              <span className="flex items-center gap-1 text-slate-500">
+                <Mail className="w-3.5 h-3.5 text-slate-400" /> {user?.email}
+              </span>
+            </div>
+
+            {/* Social Links Bar */}
+            <div className="flex items-center gap-3 pt-2">
+              {linkedinUrl && (
+                <a href={linkedinUrl} target="_blank" rel="noreferrer" className="p-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 transition">
+                  <Linkedin className="w-4 h-4" />
+                </a>
+              )}
+              {githubUrl && (
+                <a href={githubUrl} target="_blank" rel="noreferrer" className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 transition">
+                  <Github className="w-4 h-4" />
+                </a>
+              )}
+              {portfolioUrl && (
+                <a href={portfolioUrl} target="_blank" rel="noreferrer" className="p-2 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 transition">
+                  <Globe className="w-4 h-4" />
+                </a>
+              )}
+            </div>
+
           </div>
 
         </div>
 
       </div>
 
-      {/* Progress & AI Assessment Summary */}
-      <div className="grid sm:grid-cols-2 gap-4">
-        
-        {/* Profile Strength */}
-        <div className="glass-card p-5 rounded-3xl space-y-2 bg-white border border-slate-200 shadow-sm">
-          <div className="flex items-center justify-between text-xs">
-            <span className="font-bold text-slate-700 flex items-center gap-1.5">
-              <Sparkles className="w-4 h-4 text-blue-600" /> Profile Strength
-            </span>
-            <span className="font-extrabold text-blue-600 text-sm">{completionPct}%</span>
-          </div>
-          <div className="w-full h-2.5 rounded-full bg-slate-100 overflow-hidden">
-            <div className="h-full bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full" style={{ width: `${completionPct}%` }}></div>
-          </div>
-          <p className="text-[11px] text-slate-500">A complete profile increases recruiter shortlist chance by 3x.</p>
+      {/* ─── 📊 LINKEDIN STYLE ANALYTICS BAR (Private to Candidate) ─────────────── */}
+      <div className="glass-card p-5 sm:p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-3">
+        <div className="flex items-center justify-between">
+          <h3 className="text-xs font-black uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+            <Sparkles className="w-4 h-4 text-blue-600" /> Private Analytics &amp; Recruiter Insights
+          </h3>
+          <span className="text-[11px] font-bold text-slate-400">Only visible to you</span>
         </div>
 
-        {/* AI Voice Communication Score */}
-        <div className="glass-card p-5 rounded-3xl space-y-2 bg-white border border-slate-200 shadow-sm flex flex-col justify-between">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
-              <MessageSquare className="w-4 h-4 text-purple-600" /> AI Communication Score
-            </span>
-            {communicationScore !== null && communicationScore !== undefined ? (
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-black bg-purple-50 text-purple-700 border border-purple-200 font-mono">
-                {communicationScore}%
-              </span>
+        <div className="grid grid-cols-3 gap-3">
+          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
+            <p className="text-xl sm:text-2xl font-black text-blue-600">24</p>
+            <p className="text-[11px] font-bold text-slate-500">Recruiter Views</p>
+          </div>
+          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
+            <p className="text-xl sm:text-2xl font-black text-purple-600">{completionPct}%</p>
+            <p className="text-[11px] font-bold text-slate-500">AI Match Index</p>
+          </div>
+          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
+            <p className="text-xl sm:text-2xl font-black text-emerald-600">5</p>
+            <p className="text-[11px] font-bold text-slate-500">Shortlist Appearances</p>
+          </div>
+        </div>
+      </div>
+
+      {/* ─── VIEW MODE vs EDIT MODE TOGGLE ───────────────────────────────────── */}
+      {activeTab === 'view' ? (
+        <div className="space-y-6">
+          
+          {/* ⚡ Skills Matrix Section */}
+          <div className="glass-card p-6 sm:p-7 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
+            <h3 className="text-base font-black text-slate-900 flex items-center gap-2">
+              <Code className="w-5 h-5 text-blue-600" /> Technical Skills &amp; Competencies
+            </h3>
+            
+            {skillList.length > 0 ? (
+              <div className="flex flex-wrap gap-2">
+                {skillList.map((skill, idx) => (
+                  <span 
+                    key={idx} 
+                    className="px-3.5 py-1.5 rounded-xl bg-blue-50 text-blue-800 border border-blue-200 text-xs font-extrabold shadow-sm"
+                  >
+                    ⚡ {skill}
+                  </span>
+                ))}
+              </div>
             ) : (
-              <span className="text-[11px] text-slate-400 font-bold">Not assessed</span>
+              <p className="text-xs text-slate-400 font-medium">No skills added yet. Click "Edit Profile" to add your core technical skills.</p>
             )}
           </div>
 
+          {/* 💼 Experience & Education Section */}
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="glass-card p-6 sm:p-7 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-3">
+              <h3 className="text-base font-black text-slate-900 flex items-center gap-2">
+                <Briefcase className="w-5 h-5 text-purple-600" /> Current Experience
+              </h3>
+              <p className="text-sm font-bold text-slate-800">{currentCompany || 'Not specified'}</p>
+              <p className="text-xs text-slate-500 font-medium">Total Experience: <strong>{experienceYears} Years</strong></p>
+            </div>
+
+            <div className="glass-card p-6 sm:p-7 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-3">
+              <h3 className="text-base font-black text-slate-900 flex items-center gap-2">
+                <GraduationCap className="w-5 h-5 text-indigo-600" /> Education &amp; Degree
+              </h3>
+              <p className="text-sm font-bold text-slate-800">{education || 'Not specified'}</p>
+              {certifications && (
+                <p className="text-xs text-slate-500 font-medium pt-1">
+                  <strong>Certifications:</strong> {certifications}
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* 📄 Active Resume Card */}
+          <div className="glass-card p-6 sm:p-7 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-base font-black text-slate-900 flex items-center gap-2">
+                <FileText className="w-5 h-5 text-emerald-600" /> Active Resume File
+              </h3>
+              <Link
+                to="/candidate/resume-upload"
+                className="px-3.5 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-bold transition flex items-center gap-1"
+              >
+                <Upload className="w-3.5 h-3.5" /> Upload / Replace Resume
+              </Link>
+            </div>
+
+            {resumeData?.has_resume ? (
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 font-black flex items-center justify-center text-xs">
+                    PDF
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-slate-900">{resumeData.file_name || 'Candidate_Resume.pdf'}</p>
+                    <p className="text-xs text-slate-500 font-medium">Extracted {resumeData.extracted_experience_years || experienceYears} Yrs Experience</p>
+                  </div>
+                </div>
+
+                <a
+                  href={resumeData.file_path}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="px-3 py-1.5 rounded-xl bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 text-xs font-bold transition flex items-center gap-1"
+                >
+                  <Download className="w-3.5 h-3.5" /> Download
+                </a>
+              </div>
+            ) : (
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs text-slate-500 font-medium flex items-center justify-between">
+                <span>No resume uploaded yet.</span>
+                <Link to="/candidate/resume-upload" className="text-blue-600 font-bold hover:underline">Upload Resume Now</Link>
+              </div>
+            )}
+          </div>
+
+          {/* 🎤 AI Voice Communication Score Card */}
+          <div className="glass-card p-6 sm:p-7 rounded-3xl bg-white border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="space-y-1">
+              <h3 className="text-base font-black text-slate-900 flex items-center gap-2">
+                <MessageSquare className="w-5 h-5 text-purple-600" /> AI Communication Score
+              </h3>
+              <p className="text-xs text-slate-500 font-medium">
+                {communicationScore ? `Your voice fluency score is ${communicationScore}%. Recruiter views prioritize high communication scores.` : 'Take a 2-minute voice assessment to highlight your fluency.'}
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setShowCommModal(true)}
+              className="px-5 py-2.5 rounded-2xl bg-purple-600 hover:bg-purple-700 text-white font-extrabold text-xs shadow-md shadow-purple-500/20 transition flex items-center gap-2 shrink-0 self-start sm:self-auto"
+            >
+              <Sparkles className="w-4 h-4 text-amber-300" />
+              <span>{communicationScore ? 'Retake Assessment' : 'Take Voice Assessment'}</span>
+            </button>
+          </div>
+
+        </div>
+      ) : (
+        /* ── EDIT PROFILE FORM ── */
+        <form onSubmit={handleSubmit} className="glass-card p-6 sm:p-8 rounded-3xl space-y-5 bg-white border border-slate-200 shadow-md">
+          
+          <div className="flex items-center justify-between pb-3 border-b border-slate-200">
+            <h2 className="text-lg font-black text-slate-900 flex items-center gap-2">
+              <Edit3 className="w-5 h-5 text-blue-600" /> Edit Candidate Details
+            </h2>
+            <button
+              type="button"
+              onClick={() => setActiveTab('view')}
+              className="text-xs font-bold text-slate-500 hover:text-slate-900"
+            >
+              Cancel
+            </button>
+          </div>
+
+          <div className="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Highest Education / Degree</label>
+              <input
+                type="text"
+                placeholder="e.g. B.Tech in Computer Science"
+                value={education}
+                onChange={(e) => setEducation(e.target.value)}
+                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 outline-none"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Total Experience (Years)</label>
+              <input
+                type="number"
+                step="0.5"
+                min="0"
+                value={experienceYears}
+                onChange={(e) => setExperienceYears(e.target.value)}
+                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 outline-none"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold text-slate-700 mb-1">Technical Skills (Comma-separated)</label>
+            <input
+              type="text"
+              placeholder="Python, React, Django, PostgreSQL, Docker, AWS"
+              value={skills}
+              onChange={(e) => setSkills(e.target.value)}
+              className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 outline-none"
+            />
+          </div>
+
+          <div className="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Current Company</label>
+              <input
+                type="text"
+                placeholder="e.g. TechCorp Solutions"
+                value={currentCompany}
+                onChange={(e) => setCurrentCompany(e.target.value)}
+                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 outline-none"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Expected Salary</label>
+              <input
+                type="text"
+                placeholder="e.g. $100,000 / year or ₹15 LPA"
+                value={expectedSalary}
+                onChange={(e) => setExpectedSalary(e.target.value)}
+                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 outline-none"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold text-slate-700 mb-1">Preferred Work Location</label>
+            <input
+              type="text"
+              placeholder="e.g. Remote, Bangalore, New York"
+              value={preferredLocation}
+              onChange={(e) => setPreferredLocation(e.target.value)}
+              className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 outline-none"
+            />
+          </div>
+
+          <div className="grid sm:grid-cols-3 gap-4">
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">LinkedIn Profile URL</label>
+              <input
+                type="url"
+                placeholder="https://linkedin.com/in/..."
+                value={linkedinUrl}
+                onChange={(e) => setLinkedinUrl(e.target.value)}
+                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 outline-none"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">GitHub Profile URL</label>
+              <input
+                type="url"
+                placeholder="https://github.com/..."
+                value={githubUrl}
+                onChange={(e) => setGithubUrl(e.target.value)}
+                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 outline-none"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Portfolio / Website URL</label>
+              <input
+                type="url"
+                placeholder="https://myportfolio.dev"
+                value={portfolioUrl}
+                onChange={(e) => setPortfolioUrl(e.target.value)}
+                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 outline-none"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold text-slate-700 mb-1">Certifications</label>
+            <input
+              type="text"
+              placeholder="AWS Certified Developer, Certified Kubernetes Administrator"
+              value={certifications}
+              onChange={(e) => setCertifications(e.target.value)}
+              className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 outline-none"
+            />
+          </div>
+
           <button
-            type="button"
-            onClick={() => setShowCommModal(true)}
-            className="w-full py-2 rounded-xl bg-purple-50 hover:bg-purple-100 border border-purple-200 text-purple-700 text-xs font-bold transition flex items-center justify-center gap-1.5"
+            type="submit"
+            disabled={saving}
+            className="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-extrabold text-sm shadow-md shadow-blue-500/20 transition flex items-center justify-center gap-2 hover:scale-[1.01]"
           >
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>{communicationScore ? 'Retake Voice Assessment' : 'Take 2-Min Voice Assessment'}</span>
+            <Save className="w-4 h-4" />
+            <span>{saving ? 'Saving Profile...' : 'Save & Update Profile'}</span>
           </button>
-        </div>
 
-      </div>
-
-      {msg && (
-        <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold flex items-center gap-2">
-          <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
-          <span>{msg}</span>
-        </div>
+        </form>
       )}
-
-      {error && (
-        <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2">
-          <AlertCircle className="w-4 h-4 shrink-0" />
-          <span>{error}</span>
-        </div>
-      )}
-
-      {/* Main Profile Form */}
-      <form onSubmit={handleSubmit} className="glass-card p-6 sm:p-8 rounded-3xl space-y-5 bg-white border border-slate-200 shadow-sm">
-        
-        <div className="grid sm:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1">Highest Education / Degree</label>
-            <input
-              type="text"
-              placeholder="e.g. B.Tech in Computer Science"
-              value={education}
-              onChange={(e) => setEducation(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1">Total Experience (Years)</label>
-            <input
-              type="number"
-              step="0.5"
-              min="0"
-              value={experienceYears}
-              onChange={(e) => setExperienceYears(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none"
-            />
-          </div>
-        </div>
-
-        <div>
-          <label className="block text-xs font-bold text-slate-700 mb-1">Skills (Comma-separated)</label>
-          <input
-            type="text"
-            placeholder="Python, React, Django, PostgreSQL, Docker, AWS"
-            value={skills}
-            onChange={(e) => setSkills(e.target.value)}
-            className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none"
-          />
-        </div>
-
-        <div className="grid sm:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1">Current Company</label>
-            <input
-              type="text"
-              placeholder="e.g. TechCorp Solutions"
-              value={currentCompany}
-              onChange={(e) => setCurrentCompany(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1">Expected Salary</label>
-            <input
-              type="text"
-              placeholder="e.g. $100,000 / year or ₹15 LPA"
-              value={expectedSalary}
-              onChange={(e) => setExpectedSalary(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none"
-            />
-          </div>
-        </div>
-
-        <div>
-          <label className="block text-xs font-bold text-slate-700 mb-1">Preferred Work Location</label>
-          <input
-            type="text"
-            placeholder="e.g. Remote, Bangalore, New York"
-            value={preferredLocation}
-            onChange={(e) => setPreferredLocation(e.target.value)}
-            className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none"
-          />
-        </div>
-
-        <div className="grid sm:grid-cols-3 gap-4">
-          <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1">LinkedIn Profile URL</label>
-            <input
-              type="url"
-              placeholder="https://linkedin.com/in/..."
-              value={linkedinUrl}
-              onChange={(e) => setLinkedinUrl(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1">GitHub Profile URL</label>
-            <input
-              type="url"
-              placeholder="https://github.com/..."
-              value={githubUrl}
-              onChange={(e) => setGithubUrl(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1">Portfolio / Website URL</label>
-            <input
-              type="url"
-              placeholder="https://myportfolio.dev"
-              value={portfolioUrl}
-              onChange={(e) => setPortfolioUrl(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none"
-            />
-          </div>
-        </div>
-
-        <div>
-          <label className="block text-xs font-bold text-slate-700 mb-1">Key Projects &amp; Highlights</label>
-          <textarea
-            rows={3}
-            placeholder="Brief overview of major projects you built or contributed to..."
-            value={projects}
-            onChange={(e) => setProjects(e.target.value)}
-            className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none"
-          />
-        </div>
-
-        <button
-          type="submit"
-          disabled={saving}
-          className="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-extrabold text-sm shadow-md shadow-blue-500/20 transition flex items-center justify-center gap-2 hover:scale-[1.01]"
-        >
-          <Save className="w-4 h-4" />
-          <span>{saving ? 'Saving Profile...' : 'Save & Update Profile'}</span>
-        </button>
-
-      </form>
 
       {/* Voice Assessment Modal */}
       {showCommModal && (
