@@ -5,7 +5,8 @@ import { useAuth } from '../../context/AuthContext';
 import { 
   User, GraduationCap, Briefcase, Code, Link as LinkIcon, 
   DollarSign, MapPin, Save, CheckCircle, AlertCircle, Zap, MessageSquare, Award, Sparkles, CheckCircle2,
-  Camera, Eye, EyeOff, Power, Upload, Trash2, RefreshCw, ExternalLink, Download, Edit3, Globe, Linkedin, Github, FileText, Mail
+  Camera, Eye, EyeOff, Power, Upload, Trash2, RefreshCw, ExternalLink, Download, Edit3, Globe, Linkedin, Github, FileText, Mail,
+  Share2, Copy, Check
 } from 'lucide-react';
 import CommunicationAssessmentModal from '../../components/CommunicationAssessmentModal';
 import { getFullImageUrl } from '../../utils/imageUrl';
@@ -38,6 +39,7 @@ export default function MyProfile() {
   const [msg, setMsg] = useState('');
   const [error, setError] = useState('');
   const [showCommModal, setShowCommModal] = useState(false);
+  const [copiedLink, setCopiedLink] = useState(false);
 
   const fetchProfileData = async () => {
     try {
@@ -91,6 +93,17 @@ export default function MyProfile() {
       console.error("Failed to update Open to Work status", err);
       setIsOpenToWork(!nextState);
     }
+  };
+
+  const handleCopyProfileLink = () => {
+    const publicUrl = `${window.location.origin}/in/${user?.id}`;
+    navigator.clipboard.writeText(publicUrl);
+    setCopiedLink(true);
+    setMsg('Public profile link copied to clipboard!');
+    setTimeout(() => {
+      setCopiedLink(false);
+      setMsg('');
+    }, 3000);
   };
 
   const handleProfilePicChange = async (e) => {
@@ -266,13 +279,25 @@ export default function MyProfile() {
                 <span>{isOpenToWork ? '🟢 #OpenToWork (Active)' : '🔴 Inactive (Paused)'}</span>
               </button>
 
+              {/* 🔗 1-Click Copy Profile Link Button */}
+              <button
+                type="button"
+                onClick={handleCopyProfileLink}
+                className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-extrabold text-xs flex items-center gap-1.5 transition shadow-md shadow-blue-500/20"
+              >
+                {copiedLink ? <Check className="w-3.5 h-3.5 text-emerald-300" /> : <Copy className="w-3.5 h-3.5" />}
+                <span>{copiedLink ? 'Link Copied!' : 'Copy Profile Link'}</span>
+              </button>
+
+              {/* Preview Button */}
               <Link
                 to={`/in/${user?.id}`}
                 target="_blank"
-                className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs flex items-center gap-1.5 transition shadow-sm"
+                className="px-3.5 py-2 rounded-xl bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-extrabold text-xs flex items-center gap-1.5 transition shadow-sm"
+                title="Preview public profile"
               >
-                <span>Public Link</span>
-                <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
+                <Eye className="w-3.5 h-3.5 text-slate-500" />
+                <span>Preview</span>
               </Link>
             </div>
 
