@@ -93,16 +93,9 @@ export default function Navbar() {
           )}
         </nav>
 
-        {/* Single Action Button: LOGIN ONLY */}
+        {/* User Actions */}
         <div className="flex items-center gap-3">
-          {!user ? (
-            <Link 
-              to="/login" 
-              className="px-5 py-2 text-xs font-black rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-md shadow-blue-500/20 transition-all hover:scale-105 flex items-center gap-1.5"
-            >
-              <LogIn className="w-3.5 h-3.5" /> Login
-            </Link>
-          ) : (
+          {user && (
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setShowCreditsModal(true)}
