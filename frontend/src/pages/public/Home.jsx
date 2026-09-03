@@ -31,8 +31,8 @@ export default function Home() {
           Create meaningful candidate &amp; recruiter connections with custom-built AI solutions — parsing resumes, ranking 0–100% fit scores, and cascading automated job invitations.
         </p>
 
-        {/* Single Action Button Group: GET STARTED & CONTACT US */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+        {/* Primary Action Button: GET STARTED */}
+        <div className="flex items-center justify-center pt-2">
           <Link
             to="/login"
             className="w-full sm:w-auto px-10 py-4 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-black text-sm uppercase tracking-wider shadow-xl shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-105 transition-all flex items-center justify-center gap-3 group"
@@ -40,14 +40,6 @@ export default function Home() {
             <LogIn className="w-5 h-5 group-hover:rotate-12 transition-transform" />
             <span>Get Started</span>
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </Link>
-
-          <Link
-            to="/contact"
-            className="w-full sm:w-auto px-10 py-4 rounded-2xl bg-white border border-slate-300 hover:border-blue-600 text-slate-800 hover:text-blue-600 font-black text-sm uppercase tracking-wider shadow-sm transition-all flex items-center justify-center gap-2"
-          >
-            <Mail className="w-5 h-5 text-blue-600" />
-            <span>Contact Us</span>
           </Link>
         </div>
 
