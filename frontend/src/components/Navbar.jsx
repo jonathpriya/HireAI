@@ -47,7 +47,6 @@ export default function Navbar() {
           {!user ? (
             <>
               <Link to="/" className="hover:text-blue-600 transition-colors">Home</Link>
-              <Link to="/about" className="hover:text-blue-600 transition-colors">About</Link>
               <Link to="/services" className="hover:text-blue-600 transition-colors">Services</Link>
               <Link to="/career" className="hover:text-blue-600 transition-colors text-blue-600 font-extrabold flex items-center gap-1">
                 <Briefcase className="w-3.5 h-3.5" /> Careers

@@ -81,7 +81,6 @@ export default function App() {
         <Routes>
           {/* ── Public Routes (Top Navbar + Footer) ── */}
           <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
-          <Route path="/about" element={<PublicLayout><About /></PublicLayout>} />
           <Route path="/services" element={<PublicLayout><Services /></PublicLayout>} />
           <Route path="/career" element={<PublicLayout><Career /></PublicLayout>} />
           <Route path="/contact" element={<PublicLayout><Contact /></PublicLayout>} />
