@@ -84,18 +84,12 @@ export default function Services() {
           Start sourcing top candidates and automating candidate invites in minutes.
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+        <div className="flex items-center justify-center pt-2">
           <Link
             to="/login"
             className="px-8 py-3.5 rounded-2xl bg-white hover:bg-slate-100 text-blue-700 font-black text-xs uppercase tracking-wider shadow-lg transition hover:scale-105"
           >
             Get Started Now <ArrowRight className="w-4 h-4 inline ml-1" />
-          </Link>
-          <Link
-            to="/contact"
-            className="px-8 py-3.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-black text-xs uppercase tracking-wider shadow-lg transition hover:scale-105"
-          >
-            Let's Connect <ArrowRight className="w-4 h-4 inline ml-1" />
           </Link>
         </div>
       </div>
