@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Sparkles, Mail, Lock, AlertCircle, ArrowRight, PhoneCall, UserPlus, Info, Check } from 'lucide-react';
+import { Sparkles, Mail, Lock, AlertCircle, ArrowRight, PhoneCall, UserPlus } from 'lucide-react';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -11,7 +11,6 @@ export default function Login() {
   const [showForgotModal, setShowForgotModal] = useState(false);
   const [forgotPhone, setForgotPhone] = useState('');
   const [forgotSuccess, setForgotSuccess] = useState(false);
-  const [copiedRole, setCopiedRole] = useState(null);
 
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -53,14 +52,6 @@ export default function Login() {
     }
   };
 
-  const fillCredentials = (roleName, demoEmail, demoPw) => {
-    setEmail(demoEmail);
-    setPassword(demoPw);
-    setError('');
-    setCopiedRole(roleName);
-    setTimeout(() => setCopiedRole(null), 2000);
-  };
-
   const handleForgotSubmit = (e) => {
     e.preventDefault();
     setForgotSuccess(true);
@@ -99,7 +90,7 @@ export default function Login() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="hr@techcorp.com or candidate01@gmail.com"
+                placeholder="Enter email or phone number"
                 className="w-full bg-slate-50 border border-slate-300 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 focus:ring-2 focus:ring-blue-100 outline-none transition"
               />
             </div>
@@ -141,43 +132,6 @@ export default function Login() {
             <ArrowRight className="w-4 h-4" />
           </button>
         </form>
-
-        {/* Quick Fill Credentials Helper Bar */}
-        <div className="p-3 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1">
-              <Info className="w-3 h-3 text-blue-600" /> Test Login Credentials
-            </span>
-            {copiedRole && (
-              <span className="text-[10px] font-bold text-emerald-600 flex items-center gap-0.5">
-                <Check className="w-3 h-3" /> Filled {copiedRole}!
-              </span>
-            )}
-          </div>
-          <div className="grid grid-cols-3 gap-1.5 text-[11px] font-extrabold">
-            <button
-              type="button"
-              onClick={() => fillCredentials('Recruiter', 'hr@techcorp.com', 'Recruiter@123')}
-              className="py-1.5 px-2 rounded-xl bg-purple-50 hover:bg-purple-100 border border-purple-200 text-purple-700 text-center transition"
-            >
-              💼 Recruiter
-            </button>
-            <button
-              type="button"
-              onClick={() => fillCredentials('Candidate', 'candidate01@gmail.com', 'Candidate@123')}
-              className="py-1.5 px-2 rounded-xl bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-700 text-center transition"
-            >
-              🎓 Candidate
-            </button>
-            <button
-              type="button"
-              onClick={() => fillCredentials('Admin', 'admin@mycompany.com', 'Admin@123')}
-              className="py-1.5 px-2 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-800 text-center transition"
-            >
-              👑 Admin
-            </button>
-          </div>
-        </div>
 
         {/* New User Sign Up Section */}
         <div className="pt-2 border-t border-slate-200 text-center space-y-3">
