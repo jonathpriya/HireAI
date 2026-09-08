@@ -5,99 +5,106 @@
 @layer base {
   body {
     font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background-color: #f3f4f6;
-    color: #0f172a;
+    background-color: #fafafa;
+    color: #09090b;
+    letter-spacing: -0.011em;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    color: #0f172a;
-    font-weight: 800;
+    color: #09090b;
+    font-weight: 700;
+    letter-spacing: -0.025em;
   }
 
   p {
-    color: #334155;
+    color: #52525b;
   }
 
   input, select, textarea {
-    color: #0f172a;
+    color: #09090b;
   }
 }
 
-/* ── 🌟 LinkedIn & Modern SaaS Light-to-Vibrant Theme ── */
+/* ── ⚡ Linear / Vercel Ultra-Clean Minimalist Design System ── */
 
 .glass-panel {
-  background: rgba(255, 255, 255, 0.98);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(203, 213, 225, 0.8);
-  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06);
+  background: #ffffff;
+  border: 1px solid #e4e4e7;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.03), 0 1px 2px -1px rgba(0, 0, 0, 0.03);
 }
 
 .glass-card {
   background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 1.25rem;
-  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.02);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid #e4e4e7;
+  border-radius: 1rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-card:hover {
-  border-color: #93c5fd;
-  transform: translateY(-2px);
-  box-shadow: 0 12px 30px -4px rgba(10, 102, 194, 0.12), 0 4px 12px -2px rgba(15, 23, 42, 0.05);
+  border-color: #d4d4d8;
+  box-shadow: 0 6px 18px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.03);
+  transform: translateY(-1px);
 }
 
 .glass-card-colorful {
-  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-  border: 1px solid #cbd5e1;
-  box-shadow: 0 10px 30px -6px rgba(10, 102, 194, 0.08);
+  background: #ffffff;
+  border: 1px solid #e4e4e7;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.03);
 }
 
-/* ── 🎨 High-Contrast & Vibrant Gradients ── */
+/* ── 🎨 Refined High-End Typography & Gradients ── */
 
 .gradient-text {
-  background: linear-gradient(135deg, #0a66c2 0%, #2563eb 50%, #7c3aed 100%);
+  background: linear-gradient(180deg, #09090b 0%, #3f3f46 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-text-accent {
+  background: linear-gradient(135deg, #0f172a 0%, #2563eb 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .gradient-text-warm {
-  background: linear-gradient(135deg, #ea580c 0%, #d97706 50%, #db2777 100%);
+  background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .gradient-text-emerald {
-  background: linear-gradient(135deg, #057642 0%, #10b981 50%, #0284c7 100%);
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-/* ── Sleek Light Scrollbar ── */
+/* ── 🖱️ Precision Minimal Scrollbar ── */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #fafafa;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #e4e4e7;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #a1a1aa;
 }
 
-/* ── Subtle LinkedIn Mesh Background ── */
+/* ── 📐 Ultra-Clean Mesh Background ── */
 .bg-ambient-mesh {
-  background-color: #f3f4f6;
+  background-color: #fafafa;
   background-image: 
-    radial-gradient(at 0% 0%, rgba(10, 102, 194, 0.05) 0px, transparent 50%),
-    radial-gradient(at 100% 0%, rgba(99, 102, 241, 0.06) 0px, transparent 50%),
-    radial-gradient(at 50% 100%, rgba(14, 165, 233, 0.04) 0px, transparent 50%);
+    radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.03) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(99, 102, 241, 0.02) 0px, transparent 50%),
+    radial-gradient(at 50% 100%, rgba(24, 24, 27, 0.02) 0px, transparent 50%);
 }

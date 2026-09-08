@@ -1,45 +1,58 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Sparkles, ArrowRight, LogIn, Mail } from 'lucide-react';
+import { Sparkles, ArrowRight, ShieldCheck, Zap, Users, CheckCircle2 } from 'lucide-react';
 
 export default function Home() {
   return (
-    <div className="relative min-h-[calc(100vh-140px)] bg-gradient-to-b from-slate-50 via-white to-blue-50/40 text-slate-900 overflow-hidden flex flex-col justify-center py-12 sm:py-20">
+    <div className="relative min-h-[calc(100vh-140px)] bg-[#fafafa] text-zinc-900 overflow-hidden flex flex-col justify-center py-16 sm:py-24">
       
-      {/* Light Background Decorative Glows */}
-      <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-blue-400/10 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-[450px] h-[450px] bg-purple-400/10 rounded-full blur-[140px] pointer-events-none" />
+      {/* Subtle Ambient Grid Background */}
+      <div className="absolute inset-0 bg-ambient-mesh pointer-events-none" />
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-8 text-center">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-8 text-center">
         
-        {/* Floating Light Badge */}
-        <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white border border-slate-200 text-blue-700 text-xs font-black uppercase tracking-wider shadow-sm">
-          <Sparkles className="w-4 h-4 text-blue-600 animate-pulse" />
-          <span>Next-Gen Autonomous AI Recruitment Platform</span>
+        {/* Floating Minimal Pill */}
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-zinc-200/90 text-zinc-700 text-xs font-medium shadow-subtle">
+          <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
+          <span>Next-Gen Autonomous AI Recruitment</span>
         </div>
 
-        {/* High-Impact Headline */}
-        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.08] max-w-5xl mx-auto text-slate-900 uppercase">
-          Automate Recruitment. <br />
-          <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
-            Hire Top Candidates.
-          </span>
+        {/* High-Impact Linear/Vercel Headline */}
+        <h1 className="text-4xl sm:text-6xl font-bold tracking-tight text-zinc-900 max-w-3xl mx-auto leading-[1.12]">
+          Automate recruitment. <br />
+          <span className="text-zinc-400">Hire top candidates faster.</span>
         </h1>
 
         {/* Subtitle */}
-        <p className="text-base sm:text-lg text-slate-600 max-w-3xl mx-auto leading-relaxed font-medium">
-          Create meaningful candidate &amp; recruiter connections with custom-built AI solutions — parsing resumes, ranking 0–100% fit scores, and cascading automated job invitations.
+        <p className="text-base sm:text-lg text-zinc-500 max-w-2xl mx-auto leading-relaxed font-normal">
+          Connect qualified candidates with leading companies using intelligent resume parsing, 0–100% skill matching, and automated candidate workflows.
         </p>
 
-        {/* Primary Action Button: GET STARTED */}
+        {/* Primary Action Button */}
         <div className="flex items-center justify-center pt-2">
           <Link
             to="/login"
-            className="w-full sm:w-auto px-10 py-4 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-black text-sm uppercase tracking-wider shadow-xl shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-105 transition-all flex items-center justify-center gap-3 group"
+            className="px-7 py-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-medium text-sm shadow-card hover:shadow-card-hover transition-all flex items-center gap-2 group"
           >
             <span>Get Started</span>
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="w-4 h-4 text-zinc-400 group-hover:text-white group-hover:translate-x-0.5 transition-all" />
           </Link>
+        </div>
+
+        {/* Micro Trust Indicators */}
+        <div className="pt-8 flex flex-wrap items-center justify-center gap-6 text-xs text-zinc-500 font-medium">
+          <div className="flex items-center gap-1.5">
+            <CheckCircle2 className="w-3.5 h-3.5 text-blue-600" />
+            <span>AI Resume Parsing</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <CheckCircle2 className="w-3.5 h-3.5 text-blue-600" />
+            <span>0–100% Fit Scoring</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <CheckCircle2 className="w-3.5 h-3.5 text-blue-600" />
+            <span>Automated Invitations</span>
+          </div>
         </div>
 
       </div>

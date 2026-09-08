@@ -3,8 +3,7 @@ import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Sidebar from './Sidebar';
 import { 
-  Menu, X, Bell, Zap, Search, User, Sparkles, LogOut, 
-  ChevronRight, ArrowUpRight, ShieldCheck, Briefcase, Plus
+  Menu, X, Bell, Zap, User, Sparkles, Plus
 } from 'lucide-react';
 import { getFullImageUrl } from '../utils/imageUrl';
 
@@ -34,7 +33,7 @@ export default function AppLayout({ children }) {
   const profilePhotoUrl = user ? getFullImageUrl(user.profile_pic_url) : null;
 
   return (
-    <div className="min-h-screen bg-[#f3f4f6] flex text-slate-800">
+    <div className="min-h-screen bg-[#fafafa] flex text-zinc-900 antialiased">
       
       {/* Left Sidebar */}
       <Sidebar 
@@ -46,32 +45,32 @@ export default function AppLayout({ children }) {
       <div className="flex-1 flex flex-col min-w-0 lg:pl-64 transition-all duration-300">
         
         {/* Top Minimal App Header */}
-        <header className="sticky top-0 z-30 h-16 bg-white/95 backdrop-blur-xl border-b border-slate-200 px-4 sm:px-6 flex items-center justify-between gap-4 shadow-sm">
+        <header className="sticky top-0 z-30 h-14 bg-white/90 backdrop-blur-md border-b border-zinc-200/80 px-4 sm:px-6 flex items-center justify-between gap-4">
           
           {/* Left: Mobile Toggle & Page Title */}
           <div className="flex items-center gap-3">
             <button
               type="button"
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="p-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-600 hover:text-slate-900 lg:hidden transition"
+              className="p-1.5 rounded-lg bg-zinc-100 border border-zinc-200 text-zinc-600 hover:text-zinc-900 lg:hidden transition"
               aria-label="Toggle Menu"
             >
-              {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {sidebarOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
             </button>
 
             <div className="flex items-center gap-2">
-              <h2 className="text-base font-extrabold text-slate-900 tracking-tight">{getPageTitle()}</h2>
+              <h2 className="text-sm font-bold text-zinc-900 tracking-tight">{getPageTitle()}</h2>
             </div>
           </div>
 
           {/* Right: Quick Actions, Credits, Notifications, User */}
-          <div className="flex items-center gap-2.5 sm:gap-4">
+          <div className="flex items-center gap-2 sm:gap-3">
             
             {/* Primary Action Button (e.g. Post Job for Recruiter) */}
             {user?.role === 'recruiter' && !location.pathname.includes('/post-job') && (
               <Link
                 to="/recruiter/post-job"
-                className="hidden sm:flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-extrabold text-xs shadow-md shadow-blue-500/20 transition hover:scale-105"
+                className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-white font-semibold text-xs shadow-subtle transition"
               >
                 <Plus className="w-3.5 h-3.5" />
                 <span>Post Job</span>
@@ -79,28 +78,28 @@ export default function AppLayout({ children }) {
             )}
 
             {/* Credits Counter Pill */}
-            <div className="px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center gap-1.5 shadow-sm">
-              <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-              <span className="text-xs font-black text-slate-900">{user?.credits ?? 0}</span>
-              <span className="text-[10px] text-slate-500 font-bold uppercase hidden sm:inline">Credits</span>
+            <div className="px-2.5 py-1 rounded-lg bg-white border border-zinc-200 flex items-center gap-1.5 shadow-subtle">
+              <Zap className="w-3 h-3 text-amber-500 fill-amber-500" />
+              <span className="text-xs font-semibold text-zinc-900">{user?.credits ?? 0}</span>
+              <span className="text-[10px] text-zinc-400 font-medium uppercase hidden sm:inline">Credits</span>
             </div>
 
             {/* Notifications Bell */}
             <Link
               to={user?.role === 'candidate' ? '/candidate/notifications' : '/recruiter/pipeline'}
-              className="p-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition relative"
+              className="p-1.5 rounded-lg bg-white border border-zinc-200 text-zinc-600 hover:text-zinc-900 hover:bg-zinc-50 transition relative shadow-subtle"
               title="Notifications"
             >
-              <Bell className="w-4 h-4" />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-blue-600"></span>
+              <Bell className="w-3.5 h-3.5" />
+              <span className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-blue-600"></span>
             </Link>
 
             {/* Quick Profile Avatar */}
             <Link
               to={user?.role === 'recruiter' ? '/recruiter/profile' : '/candidate/profile'}
-              className="flex items-center gap-2 pl-2 border-l border-slate-200 group"
+              className="flex items-center gap-2 pl-2 border-l border-zinc-200 group"
             >
-              <div className="w-8 h-8 rounded-xl bg-blue-50 border border-blue-200 overflow-hidden flex items-center justify-center text-blue-700 font-bold text-xs shadow-sm group-hover:ring-2 ring-blue-500/30 transition">
+              <div className="w-7 h-7 rounded-lg bg-zinc-100 border border-zinc-200 overflow-hidden flex items-center justify-center text-zinc-800 font-semibold text-xs transition group-hover:border-zinc-400">
                 {profilePhotoUrl ? (
                   <img src={profilePhotoUrl} alt="Avatar" className="w-full h-full object-cover" />
                 ) : (
@@ -114,7 +113,7 @@ export default function AppLayout({ children }) {
         </header>
 
         {/* Dynamic Page Content */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto animate-in fade-in duration-200">
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto animate-in fade-in duration-150">
           {children}
         </main>
 

@@ -229,29 +229,29 @@ export default function MyProfile() {
         </div>
       )}
 
-      {/* ─── 🌄 LINKEDIN STYLE COVER BANNER & HEADER CARD ─────────────────────── */}
-      <div className="glass-card rounded-3xl bg-white border border-slate-200 shadow-md overflow-hidden">
+      {/* ─── 🌄 MINIMAL SAAS COVER BANNER & HEADER CARD ─────────────────────── */}
+      <div className="rounded-2xl bg-white border border-zinc-200/90 shadow-card overflow-hidden">
         
         {/* Cover Banner Header */}
-        <div className="h-32 sm:h-44 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 relative p-4 flex justify-end items-start">
+        <div className="h-32 sm:h-36 bg-gradient-to-r from-zinc-900 via-slate-900 to-zinc-950 border-b border-zinc-800 relative p-4 flex justify-end items-start">
           <button
             onClick={() => setActiveTab(activeTab === 'view' ? 'edit' : 'view')}
-            className="px-4 py-2 rounded-xl bg-white/90 hover:bg-white text-slate-900 font-extrabold text-xs flex items-center gap-1.5 shadow-md transition z-10"
+            className="px-3 py-1.5 rounded-lg bg-zinc-800/90 hover:bg-zinc-800 border border-zinc-700/60 text-white font-medium text-xs flex items-center gap-1.5 shadow-subtle transition z-10"
           >
-            <Edit3 className="w-3.5 h-3.5 text-blue-600" />
+            <Edit3 className="w-3.5 h-3.5 text-zinc-300" />
             <span>{activeTab === 'view' ? 'Edit Profile' : 'View Mode'}</span>
           </button>
         </div>
 
         {/* Profile Info Details Block */}
-        <div className="px-6 sm:px-8 pb-7 relative">
+        <div className="px-6 sm:px-8 pb-6 relative">
           
           {/* Avatar & Action Row */}
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 -mt-12 sm:-mt-16 mb-4">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 -mt-12 sm:-mt-14 mb-4">
             
             {/* Avatar Circle with Camera Overlay */}
             <div className="relative shrink-0 z-20">
-              <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-4 border-white shadow-xl bg-slate-100 flex items-center justify-center font-black text-slate-700 text-2xl relative overflow-hidden">
+              <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-4 border-white shadow-card bg-zinc-100 flex items-center justify-center font-bold text-zinc-700 text-2xl relative overflow-hidden">
                 {fullImageUrl && !imgError ? (
                   <img
                     src={fullImageUrl}
@@ -266,10 +266,10 @@ export default function MyProfile() {
 
               {/* Camera Upload Button Overlay */}
               <label 
-                className="absolute bottom-0 right-0 p-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white cursor-pointer shadow-lg transition transform hover:scale-110 z-30"
+                className="absolute bottom-0 right-0 p-1.5 rounded-full bg-zinc-900 hover:bg-zinc-800 text-white cursor-pointer shadow-subtle transition z-30"
                 title="Upload Photo"
               >
-                <Camera className="w-4 h-4" />
+                <Camera className="w-3.5 h-3.5" />
                 <input 
                   type="file" 
                   accept="image/png, image/jpeg, image/jpg, image/webp" 
@@ -284,23 +284,23 @@ export default function MyProfile() {
               <button
                 type="button"
                 onClick={handleToggleOpenToWork}
-                className={`px-4 py-2 rounded-xl font-extrabold text-xs flex items-center gap-2 transition shadow-sm ${
+                className={`px-3 py-1.5 rounded-lg font-medium text-xs flex items-center gap-1.5 transition shadow-subtle ${
                   isOpenToWork
-                    ? 'bg-emerald-50 text-emerald-700 border border-emerald-300 hover:bg-emerald-100'
-                    : 'bg-slate-100 text-slate-600 border border-slate-300 hover:bg-slate-200'
+                    ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100'
+                    : 'bg-zinc-100 text-zinc-600 border border-zinc-200 hover:bg-zinc-200'
                 }`}
               >
                 <Power className="w-3.5 h-3.5" />
-                <span>{isOpenToWork ? '🟢 #OpenToWork (Active)' : '🔴 Inactive (Paused)'}</span>
+                <span>{isOpenToWork ? '🟢 #OpenToWork' : '🔴 Inactive'}</span>
               </button>
 
               {/* 🔗 1-Click Copy Profile Link Button */}
               <button
                 type="button"
                 onClick={handleCopyProfileLink}
-                className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-extrabold text-xs flex items-center gap-1.5 transition shadow-md shadow-blue-500/20"
+                className="px-3.5 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-white font-medium text-xs flex items-center gap-1.5 transition shadow-subtle"
               >
-                {copiedLink ? <Check className="w-3.5 h-3.5 text-emerald-300" /> : <Copy className="w-3.5 h-3.5" />}
+                {copiedLink ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                 <span>{copiedLink ? 'Link Copied!' : 'Copy Profile Link'}</span>
               </button>
 
@@ -308,10 +308,10 @@ export default function MyProfile() {
               <Link
                 to={`/in/${user?.id}`}
                 target="_blank"
-                className="px-3.5 py-2 rounded-xl bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-extrabold text-xs flex items-center gap-1.5 transition shadow-sm"
+                className="px-3 py-1.5 rounded-lg bg-white border border-zinc-200 hover:bg-zinc-50 text-zinc-700 font-medium text-xs flex items-center gap-1.5 transition shadow-subtle"
                 title="Preview public profile"
               >
-                <Eye className="w-3.5 h-3.5 text-slate-500" />
+                <Eye className="w-3.5 h-3.5 text-zinc-400" />
                 <span>Preview</span>
               </Link>
             </div>
@@ -321,51 +321,51 @@ export default function MyProfile() {
           {/* Candidate Name & Info */}
           <div className="space-y-2">
             <div className="flex flex-wrap items-center gap-3">
-              <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+              <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 tracking-tight">
                 {user?.full_name || 'Aarav Sharma'}
               </h1>
-              <span className="px-3 py-1 rounded-full text-xs font-black bg-blue-50 text-blue-700 border border-blue-200">
+              <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-zinc-100 text-zinc-700 border border-zinc-200">
                 Verified Candidate
               </span>
             </div>
 
-            <p className="text-sm font-semibold text-slate-700">
+            <p className="text-xs sm:text-sm font-medium text-zinc-600">
               {currentCompany ? `${currentCompany} • ` : ''}
               {education || 'Software Engineer'} 
               {experienceYears > 0 && ` (${experienceYears} Yrs Exp)`}
             </p>
 
-            <div className="flex flex-wrap items-center gap-4 text-xs font-medium text-slate-500 pt-1">
+            <div className="flex flex-wrap items-center gap-4 text-xs font-normal text-zinc-500 pt-1">
               {preferredLocation && (
-                <span className="flex items-center gap-1 text-slate-600 font-bold">
-                  <MapPin className="w-3.5 h-3.5 text-blue-600" /> {preferredLocation}
+                <span className="flex items-center gap-1 text-zinc-600 font-medium">
+                  <MapPin className="w-3.5 h-3.5 text-zinc-400" /> {preferredLocation}
                 </span>
               )}
               {expectedSalary && (
-                <span className="flex items-center gap-1 text-slate-600 font-bold">
-                  <DollarSign className="w-3.5 h-3.5 text-emerald-600" /> {expectedSalary}
+                <span className="flex items-center gap-1 text-zinc-600 font-medium">
+                  <DollarSign className="w-3.5 h-3.5 text-zinc-400" /> {expectedSalary}
                 </span>
               )}
-              <span className="flex items-center gap-1 text-slate-500">
-                <Mail className="w-3.5 h-3.5 text-slate-400" /> {user?.email}
+              <span className="flex items-center gap-1 text-zinc-500">
+                <Mail className="w-3.5 h-3.5 text-zinc-400" /> {user?.email}
               </span>
             </div>
 
             {/* Social Links Bar */}
-            <div className="flex items-center gap-3 pt-2">
+            <div className="flex items-center gap-2 pt-2">
               {linkedinUrl && (
-                <a href={linkedinUrl} target="_blank" rel="noreferrer" className="p-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 transition">
-                  <Linkedin className="w-4 h-4" />
+                <a href={linkedinUrl} target="_blank" rel="noreferrer" className="p-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-700 transition">
+                  <Linkedin className="w-3.5 h-3.5" />
                 </a>
               )}
               {githubUrl && (
-                <a href={githubUrl} target="_blank" rel="noreferrer" className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 transition">
-                  <Github className="w-4 h-4" />
+                <a href={githubUrl} target="_blank" rel="noreferrer" className="p-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-700 transition">
+                  <Github className="w-3.5 h-3.5" />
                 </a>
               )}
               {portfolioUrl && (
-                <a href={portfolioUrl} target="_blank" rel="noreferrer" className="p-2 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 transition">
-                  <Globe className="w-4 h-4" />
+                <a href={portfolioUrl} target="_blank" rel="noreferrer" className="p-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-700 transition">
+                  <Globe className="w-3.5 h-3.5" />
                 </a>
               )}
             </div>
@@ -376,27 +376,27 @@ export default function MyProfile() {
 
       </div>
 
-      {/* ─── 📊 LINKEDIN STYLE ANALYTICS BAR ────────────────────────────────── */}
-      <div className="glass-card p-5 sm:p-6 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-3">
+      {/* ─── 📊 MINIMAL ANALYTICS BAR ────────────────────────────────── */}
+      <div className="p-5 sm:p-6 rounded-2xl bg-white border border-zinc-200/90 shadow-subtle space-y-3">
         <div className="flex items-center justify-between">
-          <h3 className="text-xs font-black uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-            <Sparkles className="w-4 h-4 text-blue-600" /> Private Analytics &amp; Recruiter Insights
+          <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-500 flex items-center gap-1.5">
+            <Sparkles className="w-3.5 h-3.5 text-blue-600" /> Private Analytics &amp; Recruiter Insights
           </h3>
-          <span className="text-[11px] font-bold text-slate-400">Only visible to you</span>
+          <span className="text-[11px] font-medium text-zinc-400">Only visible to you</span>
         </div>
 
         <div className="grid grid-cols-3 gap-3">
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
-            <p className="text-xl sm:text-2xl font-black text-blue-600">24</p>
-            <p className="text-[11px] font-bold text-slate-500">Recruiter Views</p>
+          <div className="p-3.5 rounded-xl bg-zinc-50 border border-zinc-200/80 space-y-0.5">
+            <p className="text-xl sm:text-2xl font-bold text-zinc-900">24</p>
+            <p className="text-xs font-medium text-zinc-500">Recruiter Views</p>
           </div>
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
-            <p className="text-xl sm:text-2xl font-black text-purple-600">{completionPct}%</p>
-            <p className="text-[11px] font-bold text-slate-500">AI Match Index</p>
+          <div className="p-3.5 rounded-xl bg-zinc-50 border border-zinc-200/80 space-y-0.5">
+            <p className="text-xl sm:text-2xl font-bold text-zinc-900">{completionPct}%</p>
+            <p className="text-xs font-medium text-zinc-500">AI Match Index</p>
           </div>
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
-            <p className="text-xl sm:text-2xl font-black text-emerald-600">5</p>
-            <p className="text-[11px] font-bold text-slate-500">Shortlist Appearances</p>
+          <div className="p-3.5 rounded-xl bg-zinc-50 border border-zinc-200/80 space-y-0.5">
+            <p className="text-xl sm:text-2xl font-bold text-zinc-900">5</p>
+            <p className="text-xs font-medium text-zinc-500">Shortlist Appearances</p>
           </div>
         </div>
       </div>
@@ -406,9 +406,9 @@ export default function MyProfile() {
         <div className="space-y-6">
           
           {/* ⚡ Skills Matrix Section */}
-          <div className="glass-card p-6 sm:p-7 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
-            <h3 className="text-base font-black text-slate-900 flex items-center gap-2">
-              <Code className="w-5 h-5 text-blue-600" /> Technical Skills &amp; Competencies
+          <div className="p-6 rounded-2xl bg-white border border-zinc-200/90 shadow-subtle space-y-4">
+            <h3 className="text-sm font-semibold text-zinc-900 flex items-center gap-2">
+              <Code className="w-4 h-4 text-blue-600" /> Technical Skills &amp; Competencies
             </h3>
             
             {skillList.length > 0 ? (
@@ -416,32 +416,32 @@ export default function MyProfile() {
                 {skillList.map((skill, idx) => (
                   <span 
                     key={idx} 
-                    className="px-3.5 py-1.5 rounded-xl bg-blue-50 text-blue-800 border border-blue-200 text-xs font-extrabold shadow-sm"
+                    className="px-3 py-1 rounded-lg bg-zinc-100 text-zinc-800 border border-zinc-200/80 text-xs font-medium"
                   >
-                    ⚡ {skill}
+                    {skill}
                   </span>
                 ))}
               </div>
             ) : (
-              <p className="text-xs text-slate-400 font-medium">No skills added yet. Click "Edit Profile" to add your core technical skills.</p>
+              <p className="text-xs text-zinc-400 font-normal">No skills added yet. Click "Edit Profile" to add your core technical skills.</p>
             )}
           </div>
 
           {/* 💼 Experience & Education Section */}
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="glass-card p-6 sm:p-7 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-3">
-              <h3 className="text-base font-black text-slate-900 flex items-center gap-2">
-                <Briefcase className="w-5 h-5 text-purple-600" /> Current Experience
+          <div className="grid md:grid-cols-2 gap-5">
+            <div className="p-6 rounded-2xl bg-white border border-zinc-200/90 shadow-subtle space-y-2">
+              <h3 className="text-sm font-semibold text-zinc-900 flex items-center gap-2">
+                <Briefcase className="w-4 h-4 text-zinc-700" /> Current Experience
               </h3>
-              <p className="text-sm font-bold text-slate-800">{currentCompany || 'Not specified'}</p>
-              <p className="text-xs text-slate-500 font-medium">Total Experience: <strong>{experienceYears} Years</strong></p>
+              <p className="text-sm font-semibold text-zinc-900">{currentCompany || 'Not specified'}</p>
+              <p className="text-xs text-zinc-500 font-normal">Total Experience: <strong className="text-zinc-700 font-medium">{experienceYears} Years</strong></p>
             </div>
 
-            <div className="glass-card p-6 sm:p-7 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-3">
-              <h3 className="text-base font-black text-slate-900 flex items-center gap-2">
-                <GraduationCap className="w-5 h-5 text-indigo-600" /> Education &amp; Degree
+            <div className="p-6 rounded-2xl bg-white border border-zinc-200/90 shadow-subtle space-y-2">
+              <h3 className="text-sm font-semibold text-zinc-900 flex items-center gap-2">
+                <GraduationCap className="w-4 h-4 text-zinc-700" /> Education &amp; Degree
               </h3>
-              <p className="text-sm font-bold text-slate-800">{education || 'Not specified'}</p>
+              <p className="text-sm font-semibold text-zinc-900">{education || 'Not specified'}</p>
               {certifications && (
                 <p className="text-xs text-slate-500 font-medium pt-1">
                   <strong>Certifications:</strong> {certifications}
@@ -451,28 +451,28 @@ export default function MyProfile() {
           </div>
 
           {/* 📄 Active Resume Card */}
-          <div className="glass-card p-6 sm:p-7 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
+          <div className="p-6 rounded-2xl bg-white border border-zinc-200/90 shadow-subtle space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-base font-black text-slate-900 flex items-center gap-2">
-                <FileText className="w-5 h-5 text-emerald-600" /> Active Resume File
+              <h3 className="text-sm font-semibold text-zinc-900 flex items-center gap-2">
+                <FileText className="w-4 h-4 text-emerald-600" /> Active Resume File
               </h3>
               <Link
                 to="/candidate/resume-upload"
-                className="px-3.5 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-bold transition flex items-center gap-1"
+                className="px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-medium transition flex items-center gap-1.5 shadow-subtle"
               >
-                <Upload className="w-3.5 h-3.5" /> Upload / Replace Resume
+                <Upload className="w-3.5 h-3.5" /> Upload / Replace
               </Link>
             </div>
 
             {resumeData?.has_resume ? (
-              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between gap-4">
+              <div className="p-4 rounded-xl bg-zinc-50 border border-zinc-200/80 flex items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 font-black flex items-center justify-center text-xs">
+                  <div className="w-9 h-9 rounded-lg bg-zinc-200 text-zinc-800 font-bold flex items-center justify-center text-xs">
                     PDF
                   </div>
                   <div>
-                    <p className="text-sm font-bold text-slate-900">{resumeData.file_name || 'Candidate_Resume.pdf'}</p>
-                    <p className="text-xs text-slate-500 font-medium">Extracted {resumeData.extracted_experience_years || experienceYears} Yrs Experience</p>
+                    <p className="text-xs font-semibold text-zinc-900">{resumeData.file_name || 'Candidate_Resume.pdf'}</p>
+                    <p className="text-[11px] text-zinc-500 font-normal">Extracted {resumeData.extracted_experience_years || experienceYears} Yrs Experience</p>
                   </div>
                 </div>
 
@@ -480,26 +480,26 @@ export default function MyProfile() {
                   href={resumeData.file_path}
                   target="_blank"
                   rel="noreferrer"
-                  className="px-3 py-1.5 rounded-xl bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 text-xs font-bold transition flex items-center gap-1"
+                  className="px-3 py-1.5 rounded-lg bg-white border border-zinc-200 hover:bg-zinc-50 text-zinc-700 text-xs font-medium transition flex items-center gap-1 shadow-subtle"
                 >
                   <Download className="w-3.5 h-3.5" /> Download
                 </a>
               </div>
             ) : (
-              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs text-slate-500 font-medium flex items-center justify-between">
+              <div className="p-4 rounded-xl bg-zinc-50 border border-zinc-200 text-xs text-zinc-500 font-normal flex items-center justify-between">
                 <span>No resume uploaded yet.</span>
-                <Link to="/candidate/resume-upload" className="text-blue-600 font-bold hover:underline">Upload Resume Now</Link>
+                <Link to="/candidate/resume-upload" className="text-blue-600 font-medium hover:underline">Upload Resume Now</Link>
               </div>
             )}
           </div>
 
           {/* 🎤 AI Voice Communication Score Card */}
-          <div className="glass-card p-6 sm:p-7 rounded-3xl bg-white border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="p-6 rounded-2xl bg-white border border-zinc-200/90 shadow-subtle flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="space-y-1">
-              <h3 className="text-base font-black text-slate-900 flex items-center gap-2">
-                <MessageSquare className="w-5 h-5 text-purple-600" /> AI Communication Score
+              <h3 className="text-sm font-semibold text-zinc-900 flex items-center gap-2">
+                <MessageSquare className="w-4 h-4 text-purple-600" /> AI Communication Score
               </h3>
-              <p className="text-xs text-slate-500 font-medium">
+              <p className="text-xs text-zinc-500 font-normal">
                 {communicationScore ? `Your voice fluency score is ${communicationScore}%. Recruiter views prioritize high communication scores.` : 'Take a 2-minute voice assessment to highlight your fluency.'}
               </p>
             </div>
@@ -507,9 +507,9 @@ export default function MyProfile() {
             <button
               type="button"
               onClick={() => setShowCommModal(true)}
-              className="px-5 py-2.5 rounded-2xl bg-purple-600 hover:bg-purple-700 text-white font-extrabold text-xs shadow-md shadow-purple-500/20 transition flex items-center gap-2 shrink-0 self-start sm:self-auto"
+              className="px-4 py-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-medium text-xs shadow-subtle transition flex items-center gap-2 shrink-0 self-start sm:self-auto"
             >
-              <Sparkles className="w-4 h-4 text-amber-300" />
+              <Sparkles className="w-3.5 h-3.5 text-blue-400" />
               <span>{communicationScore ? 'Retake Assessment' : 'Take Voice Assessment'}</span>
             </button>
           </div>
@@ -517,16 +517,16 @@ export default function MyProfile() {
         </div>
       ) : (
         /* ── EDIT PROFILE FORM ── */
-        <form onSubmit={handleSubmit} className="glass-card p-6 sm:p-8 rounded-3xl space-y-5 bg-white border border-slate-200 shadow-md">
+        <form onSubmit={handleSubmit} className="p-6 sm:p-8 rounded-2xl space-y-5 bg-white border border-zinc-200/90 shadow-card">
           
-          <div className="flex items-center justify-between pb-3 border-b border-slate-200">
-            <h2 className="text-lg font-black text-slate-900 flex items-center gap-2">
-              <Edit3 className="w-5 h-5 text-blue-600" /> Edit Candidate Details
+          <div className="flex items-center justify-between pb-3 border-b border-zinc-100">
+            <h2 className="text-base font-bold text-zinc-900 flex items-center gap-2">
+              <Edit3 className="w-4 h-4 text-zinc-700" /> Edit Candidate Details
             </h2>
             <button
               type="button"
               onClick={() => setActiveTab('view')}
-              className="text-xs font-bold text-slate-500 hover:text-slate-900"
+              className="text-xs font-medium text-zinc-500 hover:text-zinc-900"
             >
               Cancel
             </button>
@@ -534,125 +534,125 @@ export default function MyProfile() {
 
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">Highest Education / Degree</label>
+              <label className="block text-xs font-semibold text-zinc-700 mb-1">Highest Education / Degree</label>
               <input
                 type="text"
                 placeholder="e.g. B.Tech in Computer Science"
                 value={education}
                 onChange={(e) => setEducation(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 outline-none"
+                className="w-full bg-zinc-50/50 border border-zinc-300 rounded-xl px-3.5 py-2 text-sm text-zinc-900 focus:bg-white focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 outline-none"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">Total Experience (Years)</label>
+              <label className="block text-xs font-semibold text-zinc-700 mb-1">Total Experience (Years)</label>
               <input
                 type="number"
                 step="0.5"
                 min="0"
                 value={experienceYears}
                 onChange={(e) => setExperienceYears(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 outline-none"
+                className="w-full bg-zinc-50/50 border border-zinc-300 rounded-xl px-3.5 py-2 text-sm text-zinc-900 focus:bg-white focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 outline-none"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1">Technical Skills (Comma-separated)</label>
+            <label className="block text-xs font-semibold text-zinc-700 mb-1">Technical Skills (Comma-separated)</label>
             <input
               type="text"
               placeholder="Python, React, Django, PostgreSQL, Docker, AWS"
               value={skills}
               onChange={(e) => setSkills(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 outline-none"
+              className="w-full bg-zinc-50/50 border border-zinc-300 rounded-xl px-3.5 py-2 text-sm text-zinc-900 focus:bg-white focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 outline-none"
             />
           </div>
 
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">Current Company</label>
+              <label className="block text-xs font-semibold text-zinc-700 mb-1">Current Company</label>
               <input
                 type="text"
                 placeholder="e.g. TechCorp Solutions"
                 value={currentCompany}
                 onChange={(e) => setCurrentCompany(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 outline-none"
+                className="w-full bg-zinc-50/50 border border-zinc-300 rounded-xl px-3.5 py-2 text-sm text-zinc-900 focus:bg-white focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 outline-none"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">Expected Salary</label>
+              <label className="block text-xs font-semibold text-zinc-700 mb-1">Expected Salary</label>
               <input
                 type="text"
                 placeholder="e.g. $100,000 / year or ₹15 LPA"
                 value={expectedSalary}
                 onChange={(e) => setExpectedSalary(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 outline-none"
+                className="w-full bg-zinc-50/50 border border-zinc-300 rounded-xl px-3.5 py-2 text-sm text-zinc-900 focus:bg-white focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 outline-none"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1">Preferred Work Location</label>
+            <label className="block text-xs font-semibold text-zinc-700 mb-1">Preferred Work Location</label>
             <input
               type="text"
               placeholder="e.g. Remote, Bangalore, New York"
               value={preferredLocation}
               onChange={(e) => setPreferredLocation(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 outline-none"
+              className="w-full bg-zinc-50/50 border border-zinc-300 rounded-xl px-3.5 py-2 text-sm text-zinc-900 focus:bg-white focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 outline-none"
             />
           </div>
 
           <div className="grid sm:grid-cols-3 gap-4">
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">LinkedIn Profile URL</label>
+              <label className="block text-xs font-semibold text-zinc-700 mb-1">LinkedIn Profile URL</label>
               <input
                 type="url"
                 placeholder="https://linkedin.com/in/..."
                 value={linkedinUrl}
                 onChange={(e) => setLinkedinUrl(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 outline-none"
+                className="w-full bg-zinc-50/50 border border-zinc-300 rounded-xl px-3.5 py-2 text-sm text-zinc-900 focus:bg-white focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 outline-none"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">GitHub Profile URL</label>
+              <label className="block text-xs font-semibold text-zinc-700 mb-1">GitHub Profile URL</label>
               <input
                 type="url"
                 placeholder="https://github.com/..."
                 value={githubUrl}
                 onChange={(e) => setGithubUrl(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 outline-none"
+                className="w-full bg-zinc-50/50 border border-zinc-300 rounded-xl px-3.5 py-2 text-sm text-zinc-900 focus:bg-white focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 outline-none"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">Portfolio / Website URL</label>
+              <label className="block text-xs font-semibold text-zinc-700 mb-1">Portfolio / Website URL</label>
               <input
                 type="url"
                 placeholder="https://myportfolio.dev"
                 value={portfolioUrl}
                 onChange={(e) => setPortfolioUrl(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 outline-none"
+                className="w-full bg-zinc-50/50 border border-zinc-300 rounded-xl px-3.5 py-2 text-sm text-zinc-900 focus:bg-white focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 outline-none"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1">Certifications</label>
+            <label className="block text-xs font-semibold text-zinc-700 mb-1">Certifications</label>
             <input
               type="text"
               placeholder="AWS Certified Developer, Certified Kubernetes Administrator"
               value={certifications}
               onChange={(e) => setCertifications(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:bg-white focus:border-blue-600 outline-none"
+              className="w-full bg-zinc-50/50 border border-zinc-300 rounded-xl px-3.5 py-2 text-sm text-zinc-900 focus:bg-white focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 outline-none"
             />
           </div>
 
           <button
             type="submit"
             disabled={saving}
-            className="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-extrabold text-sm shadow-md shadow-blue-500/20 transition flex items-center justify-center gap-2 hover:scale-[1.01]"
+            className="w-full py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-semibold text-xs shadow-subtle transition flex items-center justify-center gap-2"
           >
             <Save className="w-4 h-4" />
             <span>{saving ? 'Saving Profile...' : 'Save & Update Profile'}</span>
