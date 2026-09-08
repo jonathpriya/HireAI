@@ -12,7 +12,7 @@ import CommunicationAssessmentModal from '../../components/CommunicationAssessme
 import { getFullImageUrl } from '../../utils/imageUrl';
 
 export default function MyProfile() {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
   const [activeTab, setActiveTab] = useState('view'); // 'view' or 'edit'
 
   const [education, setEducation] = useState('');
@@ -31,6 +31,7 @@ export default function MyProfile() {
   const [communicationDetails, setCommunicationDetails] = useState(null);
   const [isOpenToWork, setIsOpenToWork] = useState(true);
   const [profilePicUrl, setProfilePicUrl] = useState(null);
+  const [imgError, setImgError] = useState(false);
   const [resumeData, setResumeData] = useState(null);
 
   const [loading, setLoading] = useState(true);
@@ -62,7 +63,8 @@ export default function MyProfile() {
       setPortfolioUrl(p.portfolio_url || '');
       setCompletionPct(p.completion_pct || 20);
       setIsOpenToWork(p.is_open_to_work ?? true);
-      setProfilePicUrl(p.profile_pic_url || null);
+      setProfilePicUrl(p.profile_pic_url || user?.profile_pic_url || null);
+      setImgError(false);
       setCommunicationScore(p.communication_score);
 
       if (resumeRes.data?.has_resume) {
@@ -124,6 +126,10 @@ export default function MyProfile() {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       setProfilePicUrl(res.data.profile_pic_url);
+      setImgError(false);
+      if (updateUser) {
+        updateUser({ profile_pic_url: res.data.profile_pic_url });
+      }
       setMsg('Profile picture updated successfully!');
       setTimeout(() => setMsg(''), 3000);
     } catch (err) {
@@ -140,6 +146,9 @@ export default function MyProfile() {
     try {
       await API.delete('/candidate/profile-picture');
       setProfilePicUrl(null);
+      if (updateUser) {
+        updateUser({ profile_pic_url: null });
+      }
       setMsg('Profile picture removed.');
       setTimeout(() => setMsg(''), 3000);
     } catch (err) {
@@ -196,7 +205,8 @@ export default function MyProfile() {
     );
   }
 
-  const fullImageUrl = getFullImageUrl(profilePicUrl);
+  const effectivePicUrl = profilePicUrl || user?.profile_pic_url;
+  const fullImageUrl = getFullImageUrl(effectivePicUrl);
   const skillList = typeof skills === 'string'
     ? skills.split(',').map(s => s.trim()).filter(Boolean)
     : (Array.isArray(skills) ? skills : []);
@@ -242,8 +252,13 @@ export default function MyProfile() {
             {/* Avatar Circle with Camera Overlay */}
             <div className="relative shrink-0 z-20">
               <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-4 border-white shadow-xl bg-slate-100 flex items-center justify-center font-black text-slate-700 text-2xl relative overflow-hidden">
-                {fullImageUrl ? (
-                  <img src={fullImageUrl} alt={user?.full_name} className="w-full h-full object-cover" />
+                {fullImageUrl && !imgError ? (
+                  <img
+                    src={fullImageUrl}
+                    alt={user?.full_name || 'Profile'}
+                    className="w-full h-full object-cover"
+                    onError={() => setImgError(true)}
+                  />
                 ) : (
                   <span>{user?.full_name ? user.full_name.slice(0, 2).toUpperCase() : 'AA'}</span>
                 )}

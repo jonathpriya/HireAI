@@ -59,7 +59,11 @@ def get_candidate_profile(current_user: User = Depends(require_candidate), db: S
         linkedin_url=profile.linkedin_url,
         github_url=profile.github_url,
         portfolio_url=profile.portfolio_url,
-        completion_pct=profile.completion_pct
+        completion_pct=profile.completion_pct,
+        is_open_to_work=profile.is_open_to_work,
+        profile_pic_url=profile.profile_pic_url or current_user.profile_pic_url,
+        communication_score=profile.communication_score,
+        communication_assessment_json=profile.communication_assessment_json
     )
 
 @router.put("/profile", response_model=CandidateProfileOut)
@@ -105,7 +109,11 @@ def update_candidate_profile(
         linkedin_url=profile.linkedin_url,
         github_url=profile.github_url,
         portfolio_url=profile.portfolio_url,
-        completion_pct=profile.completion_pct
+        completion_pct=profile.completion_pct,
+        is_open_to_work=profile.is_open_to_work,
+        profile_pic_url=profile.profile_pic_url or current_user.profile_pic_url,
+        communication_score=profile.communication_score,
+        communication_assessment_json=profile.communication_assessment_json
     )
 
 @router.get("/resume")
