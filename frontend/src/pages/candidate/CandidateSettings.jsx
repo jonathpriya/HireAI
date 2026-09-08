@@ -61,8 +61,8 @@ export default function CandidateSettings() {
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       <div>
-        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Account &amp; Credits</h1>
-        <p className="text-xs text-slate-500 mt-1">Manage account details, invite friends, and view credit activity.</p>
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Account &amp; Credits</h1>
+        <p className="text-xs text-slate-300 mt-1">Manage account details, invite friends, and view credit activity.</p>
       </div>
 
       {/* Credit Balance & Referral Hub Card */}

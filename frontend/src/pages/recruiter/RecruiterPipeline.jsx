@@ -160,10 +160,10 @@ export default function RecruiterPipeline() {
       {/* Top Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 flex items-center gap-2.5 tracking-tight">
-            Hiring <span className="gradient-text">Pipeline &amp; Candidates</span>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-white flex items-center gap-2.5 tracking-tight">
+            Hiring <span className="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">Pipeline &amp; Candidates</span>
           </h1>
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="text-xs text-slate-300 mt-1">
             Track candidates across hiring stages, generate 1-click personalized AI outreach, and manage applicant progression.
           </p>
         </div>

@@ -23,7 +23,7 @@ export default function AppLayout({ children }) {
     if (path.includes('/integrations')) return 'Job Board Integrations Hub';
     if (path.includes('/candidate/jobs')) return 'Explore Job Matches';
     if (path.includes('/resume-upload')) return 'Resume & Skill Extractor';
-    if (path.includes('/job-invitations')) return 'Interview Invitations';
+    if (path.includes('/job-invitations')) return 'Job Invitations';
     if (path.includes('/notifications')) return 'Activity Notifications';
     if (path.includes('/profile')) return 'Profile & Availability';
     if (path.includes('/settings')) return 'Account Preferences';
@@ -45,21 +45,21 @@ export default function AppLayout({ children }) {
       <div className="flex-1 flex flex-col min-w-0 lg:pl-64 transition-all duration-300">
         
         {/* Top Minimal App Header */}
-        <header className="sticky top-0 z-30 h-14 bg-white/90 backdrop-blur-md border-b border-zinc-200/80 px-4 sm:px-6 flex items-center justify-between gap-4">
+        <header className="sticky top-0 z-30 h-14 bg-[#090d16]/85 backdrop-blur-md border-b border-slate-800/80 px-4 sm:px-6 flex items-center justify-between gap-4">
           
           {/* Left: Mobile Toggle & Page Title */}
           <div className="flex items-center gap-3">
             <button
               type="button"
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="p-1.5 rounded-lg bg-zinc-100 border border-zinc-200 text-zinc-600 hover:text-zinc-900 lg:hidden transition"
+              className="p-1.5 rounded-lg bg-slate-800/80 border border-slate-700 text-slate-300 hover:text-white lg:hidden transition"
               aria-label="Toggle Menu"
             >
               {sidebarOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
             </button>
 
             <div className="flex items-center gap-2">
-              <h2 className="text-sm font-bold text-zinc-900 tracking-tight">{getPageTitle()}</h2>
+              <h2 className="text-sm font-bold text-white tracking-tight">{getPageTitle()}</h2>
             </div>
           </div>
 
@@ -70,7 +70,7 @@ export default function AppLayout({ children }) {
             {user?.role === 'recruiter' && !location.pathname.includes('/post-job') && (
               <Link
                 to="/recruiter/post-job"
-                className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-white font-semibold text-xs shadow-subtle transition"
+                className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs shadow-md shadow-blue-600/30 transition"
               >
                 <Plus className="w-3.5 h-3.5" />
                 <span>Post Job</span>
@@ -78,28 +78,28 @@ export default function AppLayout({ children }) {
             )}
 
             {/* Credits Counter Pill */}
-            <div className="px-2.5 py-1 rounded-lg bg-white border border-zinc-200 flex items-center gap-1.5 shadow-subtle">
-              <Zap className="w-3 h-3 text-amber-500 fill-amber-500" />
-              <span className="text-xs font-semibold text-zinc-900">{user?.credits ?? 0}</span>
-              <span className="text-[10px] text-zinc-400 font-medium uppercase hidden sm:inline">Credits</span>
+            <div className="px-2.5 py-1 rounded-lg bg-slate-900/90 border border-slate-700 flex items-center gap-1.5 shadow-sm">
+              <Zap className="w-3 h-3 text-amber-400 fill-amber-400" />
+              <span className="text-xs font-semibold text-white">{user?.credits ?? 0}</span>
+              <span className="text-[10px] text-slate-400 font-medium uppercase hidden sm:inline">Credits</span>
             </div>
 
             {/* Notifications Bell */}
             <Link
               to={user?.role === 'candidate' ? '/candidate/notifications' : '/recruiter/pipeline'}
-              className="p-1.5 rounded-lg bg-white border border-zinc-200 text-zinc-600 hover:text-zinc-900 hover:bg-zinc-50 transition relative shadow-subtle"
+              className="p-1.5 rounded-lg bg-slate-900/90 border border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800 transition relative shadow-sm"
               title="Notifications"
             >
               <Bell className="w-3.5 h-3.5" />
-              <span className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-blue-600"></span>
+              <span className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-blue-500"></span>
             </Link>
 
             {/* Quick Profile Avatar */}
             <Link
               to={user?.role === 'recruiter' ? '/recruiter/profile' : '/candidate/profile'}
-              className="flex items-center gap-2 pl-2 border-l border-zinc-200 group"
+              className="flex items-center gap-2 pl-2 border-l border-slate-800 group"
             >
-              <div className="w-7 h-7 rounded-lg bg-zinc-100 border border-zinc-200 overflow-hidden flex items-center justify-center text-zinc-800 font-semibold text-xs transition group-hover:border-zinc-400">
+              <div className="w-7 h-7 rounded-lg bg-slate-800 border border-slate-700 overflow-hidden flex items-center justify-center text-white font-semibold text-xs transition group-hover:border-slate-500">
                 {profilePhotoUrl ? (
                   <img src={profilePhotoUrl} alt="Avatar" className="w-full h-full object-cover" />
                 ) : (

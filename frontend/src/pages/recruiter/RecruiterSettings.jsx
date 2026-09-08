@@ -105,8 +105,8 @@ export default function RecruiterSettings() {
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       <div>
-        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Account Preferences</h1>
-        <p className="text-xs text-slate-500 mt-1">Configure interview automation, manage credits, and team referral links.</p>
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Account Preferences</h1>
+        <p className="text-xs text-slate-300 mt-1">Configure interview automation, manage credits, and team referral links.</p>
       </div>
 
       {/* ── ⚡ AI INTERVIEW AUTO-SCHEDULING CARD ── */}

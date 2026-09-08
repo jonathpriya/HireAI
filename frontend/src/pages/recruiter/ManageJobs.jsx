@@ -37,8 +37,8 @@ export default function ManageJobs() {
     <div className="max-w-6xl mx-auto space-y-7">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Manage Posted Jobs</h1>
-          <p className="text-xs text-slate-500 mt-1">Review your active openings, toggle status, and syndicate across global job boards.</p>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Manage Posted Jobs</h1>
+          <p className="text-xs text-slate-300 mt-1">Review your active openings, toggle status, and syndicate across global job boards.</p>
         </div>
         <div className="flex items-center gap-3">
           <Link

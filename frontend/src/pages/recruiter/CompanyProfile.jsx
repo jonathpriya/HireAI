@@ -50,8 +50,8 @@ export default function CompanyProfile() {
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       <div>
-        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Company Profile</h1>
-        <p className="text-xs text-slate-500 mt-1">Manage your company branding and details displayed to job seekers.</p>
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Company Profile</h1>
+        <p className="text-xs text-slate-300 mt-1">Manage your company branding and details displayed to job seekers.</p>
       </div>
 
       {msg && (

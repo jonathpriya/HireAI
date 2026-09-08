@@ -107,8 +107,8 @@ export default function PostJob() {
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       <div className="space-y-1">
-        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Create New <span className="gradient-text">Job Opening</span></h1>
-        <p className="text-xs text-slate-500">Upload a Job Description PDF/DOCX — AI will <strong className="text-blue-600">auto-fill the form</strong> instantly.</p>
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Create New <span className="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">Job Opening</span></h1>
+        <p className="text-xs text-slate-300">Upload a Job Description PDF/DOCX — AI will <strong className="text-blue-400">auto-fill the form</strong> instantly.</p>
       </div>
 
       {error && (

@@ -33,8 +33,8 @@ export default function Notifications() {
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       <div>
-        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">System Notifications</h1>
-        <p className="text-xs text-slate-500 mt-1">Updates regarding your job invitations and profile status.</p>
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">System Notifications</h1>
+        <p className="text-xs text-slate-300 mt-1">Updates regarding your job invitations and profile status.</p>
       </div>
 
       {loading ? (

@@ -89,10 +89,10 @@ export default function RecruiterSourcing() {
       
       {/* Simple & Clean Header */}
       <div>
-        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
           Candidate Sourcing
         </h1>
-        <p className="text-xs text-slate-500 mt-1">
+        <p className="text-xs text-slate-300 mt-1">
           Discover verified talent across top job networks and connect directly.
         </p>
       </div>

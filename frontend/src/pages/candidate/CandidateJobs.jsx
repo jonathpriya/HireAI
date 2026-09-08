@@ -48,11 +48,11 @@ export default function CandidateJobs() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Explore Matching Openings</h1>
-          <p className="text-xs text-slate-500 mt-1">Discover roles matched to your skills by AI. Check your live match score and express interest.</p>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Explore Matching Openings</h1>
+          <p className="text-xs text-slate-300 mt-1">Discover roles matched to your skills by AI. Check your live match score and express interest.</p>
         </div>
-        <div className="px-3.5 py-2 rounded-2xl bg-blue-50 border border-blue-200 text-blue-700 text-xs font-bold flex items-center gap-2 self-start md:self-auto shadow-sm">
-          <Sparkles className="w-4 h-4 text-blue-600" /> AI Ranked Job Feed
+        <div className="px-3.5 py-2 rounded-2xl bg-slate-900/80 border border-slate-700 text-blue-300 text-xs font-bold flex items-center gap-2 self-start md:self-auto shadow-sm">
+          <Sparkles className="w-4 h-4 text-cyan-400" /> AI Ranked Job Feed
         </div>
       </div>
 

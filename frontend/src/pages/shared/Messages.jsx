@@ -146,11 +146,11 @@ export default function Messages() {
       {/* Top Banner */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-bold border border-blue-200 shadow-sm mb-1.5">
-            <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/80 text-blue-300 text-xs font-bold border border-slate-700 shadow-sm mb-1.5">
+            <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
             <span>Direct InMail &amp; 1-on-1 Messaging</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Messages</h1>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Messages</h1>
         </div>
       </div>
 

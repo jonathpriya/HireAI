@@ -129,11 +129,11 @@ export default function ShortlistedCandidates() {
     <div className="max-w-6xl mx-auto space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <Link to="/recruiter/manage-jobs" className="inline-flex items-center gap-1 text-xs text-slate-600 hover:text-blue-600 font-bold mb-2">
+          <Link to="/recruiter/manage-jobs" className="inline-flex items-center gap-1 text-xs text-slate-400 hover:text-blue-400 font-bold mb-2">
             <ArrowLeft className="w-3.5 h-3.5" /> Back to Manage Jobs
           </Link>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Shortlisted Candidates</h1>
-          <p className="text-xs text-slate-500 mt-1">Pre-vetted candidates ranked by AI Match Score</p>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Shortlisted Candidates</h1>
+          <p className="text-xs text-slate-300 mt-1">Pre-vetted candidates ranked by AI Match Score</p>
         </div>
 
         {/* Filter Controls */}

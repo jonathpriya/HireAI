@@ -53,11 +53,11 @@ export default function TalentPools() {
       {/* Top Banner */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-purple-50 text-purple-700 text-xs font-bold border border-purple-200 shadow-sm mb-1.5">
-            <Bookmark className="w-3.5 h-3.5 text-purple-600" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-900/80 text-purple-300 text-xs font-bold border border-slate-700 shadow-sm mb-1.5">
+            <Bookmark className="w-3.5 h-3.5 text-purple-400" />
             <span>Recruiter Talent Pools &amp; Bookmarks</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Saved Candidates</h1>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Saved Candidates</h1>
         </div>
 
         <Link

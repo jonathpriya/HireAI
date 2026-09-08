@@ -92,8 +92,8 @@ export default function ResumeUpload() {
 
       {/* Header */}
       <div>
-        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Resume Center</h1>
-        <p className="text-xs text-slate-500 mt-1">
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Resume Center</h1>
+        <p className="text-xs text-slate-300 mt-1">
           Upload your PDF or DOCX resume — AI extracts your skills and auto-fills your profile.
         </p>
       </div>

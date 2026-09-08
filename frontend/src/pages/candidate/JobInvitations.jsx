@@ -88,9 +88,17 @@ export default function JobInvitations() {
 
   return (
     <div className="max-w-5xl mx-auto space-y-6">
-      <div>
-        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Job Invitations</h1>
-        <p className="text-xs text-slate-500 mt-1">Review invitations received from recruiters based on your AI match score.</p>
+      {/* Subtitle Bar with Live Counter */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-1">
+        <p className="text-xs sm:text-sm text-slate-300 font-medium flex items-center gap-2">
+          <Sparkles className="w-4 h-4 text-cyan-400 shrink-0" />
+          Review interview invitations received from verified recruiters based on your AI match score.
+        </p>
+        {!loading && (
+          <span className="px-3 py-1 rounded-full bg-slate-900/90 border border-slate-700/80 text-slate-200 text-xs font-semibold self-start sm:self-auto shrink-0 shadow-sm">
+            {invitations.length} {invitations.length === 1 ? 'Invitation' : 'Invitations'}
+          </span>
+        )}
       </div>
 
       {actionMsg && (
