@@ -43,7 +43,7 @@ import AdminDashboard from './pages/admin/AdminDashboard';
 
 // Public Layout Wrapper with Top Navbar & Footer
 const PublicLayout = ({ children }) => (
-  <div className="flex flex-col min-h-screen bg-[#f3f4f6] text-slate-800">
+  <div className="flex flex-col min-h-screen bg-transparent text-slate-100">
     <Navbar />
     <main className="flex-grow">{children}</main>
     <Footer />
@@ -56,7 +56,7 @@ const ProtectedRoute = ({ children, allowedRole }) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#f3f4f6] flex items-center justify-center text-slate-500 font-bold">
+      <div className="min-h-screen bg-transparent flex items-center justify-center text-slate-300 font-bold">
         Loading session...
       </div>
     );

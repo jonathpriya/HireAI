@@ -58,8 +58,8 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-[calc(100vh-160px)] bg-[#fafafa] flex flex-col items-center justify-center px-4 py-12 space-y-6">
-      <div className="w-full max-w-sm p-8 rounded-2xl space-y-6 bg-white border border-zinc-200/90 shadow-card">
+    <div className="min-h-[calc(100vh-160px)] bg-transparent flex flex-col items-center justify-center px-4 py-12 space-y-6">
+      <div className="w-full max-w-sm p-8 rounded-2xl space-y-6 bg-white/95 backdrop-blur-xl border border-white/20 shadow-2xl">
         
         {/* Brand & Heading */}
         <div className="text-center space-y-2">

@@ -5,7 +5,15 @@
 @layer base {
   body {
     font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background-color: #fafafa;
+    background-color: #0b0f19;
+    background-image: 
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(37, 99, 235, 0.22) 0%, transparent 70%),
+      linear-gradient(180deg, rgba(11, 15, 25, 0.8) 0%, rgba(11, 15, 25, 0.94) 100%),
+      url('/images/bg_tech_grid.jpg');
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     color: #09090b;
     letter-spacing: -0.011em;
     overflow-x: hidden;
@@ -13,13 +21,13 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    color: #09090b;
+    color: inherit;
     font-weight: 700;
     letter-spacing: -0.025em;
   }
 
   p {
-    color: #52525b;
+    color: inherit;
   }
 
   input, select, textarea {
@@ -100,11 +108,27 @@
   background: #a1a1aa;
 }
 
-/* ── 📐 Ultra-Clean Mesh Background ── */
-.bg-ambient-mesh {
-  background-color: #fafafa;
+/* ── 🌌 High-Tech SaaS Wallpaper Templates ── */
+.bg-app-template {
+  background-color: #0b0f19;
   background-image: 
-    radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.03) 0px, transparent 50%),
-    radial-gradient(at 100% 0%, rgba(99, 102, 241, 0.02) 0px, transparent 50%),
-    radial-gradient(at 50% 100%, rgba(24, 24, 27, 0.02) 0px, transparent 50%);
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(37, 99, 235, 0.22) 0%, transparent 70%),
+    linear-gradient(180deg, rgba(11, 15, 25, 0.78) 0%, rgba(11, 15, 25, 0.92) 100%),
+    url('/images/bg_tech_grid.jpg');
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.bg-ambient-wave-template {
+  background-color: #0b0f19;
+  background-image: 
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(99, 102, 241, 0.2) 0%, transparent 70%),
+    linear-gradient(180deg, rgba(11, 15, 25, 0.8) 0%, rgba(11, 15, 25, 0.94) 100%),
+    url('/images/bg_ambient_wave.jpg');
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }

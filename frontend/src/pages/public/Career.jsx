@@ -99,19 +99,19 @@ export default function Career() {
       
       {/* Hero Banner */}
       <div className="text-center space-y-3">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200 text-xs font-bold shadow-sm">
-          <Sparkles className="w-3.5 h-3.5 text-blue-600" /> AI Match &amp; Skill Gap Engine
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/80 backdrop-blur-md text-blue-300 border border-slate-700/80 text-xs font-bold shadow-lg">
+          <Sparkles className="w-3.5 h-3.5 text-cyan-400" /> AI Match &amp; Skill Gap Engine
         </div>
-        <h1 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">
-          Career <span className="gradient-text">Job Openings</span>
+        <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+          Career <span className="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">Job Openings</span>
         </h1>
-        <p className="text-slate-500 max-w-xl mx-auto text-xs sm:text-sm font-medium">
-          Explore top tech positions. Click <strong className="text-blue-600">Check AI Match &amp; Skill Gap</strong> on any job to see your compatibility score and missing skills instantly!
+        <p className="text-slate-300 max-w-xl mx-auto text-xs sm:text-sm font-medium">
+          Explore top tech positions. Click <strong className="text-blue-400">Check AI Match &amp; Skill Gap</strong> on any job to see your compatibility score and missing skills instantly!
         </p>
       </div>
 
       {/* Search Bar */}
-      <form onSubmit={handleSearchSubmit} className="glass-card p-4 rounded-3xl flex flex-col md:flex-row gap-3 bg-white border border-slate-200 shadow-sm">
+      <form onSubmit={handleSearchSubmit} className="glass-card p-4 rounded-3xl flex flex-col md:flex-row gap-3 bg-white/95 backdrop-blur-md border border-slate-200 shadow-xl">
         <div className="flex-1 flex items-center gap-2.5 bg-slate-50 px-4 py-3 rounded-2xl border border-slate-300">
           <Search className="w-5 h-5 text-slate-400" />
           <input

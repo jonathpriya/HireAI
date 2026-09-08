@@ -27,16 +27,16 @@ export default function Contact() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white py-16 px-4 sm:px-6 lg:px-8 space-y-10">
+    <div className="min-h-screen bg-transparent text-white py-16 px-4 sm:px-6 lg:px-8 space-y-10">
       <div className="max-w-4xl mx-auto text-center space-y-3">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-xs font-black uppercase tracking-widest text-pink-400">
-          <Sparkles className="w-4 h-4 text-pink-500" />
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/80 backdrop-blur-md border border-slate-700/80 text-xs font-semibold text-blue-300 shadow-lg">
+          <Sparkles className="w-4 h-4 text-cyan-400" />
           <span>Direct Support Desk</span>
         </div>
-        <h1 className="text-4xl sm:text-5xl font-black uppercase tracking-tight text-white">
-          Contact <span className="bg-gradient-to-r from-pink-500 via-purple-400 to-cyan-400 bg-clip-text text-transparent">HireAI Support</span>
+        <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white">
+          Contact <span className="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">HireAI Support</span>
         </h1>
-        <p className="text-slate-400 text-sm font-medium">Have questions about our AI matching platform? Send us a query and our team will reply directly to your email inbox.</p>
+        <p className="text-slate-300 text-sm font-medium">Have questions about our AI matching platform? Send us a query and our team will reply directly to your email inbox.</p>
       </div>
 
       <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-6">

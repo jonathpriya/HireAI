@@ -4,27 +4,24 @@ import { Sparkles, ArrowRight, ShieldCheck, Zap, Users, CheckCircle2 } from 'luc
 
 export default function Home() {
   return (
-    <div className="relative min-h-[calc(100vh-140px)] bg-[#fafafa] text-zinc-900 overflow-hidden flex flex-col justify-center py-16 sm:py-24">
+    <div className="relative min-h-[calc(100vh-140px)] bg-transparent text-white overflow-hidden flex flex-col justify-center py-16 sm:py-24">
       
-      {/* Subtle Ambient Grid Background */}
-      <div className="absolute inset-0 bg-ambient-mesh pointer-events-none" />
-
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-8 text-center">
         
         {/* Floating Minimal Pill */}
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-zinc-200/90 text-zinc-700 text-xs font-medium shadow-subtle">
-          <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/80 backdrop-blur-md border border-slate-700/80 text-blue-300 text-xs font-semibold shadow-lg">
+          <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
           <span>Next-Gen Autonomous AI Recruitment</span>
         </div>
 
-        {/* High-Impact Linear/Vercel Headline */}
-        <h1 className="text-4xl sm:text-6xl font-bold tracking-tight text-zinc-900 max-w-3xl mx-auto leading-[1.12]">
+        {/* High-Impact Headline */}
+        <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-white max-w-3xl mx-auto leading-[1.12]">
           Automate recruitment. <br />
-          <span className="text-zinc-400">Hire top candidates faster.</span>
+          <span className="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">Hire top candidates faster.</span>
         </h1>
 
         {/* Subtitle */}
-        <p className="text-base sm:text-lg text-zinc-500 max-w-2xl mx-auto leading-relaxed font-normal">
+        <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-normal">
           Connect qualified candidates with leading companies using intelligent resume parsing, 0–100% skill matching, and automated candidate workflows.
         </p>
 
@@ -32,25 +29,25 @@ export default function Home() {
         <div className="flex items-center justify-center pt-2">
           <Link
             to="/login"
-            className="px-7 py-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-medium text-sm shadow-card hover:shadow-card-hover transition-all flex items-center gap-2 group"
+            className="px-7 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm shadow-lg shadow-blue-600/30 transition-all flex items-center gap-2 group hover:scale-[1.02]"
           >
             <span>Get Started</span>
-            <ArrowRight className="w-4 h-4 text-zinc-400 group-hover:text-white group-hover:translate-x-0.5 transition-all" />
+            <ArrowRight className="w-4 h-4 text-blue-200 group-hover:text-white group-hover:translate-x-0.5 transition-all" />
           </Link>
         </div>
 
         {/* Micro Trust Indicators */}
-        <div className="pt-8 flex flex-wrap items-center justify-center gap-6 text-xs text-zinc-500 font-medium">
-          <div className="flex items-center gap-1.5">
-            <CheckCircle2 className="w-3.5 h-3.5 text-blue-600" />
+        <div className="pt-8 flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-xs text-slate-300 font-medium">
+          <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-slate-900/70 backdrop-blur-md border border-slate-800 shadow-md">
+            <CheckCircle2 className="w-4 h-4 text-cyan-400" />
             <span>AI Resume Parsing</span>
           </div>
-          <div className="flex items-center gap-1.5">
-            <CheckCircle2 className="w-3.5 h-3.5 text-blue-600" />
+          <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-slate-900/70 backdrop-blur-md border border-slate-800 shadow-md">
+            <CheckCircle2 className="w-4 h-4 text-cyan-400" />
             <span>0–100% Fit Scoring</span>
           </div>
-          <div className="flex items-center gap-1.5">
-            <CheckCircle2 className="w-3.5 h-3.5 text-blue-600" />
+          <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-slate-900/70 backdrop-blur-md border border-slate-800 shadow-md">
+            <CheckCircle2 className="w-4 h-4 text-cyan-400" />
             <span>Automated Invitations</span>
           </div>
         </div>

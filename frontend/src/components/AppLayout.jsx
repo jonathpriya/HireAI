@@ -33,7 +33,7 @@ export default function AppLayout({ children }) {
   const profilePhotoUrl = user ? getFullImageUrl(user.profile_pic_url) : null;
 
   return (
-    <div className="min-h-screen bg-[#fafafa] flex text-zinc-900 antialiased">
+    <div className="min-h-screen bg-transparent flex text-zinc-900 antialiased">
       
       {/* Left Sidebar */}
       <Sidebar 
