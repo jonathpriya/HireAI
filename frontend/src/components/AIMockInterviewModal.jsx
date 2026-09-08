@@ -306,12 +306,29 @@ export default function AIMockInterviewModal({ invitation, invitationId, jobTitl
     ? Math.round(scoresList.reduce((a, b) => a + b, 0) / scoresList.length) 
     : 0;
 
+  // Helper to format bold markdown **text** into highlighted badges
+  const renderFormattedText = (content) => {
+    if (!content) return null;
+    const parts = content.split(/(\*\*[^*]+\*\*)/g);
+    return parts.map((part, i) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        const boldText = part.slice(2, -2);
+        return (
+          <strong key={i} className="text-white font-bold bg-purple-500/20 px-1 py-0.5 rounded border border-purple-500/30">
+            {boldText}
+          </strong>
+        );
+      }
+      return part;
+    });
+  };
+
   const modalContent = (
     <div className="fixed inset-0 z-[9999] bg-slate-950/90 backdrop-blur-xl flex items-center justify-center p-2 sm:p-4 animate-in fade-in duration-200">
-      <div className="glass-card max-w-3xl w-full h-[90vh] rounded-3xl border border-purple-500/30 flex flex-col overflow-hidden shadow-2xl bg-slate-950 relative z-[10000]">
+      <div className="max-w-3xl w-full h-[90vh] rounded-3xl border border-slate-800 flex flex-col overflow-hidden shadow-2xl bg-slate-950 relative z-[10000]">
 
         {/* Modal Header */}
-        <div className="p-4 sm:p-5 border-b border-slate-800 bg-slate-900/90 flex items-center justify-between gap-3 shrink-0">
+        <div className="p-4 sm:p-5 border-b border-slate-800 bg-slate-900 flex items-center justify-between gap-3 shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-purple-500/20">
               <Sparkles className="w-5 h-5" />
@@ -319,7 +336,7 @@ export default function AIMockInterviewModal({ invitation, invitationId, jobTitl
             <div>
               <div className="flex items-center gap-2">
                 <h3 className="text-base sm:text-lg font-bold text-white leading-tight">AI Mock Interviewer</h3>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-purple-500/15 text-purple-400 border border-purple-500/30">
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-purple-500/20 text-purple-300 border border-purple-500/30">
                   LIVE CHAT
                 </span>
               </div>
@@ -331,7 +348,7 @@ export default function AIMockInterviewModal({ invitation, invitationId, jobTitl
 
           <div className="flex items-center gap-2">
             {scoresList.length > 0 && (
-              <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-xl bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-bold">
+              <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-xl bg-indigo-500/20 border border-indigo-500/30 text-indigo-300 text-xs font-bold">
                 <Award className="w-3.5 h-3.5 text-amber-400" />
                 <span>Live Score: {avgScore}%</span>
               </div>
@@ -347,13 +364,13 @@ export default function AIMockInterviewModal({ invitation, invitationId, jobTitl
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex items-center border-b border-slate-800 bg-slate-900/50 px-4 gap-2 text-xs font-bold shrink-0">
+        <div className="flex items-center border-b border-slate-800 bg-slate-900/90 px-4 gap-2 text-xs font-bold shrink-0 pt-1">
           <button
             onClick={() => setActiveTab('chat')}
-            className={`py-2.5 px-4 border-b-2 flex items-center gap-2 transition ${
+            className={`py-2.5 px-4 border-b-2 flex items-center gap-2 transition rounded-t-lg ${
               activeTab === 'chat'
-                ? 'border-purple-500 text-purple-300'
-                : 'border-transparent text-slate-400 hover:text-slate-200'
+                ? 'border-purple-500 text-purple-300 bg-purple-500/10'
+                : 'border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/40'
             }`}
           >
             <Sparkles className="w-3.5 h-3.5 text-amber-400" />
@@ -361,10 +378,10 @@ export default function AIMockInterviewModal({ invitation, invitationId, jobTitl
           </button>
           <button
             onClick={() => setActiveTab('guide')}
-            className={`py-2.5 px-4 border-b-2 flex items-center gap-2 transition ${
+            className={`py-2.5 px-4 border-b-2 flex items-center gap-2 transition rounded-t-lg ${
               activeTab === 'guide'
-                ? 'border-purple-500 text-purple-300'
-                : 'border-transparent text-slate-400 hover:text-slate-200'
+                ? 'border-purple-500 text-purple-300 bg-purple-500/10'
+                : 'border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-800/40'
             }`}
           >
             <BookOpen className="w-3.5 h-3.5 text-blue-400" />
@@ -431,25 +448,25 @@ export default function AIMockInterviewModal({ invitation, invitationId, jobTitl
 
                       <div className="space-y-2 flex-grow">
                         {msg.text && (
-                          <div className="glass-card p-4 rounded-2xl bg-slate-900/90 border-slate-800 text-xs sm:text-sm text-slate-200 leading-relaxed shadow-sm relative group">
-                            <p className="whitespace-pre-line">{msg.text}</p>
+                          <div className="p-4 sm:p-5 rounded-2xl bg-slate-900 border border-slate-800 text-xs sm:text-sm text-slate-100 leading-relaxed shadow-md relative group">
+                            <p className="whitespace-pre-line pr-7">{renderFormattedText(msg.text)}</p>
                             <button
                               type="button"
                               onClick={() => handleSpeakText(msg.id, msg.text)}
-                              className={`absolute right-2 top-2 p-1.5 rounded-lg text-xs flex items-center gap-1 transition ${
+                              className={`absolute right-2.5 top-2.5 p-1.5 rounded-lg text-xs flex items-center gap-1 transition ${
                                 speakingMsgId === msg.id 
-                                  ? 'bg-purple-500 text-white animate-pulse' 
-                                  : 'text-slate-500 hover:text-slate-300 hover:bg-slate-800'
+                                  ? 'bg-purple-600 text-white animate-pulse' 
+                                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
                               }`}
                               title="Listen to question"
                             >
-                              <Volume2 className="w-3.5 h-3.5" />
+                              <Volume2 className="w-4 h-4" />
                             </button>
                           </div>
                         )}
 
                         {msg.type === 'evaluation' && msg.eval && (
-                          <div className="glass-card p-4 rounded-2xl bg-gradient-to-b from-slate-900 to-slate-950 border border-purple-500/30 space-y-3 shadow-lg">
+                          <div className="p-4 sm:p-5 rounded-2xl bg-slate-900 border border-purple-500/30 space-y-3 shadow-lg">
                             <div className="flex items-center justify-between pb-2 border-b border-slate-800">
                               <div className="flex items-center gap-2">
                                 <span className={`px-2.5 py-1 rounded-lg text-xs font-black ${
@@ -519,7 +536,7 @@ export default function AIMockInterviewModal({ invitation, invitationId, jobTitl
                   <div className="w-8 h-8 rounded-xl bg-purple-600 flex items-center justify-center text-white shrink-0">
                     <Sparkles className="w-4 h-4 animate-spin" />
                   </div>
-                  <div className="glass-card px-4 py-3 rounded-2xl bg-slate-900 border border-slate-800 text-xs text-purple-300 flex items-center gap-2">
+                  <div className="px-4 py-3 rounded-2xl bg-slate-900 border border-slate-800 text-xs text-purple-300 flex items-center gap-2">
                     <Zap className="w-3.5 h-3.5 text-amber-400 animate-bounce" />
                     <span>Evaluating your answer &amp; preparing next question...</span>
                   </div>
@@ -527,7 +544,7 @@ export default function AIMockInterviewModal({ invitation, invitationId, jobTitl
               )}
 
               {interviewFinished && (
-                <div className="glass-card p-6 rounded-3xl border border-emerald-500/40 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-950 space-y-4 shadow-xl text-center">
+                <div className="p-6 rounded-3xl border border-emerald-500/40 bg-slate-900 space-y-4 shadow-xl text-center">
                   <div className="w-14 h-14 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mx-auto">
                     <Award className="w-8 h-8" />
                   </div>

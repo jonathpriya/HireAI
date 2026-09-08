@@ -105,7 +105,7 @@ export default function ConnectPortalModal({ platform, onClose, onConnected }) {
 
   return (
     <div className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4">
-      <div className="glass-card max-w-lg w-full rounded-3xl border border-blue-500/40 bg-slate-950 p-6 space-y-5 shadow-2xl animate-in zoom-in-95">
+      <div className="max-w-lg w-full rounded-3xl border border-blue-500/40 bg-slate-950 p-6 space-y-5 shadow-2xl animate-in zoom-in-95">
         
         {/* Header */}
         <div className="flex items-start justify-between border-b border-slate-800 pb-4">

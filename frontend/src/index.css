@@ -35,32 +35,32 @@
   }
 }
 
-/* ── ⚡ Linear / Vercel Ultra-Clean Minimalist Design System ── */
+@layer components {
+  .glass-panel {
+    background: #ffffff;
+    border: 1px solid #e4e4e7;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.03), 0 1px 2px -1px rgba(0, 0, 0, 0.03);
+  }
 
-.glass-panel {
-  background: #ffffff;
-  border: 1px solid #e4e4e7;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.03), 0 1px 2px -1px rgba(0, 0, 0, 0.03);
-}
+  .glass-card {
+    background: #ffffff;
+    border: 1px solid #e4e4e7;
+    border-radius: 1rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
 
-.glass-card {
-  background: #ffffff;
-  border: 1px solid #e4e4e7;
-  border-radius: 1rem;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
+  .glass-card:hover {
+    border-color: #d4d4d8;
+    box-shadow: 0 6px 18px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.03);
+    transform: translateY(-1px);
+  }
 
-.glass-card:hover {
-  border-color: #d4d4d8;
-  box-shadow: 0 6px 18px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.03);
-  transform: translateY(-1px);
-}
-
-.glass-card-colorful {
-  background: #ffffff;
-  border: 1px solid #e4e4e7;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.03);
+  .glass-card-colorful {
+    background: #ffffff;
+    border: 1px solid #e4e4e7;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.03);
+  }
 }
 
 /* ── 🎨 Refined High-End Typography & Gradients ── */

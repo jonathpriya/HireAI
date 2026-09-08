@@ -37,7 +37,7 @@ export default function InactivityCheckModal({ daysInactive = 7, currentStatus =
 
   return (
     <div className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4">
-      <div className="glass-card max-w-md w-full rounded-3xl border border-blue-500/40 bg-slate-950 p-6 space-y-6 shadow-2xl animate-in zoom-in-95 duration-200">
+      <div className="max-w-md w-full rounded-3xl border border-blue-500/40 bg-slate-950 p-6 space-y-6 shadow-2xl animate-in zoom-in-95 duration-200">
         
         {/* Header Icon */}
         <div className="text-center space-y-2">

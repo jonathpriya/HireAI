@@ -56,7 +56,7 @@ export default function AIReachoutModal({ candidate, job, onClose }) {
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
       className="fixed inset-0 z-[9999] bg-slate-950/90 backdrop-blur-xl flex items-center justify-center p-3 sm:p-4 animate-in fade-in duration-200"
     >
-      <div className="glass-card max-w-2xl w-full max-h-[92vh] rounded-3xl border border-purple-500/40 flex flex-col overflow-hidden shadow-2xl bg-slate-950 relative z-[10000]">
+      <div className="max-w-2xl w-full max-h-[92vh] rounded-3xl border border-purple-500/40 flex flex-col overflow-hidden shadow-2xl bg-slate-950 relative z-[10000]">
         
         {/* Header */}
         <div className="p-4 sm:p-5 border-b border-slate-800 bg-slate-900 flex items-center justify-between gap-3 shrink-0">
