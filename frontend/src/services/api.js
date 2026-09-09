@@ -1,10 +1,14 @@
 import axios from 'axios';
 
-// Dynamically supports VITE_API_URL when frontend and backend are hosted on different domains
-const API_BASE_URL = import.meta.env.VITE_API_URL
-  ? (import.meta.env.VITE_API_URL.endsWith('/api')
-      ? import.meta.env.VITE_API_URL
-      : `${import.meta.env.VITE_API_URL.replace(/\/+$/, '')}/api`)
+let rawApiUrl = import.meta.env.VITE_API_URL || '';
+if (rawApiUrl && !rawApiUrl.startsWith('http://') && !rawApiUrl.startsWith('https://')) {
+  rawApiUrl = `https://${rawApiUrl}`;
+}
+
+const API_BASE_URL = rawApiUrl
+  ? (rawApiUrl.endsWith('/api')
+      ? rawApiUrl
+      : `${rawApiUrl.replace(/\/+$/, '')}/api`)
   : '/api';
 
 const API = axios.create({

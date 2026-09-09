@@ -6,7 +6,10 @@ export const getFullImageUrl = (path) => {
   
   // If explicitly configured with VITE_API_URL
   if (import.meta.env.VITE_API_URL) {
-    const backendBase = import.meta.env.VITE_API_URL.replace(/\/api\/?$/, '');
+    let backendBase = import.meta.env.VITE_API_URL.replace(/\/api\/?$/, '');
+    if (!backendBase.startsWith('http://') && !backendBase.startsWith('https://')) {
+      backendBase = `https://${backendBase}`;
+    }
     const cleanPath = path.startsWith('/') ? path : `/${path}`;
     return `${backendBase}${cleanPath}`;
   }
