@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { useLocation, Link, useNavigate } from 'react-router-dom';
+import { useLocation, Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Sidebar from './Sidebar';
 import { 
-  Menu, X, Bell, Zap, User, Sparkles, Plus
+  Menu, X, Bell, Zap, User, Plus,
+  LayoutDashboard, Search, Mail, Briefcase, GitMerge, MoreHorizontal
 } from 'lucide-react';
 import { getFullImageUrl } from '../utils/imageUrl';
 
@@ -45,26 +46,26 @@ export default function AppLayout({ children }) {
       <div className="flex-1 flex flex-col min-w-0 lg:pl-64 transition-all duration-300">
         
         {/* Top Minimal App Header */}
-        <header className="sticky top-0 z-30 h-14 bg-[#090d16]/85 backdrop-blur-md border-b border-slate-800/80 px-4 sm:px-6 flex items-center justify-between gap-4">
+        <header className="sticky top-0 z-30 h-14 bg-[#090d16]/85 backdrop-blur-md border-b border-slate-800/80 px-3 sm:px-6 flex items-center justify-between gap-3">
           
           {/* Left: Mobile Toggle & Page Title */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
             <button
               type="button"
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="p-1.5 rounded-lg bg-slate-800/80 border border-slate-700 text-slate-300 hover:text-white lg:hidden transition"
+              className="p-1.5 rounded-lg bg-slate-800/80 border border-slate-700 text-slate-300 hover:text-white lg:hidden transition shrink-0"
               aria-label="Toggle Menu"
             >
               {sidebarOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
             </button>
 
-            <div className="flex items-center gap-2">
-              <h2 className="text-sm font-bold text-white tracking-tight">{getPageTitle()}</h2>
+            <div className="flex items-center gap-2 min-w-0">
+              <h2 className="text-sm font-bold text-white tracking-tight truncate">{getPageTitle()}</h2>
             </div>
           </div>
 
           {/* Right: Quick Actions, Credits, Notifications, User */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             
             {/* Primary Action Button (e.g. Post Job for Recruiter) */}
             {user?.role === 'recruiter' && !location.pathname.includes('/post-job') && (
@@ -78,7 +79,7 @@ export default function AppLayout({ children }) {
             )}
 
             {/* Credits Counter Pill */}
-            <div className="px-2.5 py-1 rounded-lg bg-slate-900/90 border border-slate-700 flex items-center gap-1.5 shadow-sm">
+            <div className="px-2 sm:px-2.5 py-1 rounded-lg bg-slate-900/90 border border-slate-700 flex items-center gap-1.5 shadow-sm">
               <Zap className="w-3 h-3 text-amber-400 fill-amber-400" />
               <span className="text-xs font-semibold text-white">{user?.credits ?? 0}</span>
               <span className="text-[10px] text-slate-400 font-medium uppercase hidden sm:inline">Credits</span>
@@ -112,10 +113,135 @@ export default function AppLayout({ children }) {
 
         </header>
 
-        {/* Dynamic Page Content */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto animate-in fade-in duration-150">
+        {/* Dynamic Page Content (responsive padding: compact on phone, spacious on laptop/desktop) */}
+        <main className="flex-1 p-3.5 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto pb-24 md:pb-8 animate-in fade-in duration-150">
           {children}
         </main>
+
+        {/* 📱 Mobile Bottom Navigation Bar (Phones & Small Screens) */}
+        {user && (
+          <nav className="fixed bottom-0 left-0 right-0 z-40 bg-[#090d16]/95 backdrop-blur-xl border-t border-slate-800/90 py-1.5 px-3 flex items-center justify-around md:hidden shadow-2xl">
+            {user.role === 'candidate' ? (
+              <>
+                <NavLink
+                  to="/candidate/dashboard"
+                  className={({ isActive }) =>
+                    `flex flex-col items-center py-1 px-2.5 rounded-lg text-[10px] font-medium transition ${
+                      isActive ? 'text-blue-400 font-bold' : 'text-slate-400 hover:text-slate-200'
+                    }`
+                  }
+                >
+                  <LayoutDashboard className="w-4 h-4 mb-0.5" />
+                  <span>Home</span>
+                </NavLink>
+
+                <NavLink
+                  to="/candidate/jobs"
+                  className={({ isActive }) =>
+                    `flex flex-col items-center py-1 px-2.5 rounded-lg text-[10px] font-medium transition ${
+                      isActive ? 'text-blue-400 font-bold' : 'text-slate-400 hover:text-slate-200'
+                    }`
+                  }
+                >
+                  <Search className="w-4 h-4 mb-0.5" />
+                  <span>Jobs</span>
+                </NavLink>
+
+                <NavLink
+                  to="/candidate/job-invitations"
+                  className={({ isActive }) =>
+                    `flex flex-col items-center py-1 px-2.5 rounded-lg text-[10px] font-medium transition ${
+                      isActive ? 'text-blue-400 font-bold' : 'text-slate-400 hover:text-slate-200'
+                    }`
+                  }
+                >
+                  <Mail className="w-4 h-4 mb-0.5" />
+                  <span>Invites</span>
+                </NavLink>
+
+                <NavLink
+                  to="/candidate/profile"
+                  className={({ isActive }) =>
+                    `flex flex-col items-center py-1 px-2.5 rounded-lg text-[10px] font-medium transition ${
+                      isActive ? 'text-blue-400 font-bold' : 'text-slate-400 hover:text-slate-200'
+                    }`
+                  }
+                >
+                  <User className="w-4 h-4 mb-0.5" />
+                  <span>Profile</span>
+                </NavLink>
+
+                <button
+                  type="button"
+                  onClick={() => setSidebarOpen(true)}
+                  className="flex flex-col items-center py-1 px-2.5 rounded-lg text-[10px] font-medium text-slate-400 hover:text-slate-200 transition"
+                >
+                  <MoreHorizontal className="w-4 h-4 mb-0.5" />
+                  <span>More</span>
+                </button>
+              </>
+            ) : user.role === 'recruiter' ? (
+              <>
+                <NavLink
+                  to="/recruiter/dashboard"
+                  className={({ isActive }) =>
+                    `flex flex-col items-center py-1 px-2.5 rounded-lg text-[10px] font-medium transition ${
+                      isActive ? 'text-blue-400 font-bold' : 'text-slate-400 hover:text-slate-200'
+                    }`
+                  }
+                >
+                  <LayoutDashboard className="w-4 h-4 mb-0.5" />
+                  <span>Home</span>
+                </NavLink>
+
+                <NavLink
+                  to="/recruiter/manage-jobs"
+                  className={({ isActive }) =>
+                    `flex flex-col items-center py-1 px-2.5 rounded-lg text-[10px] font-medium transition ${
+                      isActive ? 'text-blue-400 font-bold' : 'text-slate-400 hover:text-slate-200'
+                    }`
+                  }
+                >
+                  <Briefcase className="w-4 h-4 mb-0.5" />
+                  <span>Jobs</span>
+                </NavLink>
+
+                <NavLink
+                  to="/recruiter/pipeline"
+                  className={({ isActive }) =>
+                    `flex flex-col items-center py-1 px-2.5 rounded-lg text-[10px] font-medium transition ${
+                      isActive ? 'text-blue-400 font-bold' : 'text-slate-400 hover:text-slate-200'
+                    }`
+                  }
+                >
+                  <GitMerge className="w-4 h-4 mb-0.5" />
+                  <span>Pipeline</span>
+                </NavLink>
+
+                <NavLink
+                  to="/recruiter/profile"
+                  className={({ isActive }) =>
+                    `flex flex-col items-center py-1 px-2.5 rounded-lg text-[10px] font-medium transition ${
+                      isActive ? 'text-blue-400 font-bold' : 'text-slate-400 hover:text-slate-200'
+                    }`
+                  }
+                >
+                  <User className="w-4 h-4 mb-0.5" />
+                  <span>Company</span>
+                </NavLink>
+
+                <button
+                  type="button"
+                  onClick={() => setSidebarOpen(true)}
+                  className="flex flex-col items-center py-1 px-2.5 rounded-lg text-[10px] font-medium text-slate-400 hover:text-slate-200 transition"
+                >
+                  <MoreHorizontal className="w-4 h-4 mb-0.5" />
+                  <span>More</span>
+                </button>
+              </>
+            ) : null}
+          </nav>
+        )}
 
       </div>
 
