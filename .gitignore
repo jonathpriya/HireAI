@@ -22,6 +22,8 @@ minigit/
 mingit.zip
 recruitment_platform.db
 backend/recruitment_platform.db
+hireai.db
+*.backup
 backend/uploads/
 .DS_Store
 Thumbs.db
