@@ -1074,7 +1074,9 @@ def check_candidate_inactivity(
         "prompt_needed": prompt_needed,
         "days_inactive": days_inactive,
         "is_open_to_work": profile.is_open_to_work,
-        "last_active_at": profile.last_active_at.isoformat() if profile.last_active_at else None
+        "last_active_at": profile.last_active_at.isoformat() if profile.last_active_at else None,
+        "candidate_name": current_user.full_name or "Candidate",
+        "mobile": current_user.mobile or "N/A"
     }
 
 @router.patch("/open-to-work")

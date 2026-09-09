@@ -9,8 +9,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   </React.StrictMode>,
 )
 
-// Register Service Worker for Progressive Web App (PWA) support
-if ('serviceWorker' in navigator && import.meta.env.PROD) {
+// Register Service Worker for Progressive Web App (PWA) & Native Device Notifications
+if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js').catch((err) => {
       console.warn('Service Worker registration failed:', err);

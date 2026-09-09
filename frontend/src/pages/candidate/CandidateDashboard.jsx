@@ -6,10 +6,15 @@ import MatchScoreBadge from '../../components/MatchScoreBadge';
 import { 
   FileText, CheckCircle2, Clock, Sparkles, 
   ToggleLeft, ToggleRight, Briefcase, Search, Play, ArrowRight,
-  User, Bell, ChevronRight, Check, Building, MapPin, DollarSign
+  User, Bell, ChevronRight, Check, Building, MapPin, DollarSign,
+  Smartphone
 } from 'lucide-react';
 import InactivityCheckModal from '../../components/InactivityCheckModal';
 import AIMockInterviewModal from '../../components/AIMockInterviewModal';
+import { 
+  triggerDeviceInactivityNotification, 
+  requestNotificationPermission 
+} from '../../utils/deviceNotification';
 
 export default function CandidateDashboard() {
   const { user } = useAuth();
@@ -66,7 +71,12 @@ export default function CandidateDashboard() {
       const res = await API.get('/candidate/inactivity-check');
       if (res.data.prompt_needed) {
         setInactiveDays(res.data.days_inactive);
-        setShowInactivityModal(true);
+        // 📲 Trigger Native Device Notification on Phone / PC
+        const candidateName = res.data.candidate_name || user?.full_name?.split(' ')[0] || 'there';
+        triggerDeviceInactivityNotification({
+          candidateName,
+          daysInactive: res.data.days_inactive
+        });
       }
     } catch (err) {
       console.error("Failed to check inactivity", err);
@@ -77,6 +87,30 @@ export default function CandidateDashboard() {
     fetchStats();
     fetchRecentInvitations();
     checkInactivity();
+  }, []);
+
+  // 🔔 Listen for real-time button clicks from Phone / Windows Device Notification
+  useEffect(() => {
+    const handleSwMessage = (event) => {
+      if (event.data && event.data.type === 'STATUS_UPDATED') {
+        const nextStatus = event.data.isOpen;
+        setIsOpenToWork(nextStatus);
+        setStats(prev => ({ ...prev, is_open_to_work: nextStatus }));
+        setStatusToast(
+          nextStatus 
+            ? "🟢 Device Notification: Status set to Active (Open to Work)" 
+            : "🔴 Device Notification: Status set to Inactive (Paused)"
+        );
+        setTimeout(() => setStatusToast(''), 5000);
+      }
+    };
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.addEventListener('message', handleSwMessage);
+      return () => {
+        navigator.serviceWorker.removeEventListener('message', handleSwMessage);
+      };
+    }
   }, []);
 
   const handleToggleOpenToWork = async () => {
@@ -91,6 +125,30 @@ export default function CandidateDashboard() {
       console.error("Failed to toggle open to work", err);
     } finally {
       setTogglingOpen(false);
+    }
+  };
+
+  // 📲 Instant Test for Native Device Push Notification on Phone / System
+  const handleTestDeviceNotification = async () => {
+    try {
+      await requestNotificationPermission();
+      await API.post('/candidate/simulate-inactivity');
+      const candName = user?.full_name?.split(' ')[0] || 'there';
+      const triggered = await triggerDeviceInactivityNotification({
+        candidateName: candName,
+        daysInactive: 9
+      });
+
+      if (triggered) {
+        setStatusToast("📲 Notification sent! Check your Phone notification bar / Windows Action Center.");
+      } else {
+        setStatusToast("⚠️ Please enable browser/system notification permission in your browser bar.");
+      }
+      setTimeout(() => setStatusToast(''), 6000);
+    } catch (err) {
+      console.error("Failed to test device notification", err);
+      setStatusToast("Error triggering device notification.");
+      setTimeout(() => setStatusToast(''), 3000);
     }
   };
 
@@ -494,6 +552,39 @@ export default function CandidateDashboard() {
             >
               <Play className="w-3.5 h-3.5 fill-current" />
               <span>Launch Practice Session</span>
+            </button>
+          </div>
+
+          {/* 📲 Native Device Push Notification Card (Phone / System) */}
+          <div className="p-5 sm:p-6 rounded-2xl bg-white border border-blue-200/80 shadow-subtle space-y-3.5">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-200/70">
+                  <Smartphone className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="text-xs sm:text-sm font-bold text-zinc-900">7-Day Inactivity Device Alert</h3>
+                  <p className="text-[11px] text-zinc-500">Native Phone &amp; System Notifications</p>
+                </div>
+              </div>
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-bold border border-emerald-200">
+                Enabled
+              </span>
+            </div>
+
+            <p className="text-xs text-zinc-600 leading-relaxed font-normal">
+              When inactive for 7+ days, a native notification arrives on your <strong>Phone or Laptop</strong> asking:
+              <span className="block mt-1 font-semibold text-zinc-800 italic">"Are you actively searching for a job?"</span>
+              with clickable <strong>[🟢 Yes, Still Searching]</strong> and <strong>[🔴 No, Placed / Pause]</strong> buttons.
+            </p>
+
+            <button
+              type="button"
+              onClick={handleTestDeviceNotification}
+              className="w-full py-2.5 px-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs transition flex items-center justify-center gap-2 shadow-sm shadow-blue-600/20 active:scale-[0.99]"
+            >
+              <Smartphone className="w-3.5 h-3.5" />
+              <span>Test Device Notification on this Phone / PC</span>
             </button>
           </div>
 
