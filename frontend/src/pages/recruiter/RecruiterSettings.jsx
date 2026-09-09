@@ -94,9 +94,9 @@ export default function RecruiterSettings() {
     const map = {
       registration_bonus: "🎁 Registration Bonus (30 Credits)",
       signup_referral_bonus: "🎉 Signup via Referral Link",
-      referral_reward: "🚀 Referral Reward (+20 Credits)",
+      referral_reward: "🚀 Referral Reward (+10 Recruiter / +5 Candidate)",
       job_post: "💼 Posted Job Opening (-1 Credit)",
-      resume_view: "🔓 Candidate Resume View (-1 Credit)",
+      resume_view: "🔓 Candidate Resume View (-2 Credits)",
       recruiter_contribution: "💡 Strategy Contribution (+5 Credits)"
     };
     return map[reason] || reason.replace(/_/g, ' ').toUpperCase();
@@ -209,7 +209,7 @@ export default function RecruiterSettings() {
             <label className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
               <Gift className="w-4 h-4 text-amber-500" /> Referral Code &amp; Link
             </label>
-            <span className="text-[11px] text-amber-700 font-bold">Earn +20 credits per referral</span>
+            <span className="text-[11px] text-amber-700 font-bold">Earn +10 (Recruiter) or +5 (Candidate) per referral</span>
           </div>
 
           <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">

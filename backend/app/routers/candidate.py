@@ -635,12 +635,11 @@ def claim_referral_code(
         raise HTTPException(status_code=400, detail="You cannot refer yourself.")
 
     current_user.referred_by = ref_code
-    current_user.credits += 5
-    referrer.credits += 10
+    ref_bonus = 5
+    referrer.credits = (referrer.credits or 0) + ref_bonus
 
-    db.add(CreditTransaction(user_id=current_user.id, amount=5, balance_after=current_user.credits, reason="referral_bonus"))
-    db.add(CreditTransaction(user_id=referrer.id, amount=10, balance_after=referrer.credits, reason="referral_reward"))
-    db.add(Notification(user_id=referrer.id, title="Referral Reward!", message=f"{current_user.full_name} registered with your referral code. You received 10 credits!", type="info"))
+    db.add(CreditTransaction(user_id=referrer.id, amount=ref_bonus, balance_after=referrer.credits, reason="referral_reward"))
+    db.add(Notification(user_id=referrer.id, title="🎉 Referral Reward!", message=f"{current_user.full_name} registered with your referral code. You received +{ref_bonus} credits!", type="credit"))
     db.commit()
 
     return {"message": "Referral code applied successfully!", "new_credits": current_user.credits}

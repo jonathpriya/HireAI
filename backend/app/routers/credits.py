@@ -61,7 +61,7 @@ def claim_referral_code(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-    """Claim a friend's referral code to receive +5 bonus credits (+10 for inviter)."""
+    """Claim a friend's referral code. Referrer receives reward (+10 for recruiter, +5 for candidate)."""
     ref_code = payload.referral_code.strip().upper()
     if not ref_code:
         raise HTTPException(status_code=400, detail="Referral code is required.")
@@ -76,21 +76,15 @@ def claim_referral_code(
     if referrer.id == current_user.id:
         raise HTTPException(status_code=400, detail="You cannot claim your own referral code.")
 
-    # Grant referee +5 credits
     current_user.referred_by = referrer.referral_code
-    current_user.credits = (current_user.credits or 0) + 5
-    db.add(CreditTransaction(
-        user_id=current_user.id,
-        amount=5,
-        balance_after=current_user.credits,
-        reason="referral_code_claimed"
-    ))
 
-    # Grant referrer +10 credits
-    referrer.credits = (referrer.credits or 0) + 10
+    # Referrer reward: 10 credits for recruiter join, 5 credits for candidate join
+    # Referee keeps standard registration points (no extra bonus)
+    ref_bonus = 10 if current_user.role == "recruiter" else 5
+    referrer.credits = (referrer.credits or 0) + ref_bonus
     db.add(CreditTransaction(
         user_id=referrer.id,
-        amount=10,
+        amount=ref_bonus,
         balance_after=referrer.credits,
         reason="referral_reward"
     ))
@@ -98,14 +92,14 @@ def claim_referral_code(
     db.add(Notification(
         user_id=referrer.id,
         title="🎉 Referral Reward!",
-        message=f"{current_user.full_name} claimed your referral code! You received +10 credits.",
-        type="info"
+        message=f"{current_user.full_name} ({current_user.role.capitalize()}) applied your referral code! You received +{ref_bonus} credits.",
+        type="credit"
     ))
 
     db.commit()
 
     return {
-        "message": "Referral code applied successfully! You received +5 bonus credits.",
+        "message": f"Referral code applied successfully! Your referrer received +{ref_bonus} credits.",
         "new_credits": current_user.credits,
         "referred_by": current_user.referred_by
     }

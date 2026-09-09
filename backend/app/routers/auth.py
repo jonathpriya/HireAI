@@ -120,9 +120,9 @@ def register_user(user_data: UserRegister, db: Session = Depends(get_db)):
             new_user.referred_by = referrer.referral_code
 
             # Referral Bonus Rules:
-            # - If new user registers as a Recruiter -> Referrer gets +20 credits
-            # - If new user registers as a Candidate -> Referrer gets +10 credits
-            ref_bonus = 20 if role == "recruiter" else 10
+            # - If new user registers as a Recruiter -> Referrer gets +10 credits
+            # - If new user registers as a Candidate -> Referrer gets +5 credits
+            ref_bonus = 10 if role == "recruiter" else 5
 
             referrer.credits = (referrer.credits or 0) + ref_bonus
             db.add(CreditTransaction(

@@ -70,6 +70,30 @@ export default function RecruiterSourcing() {
 
   const [savedCandidateIds, setSavedCandidateIds] = useState(new Set());
 
+  const handleUnlockResume = async (candId) => {
+    try {
+      setUnlockingId(candId);
+      const res = await API.post(`/recruiter/unlock-resume/${candId}`);
+      setCandidates(prev => prev.map(c => {
+        if (c.candidate_id === candId) {
+          return {
+            ...c,
+            is_unlocked: true,
+            email: res.data.email || c.email,
+            mobile: res.data.mobile || c.mobile,
+            resume_url: res.data.resume_url || c.resume_url
+          };
+        }
+        return c;
+      }));
+    } catch (err) {
+      console.error('Failed to unlock resume', err);
+      alert(err.response?.data?.detail || 'Failed to unlock resume.');
+    } finally {
+      setUnlockingId(null);
+    }
+  };
+
   const handleToggleBookmark = async (candId) => {
     try {
       const res = await API.post('/recruiter/talent-pool/toggle', { candidate_id: candId });
@@ -301,6 +325,17 @@ export default function RecruiterSourcing() {
                     >
                       <Download className="w-3.5 h-3.5 text-blue-600" /> Resume
                     </a>
+                  ) : cand.has_resume ? (
+                    <button
+                      type="button"
+                      disabled={unlockingId === cand.candidate_id}
+                      onClick={() => handleUnlockResume(cand.candidate_id)}
+                      className="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold flex items-center gap-1.5 shadow-sm transition text-xs disabled:opacity-50"
+                      title="Unlock candidate full resume & contact info (-2 Credits)"
+                    >
+                      <Unlock className="w-3.5 h-3.5" />
+                      <span>{unlockingId === cand.candidate_id ? 'Unlocking...' : 'Unlock Resume (-2 Credits)'}</span>
+                    </button>
                   ) : null}
                 </div>
               </div>

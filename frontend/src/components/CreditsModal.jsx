@@ -70,7 +70,7 @@ export default function CreditsModal({ onClose, onBalanceUpdate }) {
       job_post: "💼 Job Post (-1 Credit)",
       accept_invitation: "✉️ Accepted Invitation (-1 Credit)",
       job_apply: "📄 Job Application (-1 Credit)",
-      resume_view: "🔓 Resume View (-1 Credit)",
+      resume_view: "🔓 Resume View (-2 Credits)",
       recruiter_contribution: "💡 Strategy Contribution (+5 Credits)"
     };
     return map[reason] || reason.replace(/_/g, ' ').toUpperCase();
@@ -91,7 +91,7 @@ export default function CreditsModal({ onClose, onBalanceUpdate }) {
             </div>
             <div>
               <h3 className="text-base sm:text-lg font-bold text-slate-900 leading-tight">Credits &amp; Referrals</h3>
-              <p className="text-xs text-slate-500">Share your referral link to earn free credit bonus points</p>
+              <p className="text-xs text-slate-500">Earn +10 credits for recruiter referrals &amp; +5 credits for candidate referrals</p>
             </div>
           </div>
 
@@ -117,12 +117,15 @@ export default function CreditsModal({ onClose, onBalanceUpdate }) {
             <div className="p-5 rounded-3xl bg-slate-50 border border-slate-200 space-y-4 shadow-sm">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
-                  <Gift className="w-4 h-4 text-amber-500" /> Referral Code &amp; Link
+                  <Gift className="w-4 h-4 text-amber-500" /> Referral Link &amp; Code
                 </span>
                 <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-200">
                   {balanceData?.referral_count || 0} Invited
                 </span>
               </div>
+              <p className="text-[11px] text-slate-500">
+                Share your link: you earn <strong className="text-amber-700">+10 credits</strong> when a Recruiter joins, or <strong className="text-amber-700">+5 credits</strong> when a Candidate joins!
+              </p>
 
               {/* Code Box */}
               <div className="p-3.5 rounded-2xl bg-white border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm">

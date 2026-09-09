@@ -56,6 +56,7 @@ export default function RecruiterPipeline() {
   const [pipelineData, setPipelineData] = useState({ total_candidates: 0, stage_counts: {}, candidates: [] });
   const [loading, setLoading] = useState(true);
   const [movingId, setMovingId] = useState(null);
+  const [unlockingId, setUnlockingId] = useState(null);
   const [selectedForReachout, setSelectedForReachout] = useState(null);
   const [selectedForSchedule, setSelectedForSchedule] = useState(null);
   const [showAddCandidateModal, setShowAddCandidateModal] = useState(false);
@@ -109,6 +110,33 @@ export default function RecruiterPipeline() {
       console.error("Failed to update candidate stage", err);
     } finally {
       setMovingId(null);
+    }
+  };
+
+  const handleUnlockCandidate = async (candidateId) => {
+    try {
+      setUnlockingId(candidateId);
+      const res = await API.post(`/recruiter/unlock-resume/${candidateId}`);
+      setPipelineData(prev => ({
+        ...prev,
+        candidates: prev.candidates.map(c => {
+          if (c.candidate_id === candidateId) {
+            return {
+              ...c,
+              is_unlocked: true,
+              email: res.data.email || c.email,
+              mobile: res.data.mobile || c.mobile,
+              resume_url: res.data.resume_url || c.resume_url
+            };
+          }
+          return c;
+        })
+      }));
+    } catch (err) {
+      console.error("Failed to unlock candidate", err);
+      alert(err.response?.data?.detail || "Failed to unlock candidate.");
+    } finally {
+      setUnlockingId(null);
     }
   };
 
@@ -434,17 +462,30 @@ export default function RecruiterPipeline() {
                               )}
                             </div>
 
-                            {/* Quick WhatsApp Link */}
-                            {cand.mobile && cand.is_unlocked && (
-                              <a
-                                href={`https://wa.me/${cand.mobile.replace(/[^0-9]/g, '')}`}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="p-1.5 rounded-lg bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200 transition"
-                                title="Chat on WhatsApp"
+                            {/* Quick WhatsApp or Unlock */}
+                            {cand.is_unlocked ? (
+                              cand.mobile && cand.mobile !== "Hidden" && (
+                                <a
+                                  href={`https://wa.me/${cand.mobile.replace(/[^0-9]/g, '')}`}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  className="p-1.5 rounded-lg bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200 transition"
+                                  title="Chat on WhatsApp"
+                                >
+                                  <MessageSquare className="w-3 h-3" />
+                                </a>
+                              )
+                            ) : (
+                              <button
+                                type="button"
+                                disabled={unlockingId === cand.candidate_id}
+                                onClick={() => handleUnlockCandidate(cand.candidate_id)}
+                                className="px-2 py-1 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 text-[10px] font-bold flex items-center gap-1 transition shadow-sm disabled:opacity-50"
+                                title="Unlock candidate contact info and resume (-2 Credits)"
                               >
-                                <MessageSquare className="w-3 h-3" />
-                              </a>
+                                <Unlock className="w-3 h-3 text-amber-600" />
+                                <span>{unlockingId === cand.candidate_id ? '...' : 'Unlock (-2)'}</span>
+                              </button>
                             )}
 
                             {/* Stage Transition Selector */}
@@ -589,6 +630,19 @@ export default function RecruiterPipeline() {
 
                     {/* Actions */}
                     <td className="p-4 text-right space-x-2">
+                      {!cand.is_unlocked && (
+                        <button
+                          type="button"
+                          disabled={unlockingId === cand.candidate_id}
+                          onClick={() => handleUnlockCandidate(cand.candidate_id)}
+                          className="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs inline-flex items-center gap-1 transition shadow-sm disabled:opacity-50"
+                          title="Unlock candidate contact & resume (-2 Credits)"
+                        >
+                          <Unlock className="w-3.5 h-3.5" />
+                          <span>{unlockingId === cand.candidate_id ? '...' : 'Unlock (-2)'}</span>
+                        </button>
+                      )}
+
                       {(cand.stage === 'interested' || cand.stage === 'shortlisted') && (
                         <button
                           type="button"

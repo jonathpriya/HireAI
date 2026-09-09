@@ -50,10 +50,10 @@ export default function CandidateSettings() {
   const formatReason = (reason) => {
     const map = {
       registration_bonus: "🎁 Registration Bonus (10 Credits)",
-      signup_referral_bonus: "🎉 Signup via Referral Link (+5 Credits)",
-      referral_reward: "🚀 Friend Joined using Your Referral Code (+5 Credits)",
-      accept_invitation: "✉️ Accepted Job Invitation (-2 Credits)",
-      job_apply: "📄 Applied for Job (-2 Credits)"
+      signup_referral_bonus: "🎉 Joined via Referral Link",
+      referral_reward: "🚀 Friend Joined using Your Referral Code (+5 / +10 Credits)",
+      accept_invitation: "✉️ Accepted Job Invitation (-1 Credit)",
+      job_apply: "📄 Applied for Job (-1 Credit)"
     };
     return map[reason] || reason.replace(/_/g, ' ').toUpperCase();
   };
@@ -93,7 +93,7 @@ export default function CandidateSettings() {
             <label className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
               <Gift className="w-4 h-4 text-amber-500" /> Your Referral Link
             </label>
-            <span className="text-[11px] text-amber-700 font-bold">Earn +5 bonus credits per referral</span>
+            <span className="text-[11px] text-amber-700 font-bold">Earn +5 (Candidate) or +10 (Recruiter) per referral</span>
           </div>
 
           <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">

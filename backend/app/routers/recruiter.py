@@ -635,7 +635,7 @@ def unlock_candidate_resume(
     db: Session = Depends(get_db)
 ):
     """
-    Unlocks full candidate contact info and resume download. Costs 1 credit (1 credit = 1 resume view).
+    Unlocks full candidate contact info and resume download. Costs 2 credits (2 credits = 1 resume view).
     """
     cand = db.query(User).filter(User.id == candidate_id, User.role == "candidate").first()
     if not cand:
@@ -655,13 +655,13 @@ def unlock_candidate_resume(
             "resume_url": resume.file_path if resume else None
         }
 
-    if (current_user.credits or 0) < 1:
-        raise HTTPException(status_code=400, detail="Insufficient credits. 1 credit is required per resume view.")
+    if (current_user.credits or 0) < 2:
+        raise HTTPException(status_code=400, detail="Insufficient credits. 2 credits are required to unlock a candidate resume.")
 
-    current_user.credits = (current_user.credits or 0) - 1
+    current_user.credits = (current_user.credits or 0) - 2
     db.add(CreditTransaction(
         user_id=current_user.id,
-        amount=-1,
+        amount=-2,
         balance_after=current_user.credits,
         reason="resume_view"
     ))
@@ -672,7 +672,7 @@ def unlock_candidate_resume(
     resume = db.query(Resume).filter(Resume.candidate_id == candidate_id).order_by(Resume.uploaded_at.desc()).first()
 
     return {
-        "message": "Resume unlocked successfully (-1 Credit).",
+        "message": "Resume unlocked successfully (-2 Credits).",
         "email": cand.email,
         "mobile": cand.mobile,
         "resume_url": resume.file_path if resume else None,
