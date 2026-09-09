@@ -17,10 +17,19 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Configure CORS
+# Configure CORS (Supports CORS_ORIGINS environment variable for production)
+cors_origins_raw = os.getenv("CORS_ORIGINS", "")
+if cors_origins_raw.strip():
+    allowed_origins = [o.strip() for o in cors_origins_raw.split(",") if o.strip()]
+    allow_regex = None
+else:
+    allowed_origins = ["*"]
+    allow_regex = r"https?://.*"
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allows all origins; restrict in production
+    allow_origins=allowed_origins,
+    allow_origin_regex=allow_regex,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

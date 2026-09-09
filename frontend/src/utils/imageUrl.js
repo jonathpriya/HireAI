@@ -3,10 +3,20 @@ export const getFullImageUrl = (path) => {
   if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('data:')) {
     return path;
   }
-  const backendBase = import.meta.env.VITE_API_URL 
-    ? import.meta.env.VITE_API_URL.replace('/api', '') 
-    : 'http://localhost:8000';
+  
+  // If explicitly configured with VITE_API_URL
+  if (import.meta.env.VITE_API_URL) {
+    const backendBase = import.meta.env.VITE_API_URL.replace(/\/api\/?$/, '');
+    const cleanPath = path.startsWith('/') ? path : `/${path}`;
+    return `${backendBase}${cleanPath}`;
+  }
 
-  const cleanPath = path.startsWith('/') ? path : `/${path}`;
-  return `${backendBase}${cleanPath}`;
+  // In local development, default to localhost:8000 if not running through full proxy
+  if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+    const cleanPath = path.startsWith('/') ? path : `/${path}`;
+    return `http://localhost:8000${cleanPath}`;
+  }
+
+  // In production without VITE_API_URL, use relative path (works with reverse proxies / rewrites)
+  return path.startsWith('/') ? path : `/${path}`;
 };

@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models import Job, RecruiterProfile
 from app.schemas import JobOut
+from app.config import FRONTEND_URL
 
 router = APIRouter(prefix="/api/jobs", tags=["Public Jobs Catalog"])
 
@@ -137,7 +138,7 @@ def get_jobs_xml_feed(db: Session = Depends(get_db)):
             <description><![CDATA[{j.description}]]></description>
             <skills><![CDATA[{skills_str}]]></skills>
             <experience><![CDATA[{j.experience_required} Years]]></experience>
-            <url><![CDATA[http://localhost:5173/career?job_id={j.id}]]></url>
+            <url><![CDATA[{FRONTEND_URL}/career?job_id={j.id}]]></url>
             <pubdate>{j.created_at.strftime('%Y-%m-%dT%H:%M:%SZ') if j.created_at else ''}</pubdate>
         </job>
         """)
@@ -145,7 +146,7 @@ def get_jobs_xml_feed(db: Session = Depends(get_db)):
     xml_content = f"""<?xml version="1.0" encoding="UTF-8"?>
     <source>
         <publisher>HireAI ATS Platform</publisher>
-        <publisherurl>http://localhost:5173</publisherurl>
+        <publisherurl>{FRONTEND_URL}</publisherurl>
         <lastBuildDate>{jobs[0][0].created_at.strftime('%Y-%m-%dT%H:%M:%SZ') if jobs and jobs[0][0].created_at else ''}</lastBuildDate>
         {''.join(xml_items)}
     </source>"""
@@ -177,7 +178,7 @@ def get_jobs_json_feed(db: Session = Depends(get_db)):
             "jobLocation": {"@type": "Place", "address": {"@type": "PostalAddress", "addressLocality": j.location}},
             "skills": json.loads(j.required_skills_json) if j.required_skills_json else [],
             "directApply": True,
-            "url": f"http://localhost:5173/career?job_id={j.id}"
+            "url": f"{FRONTEND_URL}/career?job_id={j.id}"
         })
 
     return {"count": len(feed_items), "jobs": feed_items}

@@ -133,7 +133,7 @@ export default function RecruiterIntegrations() {
           </div>
           <div className="flex items-center gap-2">
             <a
-              href="http://localhost:8000/api/jobs/feed.xml"
+              href={import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL.replace(/\/api\/?$/, '')}/api/jobs/feed.xml` : '/api/jobs/feed.xml'}
               target="_blank"
               rel="noreferrer"
               className="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center gap-1.5 transition shrink-0 shadow-md"

@@ -1,5 +1,6 @@
 import React from 'react';
 import { User, Sparkles } from 'lucide-react';
+import { getFullImageUrl } from '../utils/imageUrl';
 
 export default function AvatarWithBadge({
   src,
@@ -31,11 +32,7 @@ export default function AvatarWithBadge({
     ? 'ring-2 ring-purple-600 ring-offset-2' 
     : 'border border-slate-200';
 
-  const avatarUrl = src && src.startsWith('http') 
-    ? src 
-    : src 
-    ? `http://localhost:8000${src}` 
-    : null;
+  const avatarUrl = src ? getFullImageUrl(src) : null;
 
   return (
     <div className={`relative inline-block shrink-0 ${className}`}>

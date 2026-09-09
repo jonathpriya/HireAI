@@ -1,7 +1,14 @@
 import axios from 'axios';
 
+// Dynamically supports VITE_API_URL when frontend and backend are hosted on different domains
+const API_BASE_URL = import.meta.env.VITE_API_URL
+  ? (import.meta.env.VITE_API_URL.endsWith('/api')
+      ? import.meta.env.VITE_API_URL
+      : `${import.meta.env.VITE_API_URL.replace(/\/+$/, '')}/api`)
+  : '/api';
+
 const API = axios.create({
-  baseURL: '/api',
+  baseURL: API_BASE_URL,
 });
 
 API.interceptors.request.use((config) => {

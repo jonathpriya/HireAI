@@ -129,7 +129,7 @@ export default function MultiChannelSyndicationModal({ job, onClose }) {
             <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
               <span>Direct XML Feed available for aggregators:</span>
               <a
-                href="http://localhost:8000/api/jobs/feed.xml"
+                href={import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL.replace(/\/api\/?$/, '')}/api/jobs/feed.xml` : '/api/jobs/feed.xml'}
                 target="_blank"
                 rel="noreferrer"
                 className="text-blue-600 hover:underline flex items-center gap-1 font-bold"
