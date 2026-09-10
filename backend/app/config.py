@@ -20,17 +20,20 @@ SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
 RESEND_API_KEY = os.getenv("RESEND_API_KEY", "")
 
 # ─── Database Configuration ──────────────────────────────────────────
-DATABASE_URL = os.getenv(
-    "DATABASE_URL", 
-    "postgresql://postgres.yzwwylyutyvwrvmwgell:Dharshini%4025@aws-0-ap-northeast-2.pooler.supabase.com:5432/postgres"
-)
+raw_db_url = os.getenv("DATABASE_URL", "").strip()
 
-# Fix Heroku / Supabase postgres:// -> postgresql+pg8000:// format for Vercel Serverless & SQLAlchemy 2.0
-if DATABASE_URL:
-    if DATABASE_URL.startswith("postgres://"):
-        DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql+pg8000://", 1)
-    elif DATABASE_URL.startswith("postgresql://") and "+pg8000" not in DATABASE_URL and "+psycopg2" not in DATABASE_URL:
-        DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+pg8000://", 1)
+# If no valid DATABASE_URL provided, or if it points to dead/paused supabase, default to SQLite
+if not raw_db_url or "supabase" in raw_db_url or raw_db_url.startswith("sqlite"):
+    db_file = BASE_DIR / "hireai.db"
+    DATABASE_URL = f"sqlite:///{db_file.as_posix()}"
+else:
+    DATABASE_URL = raw_db_url
+
+# Fix Heroku / Postgres postgres:// -> postgresql+pg8000:// format for Serverless & SQLAlchemy 2.0
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql+pg8000://", 1)
+elif DATABASE_URL.startswith("postgresql://") and "+pg8000" not in DATABASE_URL and "+psycopg2" not in DATABASE_URL:
+    DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+pg8000://", 1)
 
 # ─── Cloud & Local Storage Configuration ─────────────────────────────
 # Options: "local", "s3", "r2", "supabase", "cloudinary"
