@@ -26,5 +26,5 @@ RUN mkdir -p uploads/resumes uploads/jds uploads/profile_pics
 
 EXPOSE 8000
 
-# Start production server with uvicorn (dynamic PORT for Render, Railway, Heroku, Cloud Run)
-CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000} --workers 2"]
+# Start production server with uvicorn
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4"]
